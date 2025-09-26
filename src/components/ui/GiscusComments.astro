@@ -15,9 +15,9 @@ const { comments } = themeConfig
     data-category-id={comments.categoryId}
     data-mapping={comments.mapping}
     data-strict={comments.strict ? "1" : "0"}
-    data-reactions-enabled={comments.reactionsEnabled ? "1" : "0"}
-    data-emit-metadata={comments.emitMetadata ? "1" : "0"}
-    data-input-position={comments.inputPosition}
+    data-reactions-enabled="0"
+    data-emit-metadata="0"
+    data-input-position="bottom"
     data-theme={comments.theme}
     data-lang={comments.lang}
     data-loading="lazy"
@@ -46,21 +46,101 @@ const { comments } = themeConfig
     }
   }
 
-  /* Custom giscus theme integration */
+  /* Ultra minimal giscus styling */
   :global(.giscus-frame) {
     width: 100%;
-    border-radius: 0;
     border: none;
+    background: transparent;
   }
 
-  /* Ensure giscus blends with dark background */
+  /* Ensure clean integration */
   :global(html.dark) .giscus-container {
     background-color: var(--bg);
   }
 
-  /* Additional giscus styling for better integration */
+  /* ULTRA MINIMAL STYLING - Hide everything unnecessary */
   :global(.giscus) {
     background-color: transparent !important;
+  }
+
+  /* Hide all avatars */
+  :global(.giscus .gsc-comment-author-avatar) {
+    display: none !important;
+  }
+
+  /* Hide all reaction buttons */
+  :global(.giscus .gsc-reactions) {
+    display: none !important;
+  }
+
+  /* Hide reply buttons */
+  :global(.giscus .gsc-reply) {
+    display: none !important;
+  }
+
+  /* Hide timestamps and metadata */
+  :global(.giscus .gsc-comment-created-at) {
+    display: none !important;
+  }
+
+  /* Hide comment footer completely */
+  :global(.giscus .gsc-comment-footer) {
+    display: none !important;
+  }
+
+  /* Hide edit/delete buttons */
+  :global(.giscus .gsc-comment-author-association) {
+    display: none !important;
+  }
+
+  /* Clean comment styling - no borders, minimal padding */
+  :global(.giscus .gsc-comment) {
+    border: none !important;
+    background: transparent !important;
+    padding: 0.5rem 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Clean comment content */
+  :global(.giscus .gsc-comment-content) {
+    margin-left: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Minimal author name styling */
+  :global(.giscus .gsc-comment-author) {
+    font-size: var(--font-size-m) !important;
+    font-weight: var(--font-weight-regular) !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  /* Clean timeline */
+  :global(.giscus .gsc-timeline) {
+    border: none !important;
+    background: transparent !important;
+  }
+
+  /* Minimal comment box styling */
+  :global(.giscus .gsc-comment-box) {
+    border: none !important;
+    background: transparent !important;
+    margin: 1rem 0 0 0 !important;
+  }
+
+  /* Hide comment input when not needed */
+  :global(.giscus .gsc-comment-box-textarea) {
+    border: 1px solid var(--border) !important;
+    background-color: var(--bg) !important;
+    border-radius: 6px !important;
+    padding: 0.75rem !important;
+    font-family: var(--sans) !important;
+    font-size: var(--font-size-m) !important;
+  }
+
+  /* Clean sign-in button */
+  :global(.giscus .gsc-comment-box-main) {
+    border: none !important;
+    background: transparent !important;
   }
 </style>
 
@@ -75,8 +155,8 @@ const { comments } = themeConfig
                   (window.matchMedia('(prefers-color-scheme: dark)').matches && 
                    !document.documentElement.classList.contains('light'));
     
-    // Use themes that better match your site's background colors
-    const theme = isDark ? 'transparent_dark' : 'light';
+    // Use ultra minimal themes
+    const theme = isDark ? 'noborder_dark' : 'noborder_light';
     
     // Send theme update to giscus
     iframe.contentWindow?.postMessage(

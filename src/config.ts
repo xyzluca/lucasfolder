@@ -46,10 +46,10 @@ export const themeConfig: ThemeConfig = {
     categoryId: 'DIC_kwDOP3eXgs4Cv7e9', // Category ID (from your existing setup)
     mapping: 'pathname', // Comment mapping: pathname, url, title, og:title
     strict: true, // Use strict title matching (as you had before)
-    reactionsEnabled: true, // Enable reactions
-    emitMetadata: true, // Emit discussion metadata (as you had before)
-    inputPosition: 'top', // Comment input position (as you had before)
-    theme: 'transparent_dark', // Using transparent dark theme to match site background
+    reactionsEnabled: false, // Disable reactions for minimal look
+    emitMetadata: false, // Disable metadata for cleaner interface
+    inputPosition: 'bottom', // Keep input at bottom
+    theme: 'noborder_dark', // Ultra minimal theme
     lang: 'en' // Language code
   }
 }
