@@ -1,0 +1,98 @@
+---
+// Giscus Comments Component for lucakursawe.xyz
+// Make sure to configure your GitHub discussions repository first
+import { themeConfig } from '@/config'
+
+const { comments } = themeConfig
+---
+
+<div id="giscus-comments" class="giscus-container">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo={comments.repo}
+    data-repo-id={comments.repoId}
+    data-category={comments.category}
+    data-category-id={comments.categoryId}
+    data-mapping={comments.mapping}
+    data-strict={comments.strict ? "1" : "0"}
+    data-reactions-enabled={comments.reactionsEnabled ? "1" : "0"}
+    data-emit-metadata={comments.emitMetadata ? "1" : "0"}
+    data-input-position={comments.inputPosition}
+    data-theme={comments.theme}
+    data-lang={comments.lang}
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async>
+  </script>
+</div>
+
+<style>
+  .giscus-container {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color, #e5e7eb);
+  }
+
+  /* Dark mode styling */
+  :global([data-theme="dark"]) .giscus-container {
+    border-top-color: var(--border-color-dark, #374151);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .giscus-container {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+    }
+  }
+
+  /* Custom giscus theme integration */
+  :global(.giscus-frame) {
+    width: 100%;
+  }
+</style>
+
+<script>
+  // Custom giscus theme integration for your site
+  function updateGiscusTheme() {
+    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+    if (!iframe) return;
+
+    // Detect current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || 
+                  window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    const theme = isDark ? 'dark' : 'light';
+    
+    // Send theme update to giscus
+    iframe.contentWindow?.postMessage(
+      { 
+        giscus: { 
+          setConfig: { 
+            theme: theme 
+          } 
+        } 
+      }, 
+      'https://giscus.app'
+    );
+  }
+
+  // Listen for theme changes
+  document.addEventListener('astro:page-load', () => {
+    // Wait for giscus to load
+    setTimeout(updateGiscusTheme, 1000);
+  });
+
+  // Listen for manual theme toggles
+  const observer = new MutationObserver(() => {
+    updateGiscusTheme();
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme']
+  });
+
+  // Listen for system theme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateGiscusTheme);
+</script>

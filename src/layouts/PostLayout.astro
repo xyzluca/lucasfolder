@@ -15,6 +15,7 @@ import LinkCard from '@/components/ui/LinkCard.astro'
 import NeoDBCard from '@/components/ui/NeoDBCard.astro'
 import XPOST from '@/components/ui/XPOST.astro'
 import CopyCode from '@/components/ui/CopyCode.astro'
+import GiscusComments from '@/components/ui/GiscusComments.astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 
 import { themeConfig } from '@/config'
@@ -57,6 +58,7 @@ const ogImage = `/open-graph/${postSlug}.png`
           </div>
         </div>
         <slot />
+        {themeConfig.post.comments && <GiscusComments />}
       </div>
     </main>
     <ImageOptimizer />

@@ -39,6 +39,23 @@ export interface PostSettings {
   imageViewer: boolean
   copyCode: boolean
   linkCard: boolean
+  comments: boolean
+}
+
+// Comments configuration type
+export interface CommentsSettings {
+  provider: 'giscus'
+  repo: string
+  repoId: string
+  category: string
+  categoryId: string
+  mapping: 'pathname' | 'url' | 'title' | 'og:title'
+  strict: boolean
+  reactionsEnabled: boolean
+  emitMetadata: boolean
+  inputPosition: 'top' | 'bottom'
+  theme: 'light' | 'dark' | 'preferred_color_scheme' | string
+  lang: string
 }
 
 // Theme configuration type
@@ -47,4 +64,5 @@ export interface ThemeConfig {
   general: GeneralSettings
   date: DateSettings
   post: PostSettings
+  comments: CommentsSettings
 }
