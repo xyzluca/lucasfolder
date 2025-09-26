@@ -1,6 +1,6 @@
 ---
 title: 'REP.js'
-pubDate: 2023-03-20
+pubDate: 2024-12-01
 description: 'Web application for gym enthusiasts featuring E1RM calculator, progress tracking, and data visualization for optimized strength training.'
 github: 'https://github.com/xyzluca/repjs'
 status: 'live'

@@ -1,6 +1,6 @@
 ---
 title: 'Digital Garden (Previous Version)'
-pubDate: 2024-01-15
+pubDate: 2025-09-24
 description: 'My previous personal website and digital garden built with Next.js 14 and TypeScript. This was my old platform before transitioning to the current site you are viewing.'
 url: 'https://digitalgarden-kwcs3vjui-lucakursawes-projects.vercel.app'
 github: 'https://github.com/xyzluca'

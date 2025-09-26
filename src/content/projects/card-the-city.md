@@ -1,8 +1,8 @@
 ---
 title: 'Card the City'
-pubDate: 2024-09-25
+pubDate: 2025-09-25
 description: 'A class project exploring urban neighborhoods through persona-based trading cards, combining urban anthropology with creative technology.'
-status: 'in-development'
+status: 'private'
 tech: ['Next.js', 'Tailwind CSS', 'MapLibre', 'OpenStreetMap API']
 ---
 

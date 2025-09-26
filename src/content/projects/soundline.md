@@ -1,6 +1,6 @@
 ---
 title: 'Soundline'
-pubDate: 2023-06-15
+pubDate: 2025-02-01
 description: 'Web application transforming Spotify listening data into NYC subway-style signs. Creative intersection of music data and urban design.'
 url: 'https://soundline.vercel.app'
 status: 'live'
