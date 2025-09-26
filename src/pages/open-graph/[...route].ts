@@ -22,10 +22,6 @@ export const { getStaticPaths, GET } = OGImageRoute({
       size: [80, 80]
     },
     bgGradient: [[255, 255, 255]],
-    bgImage: {
-      path: 'public/og/og-bg.png',
-      fit: 'fill'
-    },
     padding: 64,
     font: {
       title: {
