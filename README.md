@@ -1,65 +1,87 @@
-# Chiri 🌸
+---
+title: 'Markdown Style Guide'
+pubDate: '2025-06-28'
+---
 
-![screenshot-light](public/screenshots/screenshot-light.png)
-![screenshot-dark](public/screenshots/screenshot-dark.png)
+This theme does not define more levels of headlines. If needed, you can define them in `src/styles/post.css`.
 
-Chiri is a minimal blog theme built with [Astro](https://astro.build), offering customization options while preserving its clean aesthetic.
+---
 
-Check the [demo](https://astro-chiri.netlify.app/) for more details.
+## Paragraph
 
-## Features
+Here's a practical example of a paragraph in Markdown. This text demonstrates how content flows naturally in a blog post.
 
-- [x] Build with Astro
-- [x] Responsive
-- [x] Light / Dark mode
-- [x] MDX
-- [x] KaTeX
-- [x] Sitemap
-- [x] OpenGraph
-- [x] RSS
-- [ ] Pagination
+You can use various formatting options like **bold**, _italic_, ~~strikethrough~~, and `code` within your paragraphs.
 
-## Getting Started
+## Blockquotes
 
-1. [Fork](https://github.com/the3ash/astro-chiri/fork) this repository, or use this template to [create a new repository](https://github.com/new?template_name=astro-chiri&template_owner=the3ash).
+> Don't communicate by sharing memory, share memory by communicating.<br>
+> — <cite>Rob Pike[^1]</cite>
 
-2. Run the following commands:
+[^1]: The above quote is excerpted from Rob Pike's [talk](https://www.youtube.com/watch?v=PAAkCSZUG1c) during Gopherfest, November 18, 2015.
 
-   ```bash
-   git clone <your-repo-url>
+### Ordered List
 
-   cd <your-repo-name>
+1. First item
+2. Second item
+3. Third item
 
-   pnpm install
+### Unordered List
 
-   pnpm dev
-   ```
+- Item
+  - Subitem
+  - Subitem
 
-3. Edit `src/config.ts` and `src/content/about/about.md` to your liking.
+## Task List
 
-4. Use `pnpm new <title>` to create new posts, or add your posts to `src/content/posts`.
+- [ ] First item
+- [ ] Second item
+- [x] Third item
 
-5. You need to set adapter as follows before deploying to Netlify, Vercel, or other platforms, but you can set `linkCard` to `false` in `src/config.ts` to skip this step:
-   - **Netlify**: `pnpm add @astrojs/netlify` and add `adapter: netlify()` in `astro.config.ts`.
-   - **Vercel**: `pnpm add @astrojs/vercel` and add `adapter: vercel()` in `astro.config.ts`.
-   - **Cloudflare Pages**: `pnpm add @astrojs/cloudflare` and add `adapter: cloudflare()` in `astro.config.ts`.
-   - **Static (e.g. GitHub Pages)**: `pnpm add @astrojs/static` and add `adapter: static()` in `astro.config.ts`.
-   - Refer to [Astro Deployment Guides](https://docs.astro.build/en/guides/deploy/) for more details.
+## Image
 
-&emsp;[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start) [![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new) [![Deploy to Cloudflare Pages](https://deploy.workers.cloudflare.com/button)](https://pages.cloudflare.com/start)
+To hide the caption, start it with an underscore `_` or leave the alt text empty.
 
-## Commands
+![HIKARI](./_assets/hikari.jpg)
 
-- `pnpm new <title>` - Create a new post (use `_title` for drafts)
-- `pnpm update-theme` - Update the theme to the latest version
+## Tables
 
-## References
+| Style    | Weight   | Other  |
+| -------- | -------- | ------ |
+| Normal   | Regular  | Text   |
+| _Italic_ | **Bold** | `Code` |
 
-- https://paco.me/
-- https://benji.org/
-- https://shud.in/
-- https://retypeset.radishzz.cc/
+## Code Blocks
 
-## License
+```jsx
+// Button.jsx
 
-MIT
+const Button = ({ text, onClick }) => {
+  const [count, setCount] = useState(0)
+
+  const handleClick = () => {
+    setCount(count + 1)
+    onClick?.()
+  }
+
+  return (
+    <button className="btn" onClick={handleClick}>
+      {text} ({count})
+    </button>
+  )
+}
+```
+
+## Other Elements — sub, sup, abbr, kbd, mark
+
+H<sub>2</sub>O
+
+X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup>
+
+<abbr title="Graphics Interchange Format">GIF</abbr> is a bitmap image format.
+
+Press <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>Delete</kbd> to end the session.
+
+Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.
+
+---

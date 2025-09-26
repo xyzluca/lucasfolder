@@ -1,16 +1,7 @@
 ---
-title: 'About'
+title: About
 ---
 
-<!--
-This content will be displayed at the top of the index page.
-You can leave this empty if you don’t want to show any content.
--->
+Welcome to my digital garden.
 
-A static blog theme based on [Astro](https://astro.build), designed for clarity and focus.
-
-With a deliberately minimal design, this layout ensures your content takes center stage. It's built for flexibility, offering customization options that honor its clean and elegant aesthetic.
-
-Effortlessly share your thoughts in _a calm & dustless space._
-
-Check posts for details and view source on [GitHub](https://github.com/the3ash/astro-chiri).
+I'm a Computer Science student working at the intersection of web development, design, and data. I enjoy solving real problems through creative, visual solutions — from building intuitive frontends to analyzing data and creating digital content.
