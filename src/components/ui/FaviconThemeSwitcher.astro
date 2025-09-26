@@ -13,21 +13,30 @@
       }
 
       this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-      this.svgUrl = '/favicon.ico'
+      this.svgUrl = '/favicon.svg'
       this.currentColor = null
       this.svgContent = null
 
-      this.mediaQuery.addEventListener('change', () => this.updateFavicon())
-      this.init()
+      // Only initialize if we're working with an SVG favicon
+      if (this.faviconLink && this.faviconLink.href.endsWith('.svg')) {
+        this.mediaQuery.addEventListener('change', () => this.updateFavicon())
+        this.init()
+      } else {
+        console.info('FaviconThemeSwitcher: Not an SVG favicon, skipping theme switching')
+      }
     }
 
     async init() {
       if (!this.svgContent) {
         try {
           const res = await fetch(this.svgUrl)
+          if (!res.ok) {
+            console.info('No SVG favicon found, theme switching disabled')
+            return
+          }
           this.svgContent = await res.text()
         } catch (e) {
-          console.warn('Failed to fetch favicon.svg:', e)
+          console.info('SVG favicon not available, theme switching disabled:', e.message)
           return
         }
       }
