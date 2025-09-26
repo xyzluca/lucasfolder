@@ -1,4 +1,4 @@
-i---
+---
 import { getCollection } from 'astro:content'
 import FormattedDate from '@/components/widgets/FormattedDate.astro'
 import { themeConfig } from '@/config'
@@ -32,7 +32,9 @@ const sortedWork = workExperience.sort((a, b) => {
           <div class="post-item work-item">
             <div class="title-container">
               <div class="content-info">
-                <p class="title">{work.data.role} at {work.data.company}</p>
+                <p class="title">
+                  {work.data.role} at {work.data.company}
+                </p>
                 <p class="description">{work.data.description}</p>
               </div>
             </div>
@@ -133,8 +135,6 @@ const sortedWork = workExperience.sort((a, b) => {
     line-height: 1.4;
     opacity: 0.8;
   }
-
-
 
   .date {
     margin: 0;

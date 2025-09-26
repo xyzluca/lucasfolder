@@ -1,13 +1,13 @@
 ---
-title: "Soundline"
+title: 'Soundline'
 pubDate: 2023-06-15
-description: "Web application transforming Spotify listening data into NYC subway-style signs. Creative intersection of music data and urban design."
-url: "https://soundline.vercel.app"
-status: "archived"
-tech: ["JavaScript", "HTML5", "CSS3", "Spotify API", "JSON"]
+description: 'Web application transforming Spotify listening data into NYC subway-style signs. Creative intersection of music data and urban design.'
+url: 'https://soundline.vercel.app'
+status: 'live'
+tech: ['JavaScript', 'HTML5', 'CSS3', 'Spotify API', 'Vercel']
 ---
 
-Soundline was an experimental web application that bridged music and urban design by transforming personal Spotify listening data into aesthetic NYC subway-style signs.
+Soundline is a creative web application that bridges music and urban design by transforming personal Spotify listening data into authentic NYC subway-style signs.
 
 ## The Concept
 

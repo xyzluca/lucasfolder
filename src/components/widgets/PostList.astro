@@ -16,7 +16,9 @@ function isProject(item: any): boolean {
     posts.map((post) => (
       <li>
         <a href={`/${post.id}/`}>
-          <div class={`post-item ${!themeConfig.date.dateOnRight ? 'date-left' : ''} ${isProject(post) ? 'project-item' : ''}`}>
+          <div
+            class={`post-item ${!themeConfig.date.dateOnRight ? 'date-left' : ''} ${isProject(post) ? 'project-item' : ''}`}
+          >
             {!themeConfig.date.dateOnRight && (
               <p class="date font-features">
                 <FormattedDate date={post.data.pubDate} context="list" />
@@ -152,8 +154,6 @@ function isProject(item: any): boolean {
     line-height: 1.4;
     opacity: 0.8;
   }
-
-
 
   .project-badge {
     background-color: var(--text-secondary);
