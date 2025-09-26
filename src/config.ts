@@ -49,7 +49,7 @@ export const themeConfig: ThemeConfig = {
     reactionsEnabled: true, // Enable reactions
     emitMetadata: true, // Emit discussion metadata (as you had before)
     inputPosition: 'top', // Comment input position (as you had before)
-    theme: 'dark', // Using dark theme (you had catppuccin-mocha before)
+    theme: 'transparent_dark', // Using transparent dark theme to match site background
     lang: 'en' // Language code
   }
 }

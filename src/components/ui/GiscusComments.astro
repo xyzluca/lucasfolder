@@ -34,8 +34,8 @@ const { comments } = themeConfig
   }
 
   /* Dark mode styling */
-  :global([data-theme="dark"]) .giscus-container {
-    border-top-color: var(--border-color-dark, #374151);
+  :global(html.dark) .giscus-container {
+    border-top-color: var(--border);
   }
 
   /* Responsive adjustments */
@@ -49,6 +49,18 @@ const { comments } = themeConfig
   /* Custom giscus theme integration */
   :global(.giscus-frame) {
     width: 100%;
+    border-radius: 0;
+    border: none;
+  }
+
+  /* Ensure giscus blends with dark background */
+  :global(html.dark) .giscus-container {
+    background-color: var(--bg);
+  }
+
+  /* Additional giscus styling for better integration */
+  :global(.giscus) {
+    background-color: transparent !important;
   }
 </style>
 
@@ -58,11 +70,13 @@ const { comments } = themeConfig
     const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
     if (!iframe) return;
 
-    // Detect current theme
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || 
-                  window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Detect current theme by checking if 'dark' class is on html element
+    const isDark = document.documentElement.classList.contains('dark') || 
+                  (window.matchMedia('(prefers-color-scheme: dark)').matches && 
+                   !document.documentElement.classList.contains('light'));
     
-    const theme = isDark ? 'dark' : 'light';
+    // Use themes that better match your site's background colors
+    const theme = isDark ? 'transparent_dark' : 'light';
     
     // Send theme update to giscus
     iframe.contentWindow?.postMessage(
@@ -83,16 +97,24 @@ const { comments } = themeConfig
     setTimeout(updateGiscusTheme, 1000);
   });
 
-  // Listen for manual theme toggles
-  const observer = new MutationObserver(() => {
-    updateGiscusTheme();
+  // Listen for manual theme toggles by watching class changes on html element
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes' && 
+          (mutation.attributeName === 'class' || mutation.attributeName === 'data-theme')) {
+        updateGiscusTheme();
+      }
+    });
   });
 
   observer.observe(document.documentElement, {
     attributes: true,
-    attributeFilter: ['data-theme']
+    attributeFilter: ['class', 'data-theme']
   });
 
   // Listen for system theme changes
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateGiscusTheme);
+
+  // Initial theme setup
+  setTimeout(updateGiscusTheme, 500);
 </script>
