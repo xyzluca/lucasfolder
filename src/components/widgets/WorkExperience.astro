@@ -1,55 +1,50 @@
----
+i---
+import { getCollection } from 'astro:content'
 import FormattedDate from '@/components/widgets/FormattedDate.astro'
-import type { PostListProps } from '@/types'
 import { themeConfig } from '@/config'
 
-const { posts } = Astro.props as PostListProps
-
-// Helper function to determine if item is a project
-function isProject(item: any): boolean {
-  return item.collection === 'projects'
-}
+// Get work experience data
+const workExperience = await getCollection('work')
+const sortedWork = workExperience.sort((a, b) => {
+  // Sort by start date, with current positions first
+  if (a.data.current && !b.data.current) return -1
+  if (!a.data.current && b.data.current) return 1
+  return b.data.startDate.getTime() - a.data.startDate.getTime()
+})
 ---
 
-<ul>
+<ul class="work-list">
   {
-    posts.map((post) => (
+    sortedWork.map((work) => (
       <li>
-        <a href={`/${post.id}/`}>
-          <div class={`post-item ${!themeConfig.date.dateOnRight ? 'date-left' : ''} ${isProject(post) ? 'project-item' : ''}`}>
-            {!themeConfig.date.dateOnRight && (
-              <p class="date font-features">
-                <FormattedDate date={post.data.pubDate} context="list" />
-              </p>
-            )}
-            <div class="title-container">
-              <div class="content-info">
-                <p class="title">{post.data.title}</p>
-                {isProject(post) && 'description' in post.data && post.data.description && (
-                  <p class="description">{post.data.description}</p>
-                )}
+        {work.data.url ? (
+          <a href={work.data.url} target="_blank" rel="noopener noreferrer">
+            <div class="post-item work-item">
+              <div class="title-container">
+                <div class="content-info">
+                  <p class="title">{work.data.role}</p>
+                  <p class="description">{work.data.description}</p>
+                </div>
               </div>
             </div>
-            {themeConfig.date.dateOnRight && (
-              <div
-                class={themeConfig.general.postListDottedDivider ? 'dotted-divider' : 'divider'}
-              />
-            )}
-            {themeConfig.date.dateOnRight && (
-              <p class="date font-features">
-                <FormattedDate date={post.data.pubDate} context="list" />
-              </p>
-            )}
+          </a>
+        ) : (
+          <div class="post-item work-item">
+            <div class="title-container">
+              <div class="content-info">
+                <p class="title">{work.data.role} at {work.data.company}</p>
+                <p class="description">{work.data.description}</p>
+              </div>
+            </div>
           </div>
-        </a>
+        )}
       </li>
     ))
   }
 </ul>
-<div class="placeholder"></div>
 
 <style>
-  ul {
+  .work-list {
     padding: 0;
     margin: 0;
     list-style-type: none;
@@ -66,22 +61,22 @@ function isProject(item: any): boolean {
   }
 
   @media (hover: hover) and (pointer: fine) {
-    ul:hover a {
+    .work-list:hover a {
       opacity: 0.4;
     }
 
-    ul:hover a:hover {
+    .work-list:hover a:hover {
       opacity: 1;
     }
 
-    ul:hover a:hover .divider {
+    .work-list:hover a:hover .divider {
       background-color: var(--text-tertiary);
       opacity: 0.75;
     }
-    ul:hover a:hover .dotted-divider {
+    .work-list:hover a:hover .dotted-divider {
       color: var(--text-secondary);
     }
-    ul:hover a:hover .date {
+    .work-list:hover a:hover .date {
       color: var(--text-secondary);
       opacity: 1;
     }
@@ -96,31 +91,17 @@ function isProject(item: any): boolean {
     padding: 0.5rem 0;
   }
 
-  .post-item:not(.project-item) {
-    height: 2.75rem;
-    align-items: center;
-    padding: 0;
-  }
-
   .post-item.date-left {
     justify-content: flex-start;
   }
 
-  .post-item.date-left .title {
+  .post-item.date-left .title-container {
     flex: 1 1 auto;
     min-width: 0;
   }
 
   .post-item.date-left .date {
     margin-right: 0.75rem;
-  }
-
-  .title-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-shrink: 1;
-    min-width: 0;
   }
 
   .title-container {
@@ -155,28 +136,6 @@ function isProject(item: any): boolean {
 
 
 
-  .project-badge {
-    background-color: var(--text-secondary);
-    color: var(--bg-primary);
-    padding: 0.15rem 0.4rem;
-    border-radius: 0.25rem;
-    font-size: 0.7rem;
-    font-weight: var(--font-weight-bold);
-    text-transform: uppercase;
-    letter-spacing: 0.025em;
-    flex-shrink: 0;
-  }
-
-  .project-item .project-badge {
-    background-color: var(--text-tertiary);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    ul:hover .project-item:hover .project-badge {
-      background-color: var(--text-secondary);
-    }
-  }
-
   .date {
     margin: 0;
     color: var(--text-secondary);
@@ -209,9 +168,5 @@ function isProject(item: any): boolean {
   .dotted-divider::after {
     content: '·····························································································································································';
     pointer-events: none;
-  }
-
-  .placeholder {
-    height: 3rem;
   }
 </style>

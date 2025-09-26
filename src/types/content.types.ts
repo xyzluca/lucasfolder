@@ -1,3 +1,5 @@
+import type { CollectionEntry } from 'astro:content'
+
 // Reading time interface
 export interface ReadingTime {
   text: string
@@ -16,5 +18,5 @@ export interface TOCItem {
 
 // PostList component props interface
 export interface PostListProps {
-  posts: CollectionEntry<'posts'>[]
+  posts: (CollectionEntry<'posts'> | CollectionEntry<'projects'>)[]
 }
