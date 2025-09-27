@@ -22,6 +22,7 @@
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.6.0",
     "@astrojs/vercel": "^8.2.8",
+    "@fancyapps/ui": "^6.0.21",
     "@playform/inline": "^0.1.2",
     "astro": "^5.13.10",
     "astro-og-canvas": "^0.7.0",
@@ -35,6 +36,7 @@
     "rehype-katex": "^7.0.1",
     "remark-directive": "^4.0.0",
     "remark-math": "^6.0.0",
+    "smartypants": "^0.2.2",
     "sanitize-html": "^2.17.0",
     "sharp": "^0.34.4",
     "unist-util-visit": "^5.0.0"

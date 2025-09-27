@@ -1,0 +1,34 @@
+---
+import { photos } from '@/data/photos'
+// Show first N photos (or random) as tiny symbols
+interface Props { count?: number; random?: boolean; shape?: 'circle' | 'square' }
+const { count = 42, random = true, shape = 'circle' } = Astro.props as Props
+let list = photos.slice()
+if (random) list = list.sort(() => Math.random() - 0.5)
+list = list.slice(0, count)
+---
+<div class={`gallery-symbols gallery-symbols--${shape}`}> 
+  {list.map((p) => {
+    const url = new URL(p.src)
+    // Generate tiny thumb (Unsplash params) ~64px
+    url.searchParams.set('w', '64')
+    url.searchParams.set('h', '64')
+    url.searchParams.set('fit', 'crop')
+    url.searchParams.set('q', '50')
+    url.searchParams.set('auto', 'format')
+    return (
+      <a href="/gallery" class="gallery-symbol" aria-label={p.alt || p.title || 'Photo thumbnail'}>
+        <img loading="lazy" decoding="async" src={url.toString()} alt={p.alt || p.title || ''} />
+      </a>
+    )
+  })}
+</div>
+
+<style>
+  .gallery-symbols { display: flex; flex-wrap: wrap; gap: .4rem; padding: .25rem 0; }
+  .gallery-symbol { width: 28px; height: 28px; position: relative; overflow: hidden; background: var(--color-elevate-1, #222); border-radius: 6px; flex: 0 0 auto; }
+  .gallery-symbol img { width: 100%; height: 100%; object-fit: cover; display:block; filter: brightness(.9) saturate(.9); transition: filter .25s ease, transform .25s ease; }
+  .gallery-symbol:hover img, .gallery-symbol:focus-visible img { filter: brightness(1) saturate(1.05); transform: scale(1.05); }
+  .gallery-symbols--circle .gallery-symbol { border-radius: 50%; }
+  @media (min-width: 720px) { .gallery-symbol { width: 32px; height: 32px; } }
+</style>

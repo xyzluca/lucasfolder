@@ -1,0 +1,284 @@
+---
+// Fancybox handled via dynamic loader (shared) to reduce duplicate bundles
+import { loadFancybox } from '@/utils/fancybox-loader'
+
+interface RemoteImage {
+  src: string
+  alt?: string
+  width?: number
+  height?: number
+  id?: string
+  // Optional explicit unsplash id to build variants; otherwise parsed from URL
+  unsplashId?: string
+}
+
+interface Props {
+  images: RemoteImage[]
+  eager?: number // how many images to eager load
+  preview?: boolean // if true, renders a reduced visual (no lightbox, optional link overlay)
+  lightbox?: boolean // toggle fancybox binding
+  initial?: number // initial number of images to show (infinite scroll)
+  step?: number // number of images to load per batch
+}
+
+const { images = [], eager = 12, preview = false, lightbox = true, initial = images.length, step = 12 } = Astro.props as Props
+
+// Generate responsive srcset for Unsplash hosted images to reduce bandwidth.
+function buildSrcSet(url: string): { srcSet?: string; sizes?: string } {
+  if (!/images.unsplash.com/.test(url)) return {}
+  const base = url
+    .replace(/([?&])w=\d+(&?)/, '$1')
+    .replace(/([?&])q=\d+(&?)/, '$1')
+    .replace(/([?&])fm=[^&]+(&?)/, '$1')
+  const widths = [360, 560, 720, 960, 1280, 1600]
+  const srcSet = widths
+    .map((w) => {
+      const q = w <= 560 ? 55 : w <= 960 ? 65 : 70
+      return `${base}${base.includes('?') ? '&' : '?'}w=${w}&q=${q}&fm=webp ${w}w`
+    })
+    .join(', ')
+  return { srcSet, sizes: '(max-width: 900px) 100vw, 900px' }
+}
+
+// We attempt to pre-measure remote images only if width/height missing by creating Image objects client-side.
+// For SSR we fall back to aspect-ratio 4/3 until intrinsic size discovered (progressive enhancement).
+---
+
+<section class={`justified-gallery${preview ? ' justified-gallery--preview' : ''}`}> 
+  {images.map((img, index) => {
+    const placeholderWidth = img.width ?? 1200
+    const placeholderHeight = img.height ?? 900
+    const ratioStyle = `--width: ${placeholderWidth}; --height: ${placeholderHeight};`
+    const loading = index < eager ? 'eager' : 'lazy'
+    const anchorAttrs = lightbox && !preview
+      ? { 'data-fancybox': 'gallery', href: img.src, target: '_blank' }
+      : { href: img.src, target: '_blank' }
+    const responsive = buildSrcSet(img.src)
+    const lqip = /images.unsplash.com/.test(img.src) ? `${img.src.split('?')[0]}?w=24&blur=50&q=30` : undefined
+    return (
+      <a {...anchorAttrs} style={ratioStyle} aria-label={img.alt ?? ''} id={img.id} data-index={index} class={index >= initial ? 'is-hidden-batch' : ''} data-category={((img as any).category)||''}>
+        <img
+          src={lqip || img.src}
+          data-full={img.src}
+          srcset={lqip ? undefined : responsive.srcSet}
+          sizes={lqip ? undefined : responsive.sizes}
+          alt={img.alt ?? ''}
+          loading={loading}
+          class="jg__img is-lqip"
+          decoding="async"
+        />
+      </a>
+    )
+  })}
+  <div class="jg__flex-spacer" aria-hidden="true"></div>
+  {initial < images.length && (
+    <button class="jg__load-more" type="button" data-action="load-more" data-step={step}>Load more</button>
+  )}
+</section>
+
+{!preview && lightbox && (
+  <script is:inline>
+    (async () => {
+      const Fancybox = await (await import('/src/utils/fancybox-loader.ts')).loadFancybox()
+      // Inject stylesheet once if not already present
+      if (!document.querySelector('link[data-fancybox-css]')) {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = 'https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.css'
+        link.setAttribute('data-fancybox-css', 'true')
+        document.head.appendChild(link)
+      }
+      Fancybox.bind('[data-fancybox="gallery"]', {
+        theme: 'auto',
+        mainStyle: {
+          '--f-button-width': '44px',
+          '--f-button-height': '44px',
+          '--f-button-border-radius': '50%',
+          '--f-toolbar-padding': '16px'
+        },
+        Carousel: {
+          Arrows: false,
+          Toolbar: { display: { left: [], middle: [], right: ['close'] } },
+          transition: 'slide'
+        }
+      })
+    })()
+  </script>
+)}
+
+<script>
+  // Progressive enhancement: measure natural dimensions for remote images missing width/height and adjust flex-basis
+  const anchors = document.querySelectorAll<HTMLAnchorElement>('.justified-gallery a')
+  anchors.forEach((a) => {
+    const img = a.querySelector<HTMLImageElement>('img')
+    if (!img) return
+  if (img.complete) applySize()
+  else img.addEventListener('load', applySize, { once: true })
+
+    function applySize () {
+      // If this is still the tiny LQIP (very small intrinsic width) defer measurement until upgraded.
+      if (!img) return
+      const isLqip = img.classList.contains('is-lqip') || (img.naturalWidth > 0 && img.naturalWidth < 200)
+      if (isLqip && img.dataset.full) {
+        // Perform upgrade, then re-measure when full image loads.
+        const full = img.dataset.full
+        const base = full
+          .replace(/([?&])w=\d+(&?)/,'$1')
+          .replace(/([?&])q=\d+(&?)/,'$1')
+          .replace(/([?&])fm=[^&]+(&?)/,'$1')
+        const widths=[360,560,720,960,1280,1600]
+        const srcSet=widths.map(w=>{const q=w<=560?55:w<=960?65:70;return `${base}${base.includes('?')?'&':'?'}w=${w}&q=${q}&fm=webp ${w}w`}).join(', ')
+        const sizes='(max-width: 900px) 100vw, 900px'
+        if (img && img.src !== full) {
+          img.addEventListener('load', () => {
+            if (!img) return
+            // Now we have real intrinsic size; set width/height custom props.
+            const rw = img.naturalWidth || 1200
+            const rh = img.naturalHeight || 900
+            a.style.setProperty('--width', String(rw))
+            a.style.setProperty('--height', String(rh))
+          }, { once: true })
+          img.src = full
+          img.srcset = srcSet
+          img.sizes = sizes
+        }
+        img && img.classList.remove('is-lqip')
+        return
+      }
+      // Normal (non-LQIP) measurement path
+      if (!img) return
+      const w = img.naturalWidth || 1200
+      const h = img.naturalHeight || 900
+      a.style.setProperty('--width', String(w))
+      a.style.setProperty('--height', String(h))
+    }
+  })
+</script>
+
+<style>
+  /* Core justified gallery layout (inspired by third-party project) */
+  .justified-gallery {
+    /* Tightened padding for immersive edge-to-edge look; can be overridden via parent */
+    --padding: clamp(4px, 1.25vw, 14px);
+    --space: clamp(4px, 1.2vw, 14px);
+    --min-height: clamp(180px, 22vw, 420px);
+    padding: var(--padding);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space);
+  }
+
+  .justified-gallery a {
+    position: relative;
+    flex-grow: calc(var(--width) * (100000 / var(--height)));
+    flex-basis: calc(var(--min-height) * (var(--width) / var(--height)));
+    aspect-ratio: var(--width) / var(--height);
+    overflow: hidden;
+    border-radius: var(--radius-md, 8px);
+    opacity: 1;
+    transition: transform 0.2s ease, box-shadow 0.25s ease;
+  }
+
+  .justified-gallery a:focus-visible {
+    outline: 3px solid var(--outline, var(--color-brand, #646cff));
+    outline-offset: 2px;
+    transform: scale(1.03);
+    z-index: 1;
+  }
+
+  .justified-gallery a:hover img {
+    transform: scale(1.04);
+  }
+
+  .justified-gallery a img.jg__img {
+    display: block;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    transition: transform 0.5s ease, filter 0.6s ease, opacity 0.6s ease;
+    filter: blur(8px) saturate(1.1);
+    opacity: 0;
+    transform: scale(1.02);
+  }
+
+  .justified-gallery a img.jg__img.is-visible {
+    filter: none;
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Flex spacer pushes last row items left without stretching */
+  .justified-gallery .jg__flex-spacer {
+    content: ' ';
+    flex-grow: 1000000000;
+    height: 0;
+  }
+
+  .justified-gallery--preview {
+    --padding: 0;
+    --space: 0.75rem;
+  }
+
+  .justified-gallery--preview a {
+    --min-height: clamp(140px, 20vw, 260px);
+    border-radius: var(--radius-sm, 6px);
+  }
+
+  .justified-gallery .jg__load-more {
+    appearance: none;
+    border: 1px solid var(--border-color, hsl(0 0% 50% / 0.3));
+    background: var(--surface-elevated, hsl(0 0% 100% / 0.85));
+    color: inherit;
+    font: inherit;
+    padding: 0.65rem 1.1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    margin: 1rem auto 0;
+    display: inline-block;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+
+  .justified-gallery .jg__load-more:hover {
+    background: var(--surface-elevated-hover, hsl(0 0% 100% / 0.95));
+  }
+
+  .justified-gallery a.is-hidden-batch { display: none; }
+</style>
+
+<script>
+  // Reveal animation intersection observer (separate from measurement logic for clarity)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible')
+        observer.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0.1 })
+
+  window.requestAnimationFrame(() => {
+    document.querySelectorAll('.justified-gallery img.jg__img').forEach((el) => observer.observe(el))
+  })
+
+  // Incremental loading logic
+  const loadMoreBtn = document.querySelector<HTMLButtonElement>('.justified-gallery .jg__load-more')
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => {
+  const hidden = Array.from(document.querySelectorAll<HTMLAnchorElement>('.justified-gallery a.is-hidden-batch')).slice(0, Number(loadMoreBtn.dataset.step) || 12)
+      hidden.forEach((a) => {
+        a.classList.remove('is-hidden-batch')
+        const img = a.querySelector('img')
+        if (img) observer.observe(img)
+      })
+      if (document.querySelectorAll('.justified-gallery a.is-hidden-batch').length === 0) {
+        loadMoreBtn.remove()
+      }
+      // Rebind fancybox for newly revealed images
+      if (typeof window !== 'undefined' && (window as any).Fancybox) {
+        const F = (window as any).Fancybox
+        F.unbind('[data-fancybox="gallery"]')
+        F.bind('[data-fancybox="gallery"]')
+      }
+    })
+  }
+</script>

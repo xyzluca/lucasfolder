@@ -41,6 +41,9 @@ export default defineConfig({
     sitemap()
   ],
   vite: {
+    ssr: {
+      noExternal: ['smartypants']
+    },
     resolve: {
       alias: {
         '@': path.resolve('./src')

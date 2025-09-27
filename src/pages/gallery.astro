@@ -1,0 +1,142 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import JustifiedGallery from '@/components/ui/JustifiedGallery.astro'
+import MasonryGallery from '@/components/ui/MasonryGallery.astro'
+import { photos } from '@/data/photos'
+
+const categories = Array.from(new Set(photos.map((p) => p.category).filter(Boolean)))
+const galleryImages = photos.map((p) => ({
+  id: p.id,
+  src: p.src,
+  alt: p.alt || p.title || p.id,
+  category: p.category
+}))
+const frontmatter = {
+  title: 'Gallery',
+  description: 'Photography',
+  pubDate: new Date('2025-09-27')
+}
+---
+
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  type="post"
+  fullWidth={true}
+>
+  <div class="gallery-bar" role="toolbar" aria-label="Gallery controls">
+    <ul class="gallery-bar__filters" role="tablist">
+      <li>
+        <button class="gallery-filter is-active" data-filter="all" role="tab" aria-selected="true"
+          >All</button>
+      </li>
+      {
+        categories.map((c) => (
+          <li>
+            <button class="gallery-filter" data-filter={c} role="tab" aria-selected="false">
+              {c}
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+    <ul class="gallery-bar__layouts" role="tablist" aria-label="Layout">
+      <li>
+        <button
+          class="gallery-layout is-active"
+          data-layout="justified"
+          role="tab"
+          aria-selected="true">Justified</button>
+      </li>
+      <li>
+        <button class="gallery-layout" data-layout="masonry" role="tab" aria-selected="false"
+          >Masonry</button>
+      </li>
+    </ul>
+  </div>
+  <div class="gallery-surface" aria-label="Photo gallery">
+    <div id="gallery-justified" class="gallery-pane">
+      <JustifiedGallery images={galleryImages} />
+    </div>
+    <div id="gallery-masonry" class="gallery-pane" hidden>
+      <MasonryGallery images={galleryImages} />
+    </div>
+  </div>
+  <script is:inline>
+    window.addEventListener('DOMContentLoaded', () => {
+      const filterButtons = Array.from(document.querySelectorAll('.gallery-filter'))
+      const layoutButtons = Array.from(document.querySelectorAll('.gallery-layout'))
+      const justifiedRoot = document.getElementById('gallery-justified')
+      const masonryRoot = document.getElementById('gallery-masonry')
+
+      function setActive(btns, target) {
+        btns.forEach((b) => {
+          const active = b === target
+          b.classList.toggle('is-active', active)
+          b.setAttribute('aria-selected', active ? 'true' : 'false')
+        })
+      }
+
+      function filterCategory(cat) {
+        const apply = (root, selector) => {
+          if (!root) return
+          root.querySelectorAll(selector).forEach((el) => {
+            const original = el.dataset.category || ''
+            if (cat === 'all' || original === cat) {
+              el.removeAttribute('hidden')
+            } else {
+              el.setAttribute('hidden', '')
+            }
+          })
+        }
+        apply(justifiedRoot, 'a[id]')
+        apply(masonryRoot, 'figure[id]')
+      }
+
+      filterButtons.forEach((btn) =>
+        btn.addEventListener('click', () => {
+          setActive(filterButtons, btn)
+          filterCategory(btn.dataset.filter || 'all')
+          const url = new URL(window.location.href)
+          url.searchParams.set('f', btn.dataset.filter || 'all')
+          history.replaceState({}, '', url.toString())
+        })
+      )
+
+      layoutButtons.forEach((btn) =>
+        btn.addEventListener('click', () => {
+          setActive(layoutButtons, btn)
+          if (!justifiedRoot || !masonryRoot) return
+          const layout = btn.dataset.layout
+          if (layout === 'masonry') {
+            justifiedRoot.hidden = true
+            masonryRoot.hidden = false
+          } else {
+            masonryRoot.hidden = true
+            justifiedRoot.hidden = false
+          }
+          const url = new URL(window.location.href)
+          url.searchParams.set('l', layout || 'justified')
+          history.replaceState({}, '', url.toString())
+        })
+      )
+
+      // Apply initial state from URL
+      const url = new URL(window.location.href)
+      const filter = url.searchParams.get('f') || 'all'
+      const layout = url.searchParams.get('l') || 'justified'
+      const filterBtn = filterButtons.find((b) => (b.dataset.filter || 'all') === filter)
+      if (filterBtn) filterBtn.click()
+      const layoutBtn = layoutButtons.find((b) => (b.dataset.layout || 'justified') === layout)
+      if (layoutBtn) layoutBtn.click()
+    })
+  </script>
+  <style>
+    .gallery-bar__filters, .gallery-bar__layouts { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.5rem; }
+    .gallery-bar { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; padding:0.5rem 1rem; }
+    .gallery-bar__layouts { margin-left:auto; }
+    .gallery-bar button { background:none; border:1px solid var(--color-border, #444); padding:.4rem .75rem; border-radius:999px; font-size:.8rem; line-height:1; cursor:pointer; }
+    .gallery-bar button.is-active { background:var(--color-accent, #555); color:var(--color-bg, #fff); }
+    .gallery-bar button:focus-visible { outline:2px solid var(--color-accent, #888); outline-offset:2px; }
+  </style>
+</BaseLayout>

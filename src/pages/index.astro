@@ -3,6 +3,7 @@ import IndexLayout from '@/layouts/IndexLayout.astro'
 import About from '@/components/widgets/About.astro'
 import PostList from '@/components/widgets/PostList.astro'
 import WorkExperience from '@/components/widgets/WorkExperience.astro'
+import GallerySymbols from '@/components/ui/GallerySymbols.astro'
 import { themeConfig } from '@/config'
 import { getSortedFilteredPosts } from '@/utils/draft'
 import { getCollection } from 'astro:content'
@@ -17,6 +18,8 @@ const projects = allProjects.filter((project) => !project.id.startsWith('_'))
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
 const sortedProjects = projects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
 const allContent = [...sortedPosts, ...sortedProjects]
+
+// GallerySymbols handles selecting random subset
 ---
 
 <IndexLayout title={themeConfig.site.title} description={themeConfig.site.description}>
@@ -36,11 +39,20 @@ const allContent = [...sortedPosts, ...sortedProjects]
     <h2>Projects</h2>
     <PostList posts={sortedProjects} />
   </section>
+
+  <section class="gallery-preview">
+    <div class="gallery-preview__header">
+      <h2>Gallery</h2>
+      <a class="gallery-preview__link" href="/gallery" aria-label="View full photo gallery">View all →</a>
+    </div>
+    <GallerySymbols count={54} shape="circle" />
+  </section>
 </IndexLayout>
 
 <style>
   .work-section,
-  .projects-section {
+  .projects-section,
+  .gallery-preview {
     margin: 3rem 0;
   }
 
