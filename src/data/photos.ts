@@ -1,11 +1,13 @@
 import type { Photo } from './types'
+import digitalgardenImg from '../content/_assets/digitalgarden.png'
+import soundlineImg from '../content/_assets/soundline.png'
 
 // Consolidated photo collection
 export const photos: Photo[] = [
 
   {
     id: 'digital-garden',
-    src: '/src/content/_assets/digitalgarden.png?w=800&h=600&fit=cover',
+    src: digitalgardenImg.src,
     alt: 'Digital garden concept visualization',
     title: 'DIGITAL GARDEN',
     camera: 'Screenshot',
@@ -15,7 +17,7 @@ export const photos: Photo[] = [
 
   {
     id: 'soundline-project',
-    src: '/src/content/_assets/soundline.png?w=800&h=600&fit=cover',
+    src: soundlineImg.src,
     alt: 'Soundline - NYC subway-style music visualization',
     title: 'SOUNDLINE',
     camera: 'Screenshot',
