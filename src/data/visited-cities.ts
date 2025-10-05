@@ -12,41 +12,51 @@ export const visitedCities: City[] = [
   { name: 'Vienna', country: 'AUT' },
 
   // Belgium
-  { name: 'Brussels', country: 'BEL' },
+
 
   // France
   { name: 'Paris', country: 'FRA' },
 
   // Germany
-  { name: 'Berlin', country: 'DEU' },
+  { name: 'Cologne', country: 'DEU' },
+  { name: 'Frankfurt', country: 'DEU' },
+  { name: 'Aachen', country: 'DEU' },
+  { name: 'Wuppertal', country: 'DEU' },
+  { name: 'Nuremberg', country: 'DEU' },
+  { name: 'Bonn', country: 'DEU' },
+  { name: 'Düsseldorf', country: 'DEU' },
   { name: 'Munich', country: 'DEU' },
   { name: 'Hamburg', country: 'DEU' },
 
   // Italy
-  { name: 'Rome', country: 'ITA' },
   { name: 'Venice', country: 'ITA' },
-  { name: 'Florence', country: 'ITA' },
+  { name: 'Verona', country: 'ITA' },
+
+
 
   // Netherlands
-  { name: 'Amsterdam', country: 'NLD' },
+
 
   // Poland
   { name: 'Warsaw', country: 'POL' },
 
   // Spain
-  { name: 'Barcelona', country: 'ESP' },
-  { name: 'Madrid', country: 'ESP' },
+  { name: 'Palma', country: 'ESP' },
 
   // Switzerland
   { name: 'Zurich', country: 'CHE' },
 
   // United Kingdom
   { name: 'London', country: 'GBR' },
+  { name: 'Reading', country: 'GBR' },
+  { name: 'Oxford', country: 'GBR' },
+
 
   // United States
   { name: 'New York', country: 'USA' },
-  { name: 'Jersey City', country: 'USA' },
-  { name: 'Houston', country: 'USA' }
+  { name: 'Austin', country: 'USA' },
+  { name: 'Newark', country: 'USA' },
+  { name: 'Newark', country: 'USA' },
 
   // Add more cities as needed
 ]
