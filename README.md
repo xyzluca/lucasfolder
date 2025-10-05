@@ -4,8 +4,6 @@
 
 A personal portfolio and blog built with Astro.
 
-## �‍� Original Creator
-
 This project is based on the work of **[3ASH](https://github.com/3ASH)**, but has been customized extensively.
 For documentation, setup instructions, and usage tutorials, please visit the [original repository](https://github.com/3ASH).
 
