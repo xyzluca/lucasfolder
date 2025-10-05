@@ -12,7 +12,6 @@ _This was my previous personal website and digital garden that served as a centr
 
 ![_Digital Garden](../_assets/digitalgarden.png)
 
-
 **Note**: This is my old website. You are currently viewing my new and improved site built with Astro, which offers better performance and a more refined experience.
 
 ## Features

@@ -1,6 +1,7 @@
 # Build output
 dist/
 .output/
+.vercel/
 
 # Dependencies
 node_modules/
@@ -24,6 +25,11 @@ pnpm-lock.yaml
 # Others
 .DS_Store
 coverage/
+**/._*
+
+# Files with is:inline scripts (Prettier can't parse these)
+src/components/ui/JustifiedGallery.astro
+src/components/ui/MasonryGallery.astro
 
 # Media files
 *.png

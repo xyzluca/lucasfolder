@@ -4,7 +4,6 @@ import soundlineImg from '../content/_assets/soundline.png'
 
 // Consolidated photo collection
 export const photos: Photo[] = [
-
   {
     id: 'digital-garden',
     src: digitalgardenImg.src,
@@ -38,7 +37,7 @@ export const photos: Photo[] = [
   {
     id: 'rainbow-firehydrant',
     src: 'https://images.unsplash.com/photo-1722179498377-34358ef7450d?q=80&w=1758&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: 'Urban street scene in New York City',
+    alt: 'Rainbow from firehydrant on a sidewalk in Williamsburg Brooklyn',
     title: 'FIREHYDRANT RAINBOW',
     camera: 'APPLE IPHONE SE (2ND GEN)',
     lens: 'iPhone SE Camera',
@@ -49,7 +48,7 @@ export const photos: Photo[] = [
   {
     id: 'south-williamsburg',
     src: 'https://images.unsplash.com/photo-1722179638410-048c39274a4c?q=80&w=1762&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: 'Manhattan skyline view with skyscrapers',
+    alt: 'Williamsburg street with buildings and traffic lights',
     title: 'SOUTH WILLIAMSBURG',
     camera: 'APPLE IPHONE SE (2ND GEN)',
     lens: 'iPhone SE Camera',
@@ -58,61 +57,9 @@ export const photos: Photo[] = [
     unsplashProfileUrl: 'https://unsplash.com/de/@lucasfolder'
   },
   {
-    id: 'intersection-brooklyn',
-    src: 'https://images.unsplash.com/photo-1723111141721-63181af2cc2a?q=80&w=1762&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: 'Brooklyn intersection with traffic lights and buildings',
-    title: 'INTERSECTION',
-    camera: 'APPLE IPHONE SE (2ND GEN)',
-    lens: 'iPhone SE Camera',
-    date: '2022-08',
-    category: 'STREET',
-    unsplashProfileUrl: 'https://unsplash.com/de/@lucasfolder'
-  },
-  {
-    id: 'high-line',
-    src: 'https://images.unsplash.com/photo-1723110217752-10ba68f71fcb?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwcm9maWxlLXBhZ2V8NXx8fGVufDB8fHx8fA%3D%3D',
-    alt: 'High Line park in New York City with urban greenery and buildings',
-    title: 'HIGH-LINE',
-    camera: 'APPLE IPHONE SE (2ND GEN)',
-    lens: 'iPhone SE Camera',
-    date: '2022-08',
-    category: 'ARCHITECTURE',
-    unsplashProfileUrl: 'https://unsplash.com/de/@lucasfolder'
-  },
-  {
-    id: 'porches-brooklyn',
-    src: 'https://images.unsplash.com/photo-1723109908049-0ee00cf51be3?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: 'bedstuy row house porches',
-    title: 'PORCHES',
-    camera: 'APPLE IPHONE SE (2ND GEN)',
-    date: '2022-08',
-    category: 'ARCHITECTURE',
-    unsplashProfileUrl: 'https://unsplash.com/de/@lucasfolder'
-  },
-  {
-    id: 'bedstuy-street',
-    src: 'https://images.unsplash.com/photo-1723109776282-577a732e1e5a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwcm9maWxlLXBhZ2V8N3x8fGVufDB8fHx8fA%3D%3D',
-    alt: 'cars parked on a street in Bed-Stuy Brooklyn with row houses in background',
-    title: 'BEDSTUY STREET',
-    camera: 'APPLE IPHONE SE (2ND GEN)',
-    date: '2022-08',
-    category: 'STREET',
-    unsplashProfileUrl: 'https://unsplash.com/de/@lucasfolder'
-  },
-  {
-    id: 'dollar-store',
-    src: 'https://images.unsplash.com/photo-1723109549328-72106a324ec3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwcm9maWxlLXBhZ2V8OHx8fGVufDB8fHx8fA%3D%3D',
-    alt: 'red car parked in front of a dollar store in Bed-Stuy Brooklyn',
-    title: 'DOLLAR STORE',
-    camera: 'APPLE IPHONE SE (2ND GEN)',
-    date: '2022-08',
-    category: 'STREET',
-    unsplashProfileUrl: 'https://unsplash.com/de/@lucasfolder'
-  },
-  {
     id: 'brooklyn-bridge-street',
     src: 'https://images.unsplash.com/photo-1723108345830-8e696eca4f72?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    alt: 'view from brooklyn bridge onto street with cars and buildings',
+    alt: 'View from Brooklyn Bridge onto traffic and buildings',
     title: 'BROOKLYN BRIDGE VIEW',
     camera: 'APPLE IPHONE SE (2ND GEN)',
     date: '2022-08',

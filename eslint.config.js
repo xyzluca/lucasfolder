@@ -29,13 +29,16 @@ export default [
     ignores: [
       'dist/**',
       '.output/**',
+      '.vercel/**',
       'node_modules/**',
       '*.log',
       '.env*',
       '.cache/**',
       '.astro/**',
       '.DS_Store',
-      'coverage/**'
+      'coverage/**',
+      '**/._*',
+      '**/.DS_Store'
     ]
   }
 ]

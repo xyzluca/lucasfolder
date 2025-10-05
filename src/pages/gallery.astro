@@ -1,8 +1,22 @@
 ---
+import '@/styles/global.css'
 import BaseLayout from '@/layouts/BaseLayout.astro'
+import BackButton from '@/components/ui/BackButton.astro'
+import GradientMask from '@/components/ui/GradientMask.astro'
+import Footer from '@/components/layout/Footer.astro'
+import BaseHead from '@/components/layout/BaseHead.astro'
+import ImageOptimizer from '@/components/ui/ImageOptimizer.astro'
+import ImageViewer from '@/components/ui/ImageViewer.astro'
+import FootnoteScroll from '@/components/widgets/FootnoteScroll.astro'
+import CopyCode from '@/components/ui/CopyCode.astro'
+import GitHubCard from '@/components/ui/GitHubCard.astro'
+import LinkCard from '@/components/ui/LinkCard.astro'
+import NeoDBCard from '@/components/ui/NeoDBCard.astro'
+import XPOST from '@/components/ui/XPOST.astro'
 import JustifiedGallery from '@/components/ui/JustifiedGallery.astro'
 import MasonryGallery from '@/components/ui/MasonryGallery.astro'
 import { photos } from '@/data/photos'
+import { themeConfig } from '@/config'
 
 const categories = Array.from(new Set(photos.map((p) => p.category).filter(Boolean)))
 const galleryImages = photos.map((p) => ({
@@ -11,164 +25,290 @@ const galleryImages = photos.map((p) => ({
   alt: p.alt || p.title || p.id,
   category: p.category
 }))
-const frontmatter = {
-  title: 'Gallery',
-  description: 'Photography',
-  pubDate: new Date('2025-09-27')
-}
+
+// Special filter options
+const specialFilters = ['all', 'photos'] // 'photos' = all except Projects
+
+const title = 'Gallery'
+const description = 'Photography'
+const ogImage = '/open-graph/gallery.png'
 ---
 
-<BaseLayout
-  title={frontmatter.title}
-  description={frontmatter.description}
-  type="post"
-  fullWidth={true}
->
-  <div class="gallery-bar" role="toolbar" aria-label="Gallery controls">
-    <ul class="gallery-bar__filters" role="tablist">
-      <li>
-        <button class="gallery-filter is-active" data-filter="all" role="tab" aria-selected="true"
-          >All</button
-        >
-      </li>
-      {
-        categories.map((c) => (
-          <li>
-            <button class="gallery-filter" data-filter={c} role="tab" aria-selected="false">
-              {c}
-            </button>
-          </li>
-        ))
-      }
-    </ul>
-    <ul class="gallery-bar__layouts" role="tablist" aria-label="Layout">
-      <li>
-        <button
-          class="gallery-layout is-active"
-          data-layout="justified"
-          role="tab"
-          aria-selected="true">Justified</button
-        >
-      </li>
-      <li>
-        <button class="gallery-layout" data-layout="masonry" role="tab" aria-selected="false"
-          >Masonry</button
-        >
-      </li>
-    </ul>
-  </div>
-  <div class="gallery-surface" aria-label="Photo gallery">
-    <div id="gallery-justified" class="gallery-pane">
-      <JustifiedGallery images={galleryImages} />
-    </div>
-    <div id="gallery-masonry" class="gallery-pane" hidden>
-      <MasonryGallery images={galleryImages} />
-    </div>
-  </div>
-  <script is:inline>
-    window.addEventListener('DOMContentLoaded', () => {
-      const filterButtons = Array.from(document.querySelectorAll('.gallery-filter'))
-      const layoutButtons = Array.from(document.querySelectorAll('.gallery-layout'))
-      const justifiedRoot = document.getElementById('gallery-justified')
-      const masonryRoot = document.getElementById('gallery-masonry')
+<BaseLayout type="post" title={`${title} · ${themeConfig.site.title}`} description={description}>
+  <BaseHead
+    title={`${title} · ${themeConfig.site.title}`}
+    description={description}
+    ogImage={ogImage}
+    slot="head"
+  />
+  <div class="post-container">
+    <main>
+      <div class="prose">
+        <GradientMask />
+        <BackButton />
+        <div class="title">
+          <h1>Gallery</h1>
+        </div>
 
-      function setActive(btns, target) {
-        btns.forEach((b) => {
-          const active = b === target
-          b.classList.toggle('is-active', active)
-          b.setAttribute('aria-selected', active ? 'true' : 'false')
-        })
-      }
+        <p>A collection of moments captured through my lens.</p>
 
-      function filterCategory(cat) {
-        const apply = (root, selector) => {
-          if (!root) return
-          root.querySelectorAll(selector).forEach((el) => {
-            const original = el.dataset.category || ''
-            if (cat === 'all' || original === cat) {
-              el.removeAttribute('hidden')
-            } else {
-              el.setAttribute('hidden', '')
+        <!-- Gallery Controls -->
+        <div class="gallery-controls">
+          <div class="gallery-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="photos">Photos</button>
+            {
+              categories.map((c) => (
+                <button class="filter-btn" data-filter={c}>
+                  {c}
+                </button>
+              ))
             }
-          })
-        }
-        apply(justifiedRoot, 'a[id]')
-        apply(masonryRoot, 'figure[id]')
-      }
+          </div>
+          <div class="gallery-layouts">
+            <button class="layout-btn" data-layout="justified">Justified</button>
+            <button class="layout-btn active" data-layout="masonry">Masonry</button>
+          </div>
+        </div>
+      </div>
 
-      filterButtons.forEach((btn) =>
-        btn.addEventListener('click', () => {
-          setActive(filterButtons, btn)
-          filterCategory(btn.dataset.filter || 'all')
-          const url = new URL(window.location.href)
-          url.searchParams.set('f', btn.dataset.filter || 'all')
-          history.replaceState({}, '', url.toString())
-        })
-      )
+      <!-- Gallery Content - Full Width Outside .prose -->
+      <div class="gallery-wrapper">
+        <div id="gallery-justified" class="gallery-pane" hidden>
+          <JustifiedGallery images={galleryImages} />
+        </div>
+        <div id="gallery-masonry" class="gallery-pane">
+          <MasonryGallery images={galleryImages} />
+        </div>
+      </div>
+    </main>
+    <ImageOptimizer />
+    <FootnoteScroll />
+    <CopyCode />
+    <GitHubCard />
+    <XPOST />
+    <NeoDBCard />
+    {themeConfig.post.imageViewer && <ImageViewer />}
+    {themeConfig.post.linkCard && <LinkCard />}
+    {themeConfig.general.footer && <Footer />}
+  </div>
+</BaseLayout>
 
-      layoutButtons.forEach((btn) =>
-        btn.addEventListener('click', () => {
-          setActive(layoutButtons, btn)
-          if (!justifiedRoot || !masonryRoot) return
-          const layout = btn.dataset.layout
-          if (layout === 'masonry') {
-            justifiedRoot.hidden = true
-            masonryRoot.hidden = false
+<script>
+  // Gallery functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn')
+    const layoutButtons = document.querySelectorAll('.layout-btn')
+    const justifiedRoot = document.getElementById('gallery-justified')
+    const masonryRoot = document.getElementById('gallery-masonry')
+
+    function setActive(buttons: NodeListOf<Element>, target: Element) {
+      buttons.forEach((btn) => {
+        btn.classList.toggle('active', btn === target)
+      })
+    }
+
+    function filterCategory(cat: string) {
+      const apply = (root: HTMLElement | null, selector: string) => {
+        if (!root) return
+        root.querySelectorAll(selector).forEach((el) => {
+          const original = (el as HTMLElement).dataset.category || ''
+          let shouldShow = false
+
+          if (cat === 'all') {
+            // Show all images
+            shouldShow = true
+          } else if (cat === 'photos') {
+            // Show everything except "Projects"
+            shouldShow = original.toLowerCase() !== 'projects'
           } else {
-            masonryRoot.hidden = true
-            justifiedRoot.hidden = false
+            // Show only matching category
+            shouldShow = original === cat
           }
-          const url = new URL(window.location.href)
-          url.searchParams.set('l', layout || 'justified')
-          history.replaceState({}, '', url.toString())
-        })
-      )
 
-      // Apply initial state from URL
-      const url = new URL(window.location.href)
-      const filter = url.searchParams.get('f') || 'all'
-      const layout = url.searchParams.get('l') || 'justified'
-      const filterBtn = filterButtons.find((b) => (b.dataset.filter || 'all') === filter)
-      if (filterBtn) filterBtn.click()
-      const layoutBtn = layoutButtons.find((b) => (b.dataset.layout || 'justified') === layout)
-      if (layoutBtn) layoutBtn.click()
-    })
-  </script>
-  <style>
-    .gallery-bar__filters,
-    .gallery-bar__layouts {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      gap: 0.5rem;
+          if (shouldShow) {
+            el.removeAttribute('hidden')
+          } else {
+            el.setAttribute('hidden', '')
+          }
+        })
+      }
+      apply(justifiedRoot, 'a[id]')
+      apply(masonryRoot, 'figure[id]')
     }
-    .gallery-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
+
+    filterButtons.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        setActive(filterButtons, btn)
+        filterCategory((btn as HTMLElement).dataset.filter || 'all')
+        const url = new URL(window.location.href)
+        url.searchParams.set('f', (btn as HTMLElement).dataset.filter || 'all')
+        history.replaceState({}, '', url.toString())
+      })
+    )
+
+    layoutButtons.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        setActive(layoutButtons, btn)
+        if (!justifiedRoot || !masonryRoot) return
+        const layout = (btn as HTMLElement).dataset.layout
+        if (layout === 'masonry') {
+          justifiedRoot.setAttribute('hidden', '')
+          masonryRoot.removeAttribute('hidden')
+        } else {
+          masonryRoot.setAttribute('hidden', '')
+          justifiedRoot.removeAttribute('hidden')
+        }
+        const url = new URL(window.location.href)
+        url.searchParams.set('l', layout || 'justified')
+        history.replaceState({}, '', url.toString())
+      })
+    )
+
+    // Apply initial state from URL
+    const url = new URL(window.location.href)
+    const filter = url.searchParams.get('f') || 'all'
+    const layout = url.searchParams.get('l') || 'masonry'
+    const filterBtn = Array.from(filterButtons).find(
+      (b) => ((b as HTMLElement).dataset.filter || 'all') === filter
+    )
+    if (filterBtn) (filterBtn as HTMLElement).click()
+    const layoutBtn = Array.from(layoutButtons).find(
+      (b) => ((b as HTMLElement).dataset.layout || 'masonry') === layout
+    )
+    if (layoutBtn) (layoutBtn as HTMLElement).click()
+  })
+</script>
+
+<style>
+  .post-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .post-container main {
+    flex: 1;
+  }
+
+  /* Remove bottom margin from prose on gallery page */
+  .prose {
+    margin-bottom: 0 !important;
+  }
+
+  /* Gallery Controls - Mobile First */
+  .gallery-controls {
+    margin: 0 0 1.75em 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    font-size: var(--font-size-s);
+  }
+
+  .gallery-filters,
+  .gallery-layouts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75em;
+    align-items: center;
+  }
+
+  .filter-btn,
+  .layout-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: var(--font-size-s);
+    font-family: var(--sans);
+    font-weight: var(--font-weight-light);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s ease-out;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    opacity: 0.75;
+  }
+
+  .filter-btn:hover,
+  .layout-btn:hover {
+    color: var(--text-primary);
+    opacity: 1;
+  }
+
+  .filter-btn.active,
+  .layout-btn.active {
+    color: var(--text-primary);
+    opacity: 1;
+    font-weight: var(--font-weight-regular);
+  }
+
+  .filter-btn:focus-visible,
+  .layout-btn:focus-visible {
+    outline: 2px solid var(--text-tertiary);
+    outline-offset: 2px;
+  }
+
+  /* Separator dots between filters */
+  .gallery-filters > button:not(:last-child)::after,
+  .gallery-layouts > button:not(:last-child)::after {
+    content: '•';
+    margin-left: 0.75em;
+    color: var(--text-tertiary);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Gallery Wrapper - Full Width */
+  .gallery-wrapper {
+    margin: -1em 0 0 0;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding-top: 0;
+  }
+
+  /* Remove padding from gallery components */
+  .gallery-wrapper :global(.justified-gallery) {
+    padding: 0 !important;
+  }
+
+  .gallery-wrapper :global(.masonry-wrapper) {
+    padding-top: 0 !important;
+  }
+
+  .gallery-pane[hidden] {
+    display: none;
+  }
+
+  /* Remove rounded corners from gallery images */
+  .gallery-wrapper :global(.justified-gallery a) {
+    border-radius: 0 !important;
+  }
+
+  .gallery-wrapper :global(.masonry__item a) {
+    border-radius: 0 !important;
+  }
+
+  /* Tablet and up */
+  @media (min-width: 768px) {
+    .gallery-controls {
+      flex-direction: row;
       align-items: center;
-      padding: 0.5rem 1rem;
+      justify-content: space-between;
     }
-    .gallery-bar__layouts {
+
+    .gallery-layouts {
       margin-left: auto;
     }
-    .gallery-bar button {
-      background: none;
-      border: 1px solid var(--color-border, #444);
-      padding: 0.4rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      line-height: 1;
-      cursor: pointer;
-    }
-    .gallery-bar button.is-active {
-      background: var(--color-accent, #555);
-      color: var(--color-bg, #fff);
-    }
-    .gallery-bar button:focus-visible {
-      outline: 2px solid var(--color-accent, #888);
-      outline-offset: 2px;
-    }
-  </style>
-</BaseLayout>
+  }
+
+  /* Ensure images are responsive */
+  .gallery-wrapper :global(img) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>

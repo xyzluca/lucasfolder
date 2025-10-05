@@ -142,7 +142,9 @@ function buildSrcSet(url: string): { srcSet?: string; sizes?: string } {
           img.srcset = srcSet
           img.sizes = sizes
         }
-        img && img.classList.remove('is-lqip')
+        if (img) {
+          img.classList.remove('is-lqip')
+        }
         return
       }
       // Normal (non-LQIP) measurement path
