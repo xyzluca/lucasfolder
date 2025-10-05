@@ -28,7 +28,8 @@ const frontmatter = {
     <ul class="gallery-bar__filters" role="tablist">
       <li>
         <button class="gallery-filter is-active" data-filter="all" role="tab" aria-selected="true"
-          >All</button>
+          >All</button
+        >
       </li>
       {
         categories.map((c) => (
@@ -46,11 +47,13 @@ const frontmatter = {
           class="gallery-layout is-active"
           data-layout="justified"
           role="tab"
-          aria-selected="true">Justified</button>
+          aria-selected="true">Justified</button
+        >
       </li>
       <li>
         <button class="gallery-layout" data-layout="masonry" role="tab" aria-selected="false"
-          >Masonry</button>
+          >Masonry</button
+        >
       </li>
     </ul>
   </div>
@@ -132,11 +135,40 @@ const frontmatter = {
     })
   </script>
   <style>
-    .gallery-bar__filters, .gallery-bar__layouts { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.5rem; }
-    .gallery-bar { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; padding:0.5rem 1rem; }
-    .gallery-bar__layouts { margin-left:auto; }
-    .gallery-bar button { background:none; border:1px solid var(--color-border, #444); padding:.4rem .75rem; border-radius:999px; font-size:.8rem; line-height:1; cursor:pointer; }
-    .gallery-bar button.is-active { background:var(--color-accent, #555); color:var(--color-bg, #fff); }
-    .gallery-bar button:focus-visible { outline:2px solid var(--color-accent, #888); outline-offset:2px; }
+    .gallery-bar__filters,
+    .gallery-bar__layouts {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .gallery-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.5rem 1rem;
+    }
+    .gallery-bar__layouts {
+      margin-left: auto;
+    }
+    .gallery-bar button {
+      background: none;
+      border: 1px solid var(--color-border, #444);
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .gallery-bar button.is-active {
+      background: var(--color-accent, #555);
+      color: var(--color-bg, #fff);
+    }
+    .gallery-bar button:focus-visible {
+      outline: 2px solid var(--color-accent, #888);
+      outline-offset: 2px;
+    }
   </style>
 </BaseLayout>

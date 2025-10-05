@@ -7,11 +7,13 @@ status: 'live'
 tech: ['JavaScript', 'HTML5', 'CSS3', 'Spotify API', 'Vercel']
 ---
 
-Soundline is a creative web application that bridges music and urban design by transforming personal Spotify listening data into authentic NYC subway-style signs.
+_Soundline is a creative web application that bridges music and urban design by transforming personal Spotify listening data into authentic NYC subway-style signs._
 
 ## The Concept
 
 The idea was to take something as personal as your music taste and present it through the lens of New York City's iconic subway signage. Users could connect their Spotify account and see their top tracks, artists, and listening habits displayed as if they were stops on the subway map.
+
+![_Soundline](../_assets/soundline.png)
 
 ## Technical Implementation
 

@@ -3,7 +3,6 @@ import IndexLayout from '@/layouts/IndexLayout.astro'
 import About from '@/components/widgets/About.astro'
 import PostList from '@/components/widgets/PostList.astro'
 import WorkExperience from '@/components/widgets/WorkExperience.astro'
-import GallerySymbols from '@/components/ui/GallerySymbols.astro'
 import { themeConfig } from '@/config'
 import { getSortedFilteredPosts } from '@/utils/draft'
 import { getCollection } from 'astro:content'
@@ -35,11 +34,10 @@ const allContent = [...sortedPosts, ...sortedProjects]
     <WorkExperience />
   </section>
 
-  <section class="projects-section">
+  <section id="projects" class="projects-section">
     <h2>Projects</h2>
     <PostList posts={sortedProjects} />
   </section>
-
 </IndexLayout>
 
 <style>

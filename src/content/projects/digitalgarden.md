@@ -8,7 +8,10 @@ status: 'archived'
 tech: ['Next.js 14', 'TypeScript', 'React', 'Tailwind CSS', 'MDX', 'Vercel']
 ---
 
-This was my previous personal website and digital garden that served as a central hub for my thoughts, projects, and professional journey. Built with modern web technologies focusing on performance, accessibility, and clean design.
+_This was my previous personal website and digital garden that served as a central hub for my thoughts, projects, and professional journey. Built with modern web technologies focusing on performance, accessibility, and clean design._
+
+![_Digital Garden](../_assets/digitalgarden.png)
+
 
 **Note**: This is my old website. You are currently viewing my new and improved site built with Astro, which offers better performance and a more refined experience.
 

@@ -2,18 +2,63 @@
 @import './post.css';
 /* Gallery shared styles */
 /* Filter & layout toolbar */
-.gallery-bar { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; padding:0.5rem 1rem; }
-.gallery-bar__filters, .gallery-bar__layouts { list-style:none; margin:0; padding:0; display:flex; gap:0.5rem; }
-.gallery-bar__layouts { margin-left:auto; }
-.gallery-bar button { background:none; border:1px solid var(--color-border, #333); padding:.4rem .75rem; border-radius:999px; font-size:.7rem; letter-spacing:.05em; text-transform:uppercase; font-weight:500; cursor:pointer; line-height:1; }
-.gallery-bar button.is-active { background:var(--color-accent, #444); color: var(--color-bg, #fff); }
-.gallery-bar button:focus-visible { outline:2px solid var(--color-accent, #666); outline-offset:2px; }
+.gallery-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+.gallery-bar__filters,
+.gallery-bar__layouts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 0.5rem;
+}
+.gallery-bar__layouts {
+  margin-left: auto;
+}
+.gallery-bar button {
+  background: none;
+  border: 1px solid var(--color-border, #333);
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  line-height: 1;
+}
+.gallery-bar button.is-active {
+  background: var(--color-accent, #444);
+  color: var(--color-bg, #fff);
+}
+.gallery-bar button:focus-visible {
+  outline: 2px solid var(--color-accent, #666);
+  outline-offset: 2px;
+}
 
 /* Symbol preview adjustments if needed globally */
-.gallery-preview { margin:3rem 0; }
-.gallery-preview__header { display:flex; align-items:baseline; gap:1rem; }
-.gallery-preview__header a { font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; opacity:.7; }
-.gallery-preview__header a:hover { opacity:1; }
+.gallery-preview {
+  margin: 3rem 0;
+}
+.gallery-preview__header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+.gallery-preview__header a {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+.gallery-preview__header a:hover {
+  opacity: 1;
+}
 
 :root {
   /* Min Content Width */

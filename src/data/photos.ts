@@ -2,6 +2,27 @@ import type { Photo } from './types'
 
 // Consolidated photo collection
 export const photos: Photo[] = [
+
+  {
+    id: 'digital-garden',
+    src: '/src/content/_assets/digitalgarden.png?w=800&h=600&fit=cover',
+    alt: 'Digital garden concept visualization',
+    title: 'DIGITAL GARDEN',
+    camera: 'Screenshot',
+    date: '2025-10',
+    category: 'PROJECTS'
+  },
+
+  {
+    id: 'soundline-project',
+    src: '/src/content/_assets/soundline.png?w=800&h=600&fit=cover',
+    alt: 'Soundline - NYC subway-style music visualization',
+    title: 'SOUNDLINE',
+    camera: 'Screenshot',
+    date: '2025-02',
+    category: 'PROJECTS'
+  },
+
   {
     id: 'brooklyn-bridge',
     src: 'https://images.unsplash.com/photo-1722179437460-d1580bdcea2f?q=80&w=1762&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',

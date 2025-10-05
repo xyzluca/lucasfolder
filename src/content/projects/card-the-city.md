@@ -6,7 +6,7 @@ status: 'private'
 tech: ['Next.js', 'Tailwind CSS', 'MapLibre', 'OpenStreetMap API']
 ---
 
-Card the City is a **Transferprojekt** for my class that I started on September 25th, 2024. The project explores urban anthropology through creative technology, transforming neighborhood data into persona-based trading cards.
+_Card the City is a **Transferprojekt** for my class that I started on September 25th, 2024. The project explores urban anthropology through creative technology, transforming neighborhood data into persona-based trading cards._
 
 ## Project Concept
 
