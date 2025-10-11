@@ -1,0 +1,355 @@
+---
+import '@/styles/global.css'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import BackButton from '@/components/ui/BackButton.astro'
+import GradientMask from '@/components/ui/GradientMask.astro'
+import Footer from '@/components/layout/Footer.astro'
+import BaseHead from '@/components/layout/BaseHead.astro'
+import ImageOptimizer from '@/components/ui/ImageOptimizer.astro'
+import ImageViewer from '@/components/ui/ImageViewer.astro'
+import FootnoteScroll from '@/components/widgets/FootnoteScroll.astro'
+import CopyCode from '@/components/ui/CopyCode.astro'
+import GitHubCard from '@/components/ui/GitHubCard.astro'
+import LinkCard from '@/components/ui/LinkCard.astro'
+import NeoDBCard from '@/components/ui/NeoDBCard.astro'
+import XPOST from '@/components/ui/XPOST.astro'
+import TravelMap from '@/components/ui/TravelMap'
+import CitiesList from '@/components/ui/CitiesList'
+import NeighborhoodsList from '@/components/ui/NeighborhoodsList'
+import { visitedCountries } from '@/data/visited-countries'
+import { visitedCities } from '@/data/visited-cities'
+import { visitedNeighborhoods } from '@/data/visited-neighborhoods'
+import { themeConfig } from '@/config'
+
+const title = 'Travel Map'
+const description = "Countries, cities, and neighborhoods I've explored"
+const ogImage = '/open-graph/travel.png'
+---
+
+<BaseLayout type="post" title={`${title} · ${themeConfig.site.title}`} description={description}>
+  <BaseHead
+    title={`${title} · ${themeConfig.site.title}`}
+    description={description}
+    ogImage={ogImage}
+    slot="head"
+  />
+  <div class="post-container">
+    <main>
+      <div class="prose">
+        <GradientMask />
+        <BackButton />
+        <div class="title">
+          <h1>My Travels</h1>
+        </div>
+
+        <p>
+          Exploring the world, one place at a time. Below you'll find an interactive map of
+          countries I've visited, along with lists of cities and neighborhoods I've explored.
+
+This page is still under active construction so bare with me while i fill out all the places 
+        </p>
+
+        <!-- Tab Navigation -->
+        <div class="travel-tabs">
+          <button class="tab-button active" data-tab="countries">Countries</button>
+          <button class="tab-button" data-tab="cities">Cities</button>
+          <button class="tab-button" data-tab="neighborhoods">Neighborhoods</button>
+        </div>
+
+        <!-- Countries Tab -->
+        <div class="tab-content active" data-content="countries">
+          <div class="map-wrapper">
+            <TravelMap visitedCountries={visitedCountries} client:load />
+          </div>
+        </div>
+
+        <!-- Cities Tab -->
+        <div class="tab-content" data-content="cities">
+          <CitiesList cities={visitedCities} client:load />
+        </div>
+
+        <!-- Neighborhoods Tab -->
+        <div class="tab-content" data-content="neighborhoods">
+          <NeighborhoodsList neighborhoods={visitedNeighborhoods} client:load />
+        </div>
+
+        <p>
+          <strong>Tip:</strong> On the countries map, you can scroll to zoom in and out!
+        </p>
+      </div>
+    </main>
+    <ImageOptimizer />
+    <FootnoteScroll />
+    <CopyCode />
+    <GitHubCard />
+    <XPOST />
+    <NeoDBCard />
+    {themeConfig.post.imageViewer && <ImageViewer />}
+    {themeConfig.post.linkCard && <LinkCard />}
+    {themeConfig.general.footer && <Footer />}
+  </div>
+</BaseLayout>
+
+<script>
+  // Tab switching functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-button')
+    const tabContents = document.querySelectorAll('.tab-content')
+
+    tabButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const tabName = button.getAttribute('data-tab')
+
+        // Remove active class from all buttons and contents
+        tabButtons.forEach((btn) => btn.classList.remove('active'))
+        tabContents.forEach((content) => content.classList.remove('active'))
+
+        // Add active class to clicked button and corresponding content
+        button.classList.add('active')
+        const activeContent = document.querySelector(`[data-content="${tabName}"]`)
+        if (activeContent) {
+          activeContent.classList.add('active')
+        }
+      })
+    })
+  })
+</script>
+
+<style>
+  .post-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .post-container main {
+    flex: 1;
+  }
+
+  .map-wrapper {
+    margin: 2.75em 0;
+    width: 100%;
+  }
+
+  .map-wrapper :global(.travel-map-container) {
+    max-width: 100%;
+    width: 100%;
+    position: relative;
+  }
+
+  .map-wrapper :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+
+  .map-wrapper :global(.map-tooltip) {
+    position: fixed;
+    padding: 0.5em 0.75em;
+    background: var(--text-primary);
+    color: var(--bg);
+    border-radius: 4px;
+    font-size: var(--font-size-s);
+    pointer-events: none;
+    z-index: 1000;
+    font-weight: var(--font-weight-regular);
+  }
+
+  .map-wrapper :global(.map-legend) {
+    margin-top: 1.75em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-s);
+    opacity: 0.8;
+  }
+
+  .map-wrapper :global(.legend-item) {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  .map-wrapper :global(.legend-color) {
+    width: 1.25em;
+    height: 1.25em;
+    border: 1px solid var(--border);
+  }
+
+  .map-wrapper :global(.legend-visited) {
+    background: var(--text-primary);
+  }
+
+  .map-wrapper :global(.legend-not-visited) {
+    background: var(--border);
+  }
+
+  .map-wrapper :global(.legend-count) {
+    margin-left: auto;
+  }
+
+  @media (max-width: 768px) {
+    .map-wrapper :global(.legend-count) {
+      margin-left: 0;
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  /* Tab Navigation */
+  .travel-tabs {
+    display: flex;
+    gap: 0.5em;
+    margin: 2em 0 0 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab-button {
+    background: none;
+    border: none;
+    padding: 0.75em 1em;
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-regular);
+    font-family: var(--sans);
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease-out;
+    position: relative;
+    bottom: -1px;
+  }
+
+  .tab-button:hover {
+    color: var(--text-primary);
+  }
+
+  .tab-button.active {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-bold);
+    border-bottom-color: var(--text-primary);
+  }
+
+  /* Tab Content */
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  /* Cities List Styling */
+  :global(.cities-list) {
+    margin: 2em 0;
+  }
+
+  :global(.cities-list .stats) {
+    margin-bottom: 2em;
+    padding: 1em;
+    background: var(--code-bg);
+    border-radius: 4px;
+    text-align: center;
+    font-size: var(--font-size-m);
+  }
+
+  :global(.cities-map) {
+    margin: 2em 0;
+    position: relative;
+  }
+
+  :global(.cities-map svg) {
+    width: 100%;
+    height: auto;
+  }
+
+  :global(.cities-by-country) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2em;
+    margin-top: 2em;
+  }
+
+  :global(.country-group h3) {
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 0.75em 0;
+    color: var(--text-primary);
+  }
+
+  :global(.country-group ul) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  :global(.country-group li) {
+    margin-bottom: 0.5em;
+    color: var(--text-secondary);
+    font-size: var(--font-size-m);
+  }
+
+  :global(.country-group li::before) {
+    content: '•';
+    margin-right: 0.5em;
+    color: var(--text-tertiary);
+  }
+
+  /* Neighborhoods List Styling */
+  :global(.neighborhoods-list) {
+    margin: 2em 0;
+  }
+
+  :global(.neighborhoods-list .stats) {
+    margin-bottom: 2em;
+    padding: 1em;
+    background: var(--code-bg);
+    border-radius: 4px;
+    text-align: center;
+    font-size: var(--font-size-m);
+  }
+
+  :global(.neighborhoods-by-city) {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2em;
+  }
+
+  :global(.city-group h3) {
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 0.75em 0;
+    color: var(--text-primary);
+  }
+
+  :global(.city-group ul) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  :global(.city-group li) {
+    margin-bottom: 0.75em;
+    color: var(--text-secondary);
+    font-size: var(--font-size-m);
+    line-height: 1.5;
+  }
+
+  :global(.city-group li::before) {
+    content: '•';
+    margin-right: 0.5em;
+    color: var(--text-tertiary);
+  }
+
+  :global(.city-group .description) {
+    font-size: var(--font-size-s);
+    opacity: 0.75;
+  }
+
+  @media (max-width: 768px) {
+    :global(.cities-by-country),
+    :global(.neighborhoods-by-city) {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
