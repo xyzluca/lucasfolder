@@ -2,7 +2,6 @@
 import '@/styles/global.css'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import BackButton from '@/components/ui/BackButton.astro'
-import GradientMask from '@/components/ui/GradientMask.astro'
 import GalleryFilter from '@/components/ui/GalleryFilter.astro'
 import Footer from '@/components/layout/Footer.astro'
 import BaseHead from '@/components/layout/BaseHead.astro'
@@ -45,7 +44,6 @@ const ogImage = '/open-graph/gallery.png'
   <div class="post-container">
     <main>
       <div class="prose">
-        <GradientMask />
         <BackButton />
         <GalleryFilter categories={categories} specialFilters={specialFilters} />
         <div class="title">
