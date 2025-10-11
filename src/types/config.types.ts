@@ -23,6 +23,7 @@ export interface GeneralSettings {
   postListDottedDivider: boolean
   footer: boolean
   fadeAnimation: boolean
+  weatherLocation: boolean
 }
 
 // Date settings configuration type

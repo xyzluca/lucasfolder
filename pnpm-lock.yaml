@@ -38,6 +38,9 @@ importers:
       katex:
         specifier: ^0.16.22
         version: 0.16.22
+      lucide-astro:
+        specifier: ^0.545.0
+        version: 0.545.0(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1))
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -1725,6 +1728,11 @@ packages:
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
+
+  lucide-astro@0.545.0:
+    resolution: {integrity: sha512-KBSQTlW4e+tT6DvWEWcqxWa2WubWdqhLG7/WQgnAawQ29ZAEUfTqo2At9IW9xlrG1k8qrVwzeGQfeumiMsgI6Q==}
+    peerDependencies:
+      astro: '>=2.7.1'
 
   magic-string@0.30.19:
     resolution: {integrity: sha512-2N21sPY9Ws53PZvsEpVtNuSW+ScYbQdp4b9qUaL+9QkHUrGFKo56Lg9Emg5s9V/qrtNBmiR01sYhUOwu3H+VOw==}
@@ -4602,6 +4610,10 @@ snapshots:
   longest-streak@3.1.0: {}
 
   lru-cache@10.4.3: {}
+
+  lucide-astro@0.545.0(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)):
+    dependencies:
+      astro: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)
 
   magic-string@0.30.19:
     dependencies:
