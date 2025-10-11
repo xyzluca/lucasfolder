@@ -1,0 +1,383 @@
+---
+import { themeConfig } from '@/config'
+
+interface Props {
+  categories: string[]
+  specialFilters?: string[]
+}
+
+const { categories, specialFilters = ['all', 'photos'] } = Astro.props
+---
+
+<div class="gallery-filter-container" id="gallery-filter">
+  <nav class="gallery-filter-nav">
+    <ul class="gallery-filter-list" id="gallery-filter-list">
+      <!-- Special filters -->
+      {
+        specialFilters.map((filter) => (
+          <li class="gallery-filter-item">
+            <button
+              class={`gallery-filter-link ${filter === 'all' ? 'active' : ''}`}
+              data-filter={filter}
+              data-text={filter.charAt(0).toUpperCase() + filter.slice(1)}
+            >
+              {filter.charAt(0).toUpperCase() + filter.slice(1)}
+            </button>
+          </li>
+        ))
+      }
+
+      <!-- Category filters -->
+      {
+        categories.map((category) => (
+          <li class="gallery-filter-item">
+            <button
+              class="gallery-filter-link"
+              data-filter={category}
+              data-text={category}
+            >
+              {category}
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</div>
+
+<script
+  is:inline
+  define:vars={{
+    contentWidth: themeConfig.general.contentWidth,
+    centeredLayout: themeConfig.general.centeredLayout
+  }}
+>
+  ;(function () {
+    // Core state
+    const state = {
+      container: null,
+      filterButtons: null,
+      hasContent: false,
+      currentFilter: 'all'
+    }
+
+    // Initialize DOM elements
+    function initElements() {
+      state.container = document.querySelector('.gallery-filter-container')
+      if (!state.container) return false
+
+      state.filterButtons = document.querySelectorAll('.gallery-filter-link')
+      return true
+    }
+
+    // Check if content exists
+    function checkContent() {
+      if (!state.container || !state.filterButtons) return
+
+      state.hasContent = state.filterButtons.length > 0
+
+      if (!state.hasContent) {
+        state.container.style.display = 'none'
+      }
+    }
+
+    // Adjust filter position
+    function adjustPosition() {
+      if (!state.container || !centeredLayout || !state.hasContent) {
+        if (state.container) state.container.style.display = 'none'
+        return
+      }
+
+      const pageWidth = window.innerWidth
+      const contentWidthValue = Math.max(parseFloat(contentWidth), 25)
+      const margin = (pageWidth - contentWidthValue * 16) / 2
+      const minSpace = 11 * 16 + 52 // Minimum space needed for filter
+
+      if (margin >= minSpace) {
+        state.container.style.display = 'block'
+        state.container.classList.add('fixed-position')
+        const leftPosition = margin - 176 - 40
+        state.container.style.left = `${leftPosition}px`
+      } else {
+        state.container.style.display = 'none'
+        state.container.classList.remove('fixed-position')
+        state.container.style.left = ''
+      }
+    }
+
+    // Handle filter click
+    function handleFilterClick(e) {
+      const button = e.target.closest('.gallery-filter-link')
+      if (!button) return
+
+      const filter = button.dataset.filter || 'all'
+
+      // Update active state
+      state.filterButtons.forEach((btn) => btn.classList.remove('active'))
+      button.classList.add('active')
+
+      // Apply filter
+      filterCategory(filter)
+
+      // Update URL
+      const url = new URL(window.location.href)
+      url.searchParams.set('f', filter)
+      history.replaceState({}, '', url.toString())
+
+      state.currentFilter = filter
+
+      // Sync with mobile inline filters
+      const mobileButtons = document.querySelectorAll('.filter-btn')
+      mobileButtons.forEach((mobileBtn) => {
+        const mobileFilter = mobileBtn.dataset.filter
+        mobileBtn.classList.toggle('active', mobileFilter === filter)
+      })
+    }
+
+    // Filter category logic
+    function filterCategory(cat) {
+      const apply = (selector) => {
+        document.querySelectorAll(selector).forEach((el) => {
+          const original = el.dataset.category || ''
+          let shouldShow = false
+
+          if (cat === 'all') {
+            shouldShow = true
+          } else if (cat === 'photos') {
+            shouldShow = original.toLowerCase() !== 'projects'
+          } else {
+            shouldShow = original === cat
+          }
+
+          if (shouldShow) {
+            el.removeAttribute('hidden')
+          } else {
+            el.setAttribute('hidden', '')
+          }
+        })
+      }
+
+      // Apply to both gallery types (even if one is hidden)
+      apply('#gallery-justified a[id]')
+      apply('#gallery-masonry figure[id]')
+    }
+
+    // Listen for layout changes and re-apply current filter
+    function handleLayoutChange() {
+      if (state.currentFilter) {
+        filterCategory(state.currentFilter)
+      }
+    }
+
+    // Add event listener for layout changes
+    document.addEventListener('gallery:layout-changed', handleLayoutChange)
+
+    // Initialize from URL
+    function initializeFromURL() {
+      const url = new URL(window.location.href)
+      const filter = url.searchParams.get('f') || 'all'
+
+      const button = Array.from(state.filterButtons || []).find(
+        (btn) => btn.dataset.filter === filter
+      )
+
+      if (button) {
+        state.filterButtons.forEach((btn) => btn.classList.remove('active'))
+        button.classList.add('active')
+        filterCategory(filter)
+        state.currentFilter = filter
+      }
+    }
+
+    // Initialize
+    function init(retryCount = 0) {
+      const maxRetries = 5
+
+      if (initElements()) {
+        checkContent()
+        adjustPosition()
+
+        if (state.container) {
+          state.container.removeEventListener('click', handleFilterClick)
+          state.container.addEventListener('click', handleFilterClick)
+        }
+
+        // Small delay to ensure gallery is rendered
+        setTimeout(() => {
+          initializeFromURL()
+        }, 100)
+      } else if (retryCount < maxRetries) {
+        setTimeout(() => init(retryCount + 1), 100)
+      }
+    }
+
+    // Event handlers
+    function handleResize() {
+      adjustPosition()
+    }
+
+    // Cleanup
+    function cleanup() {
+      Object.assign(state, {
+        container: null,
+        filterButtons: null,
+        hasContent: false,
+        currentFilter: 'all'
+      })
+    }
+
+    // Event listeners
+    document.addEventListener('astro:page-load', () => {
+      cleanup()
+      init()
+    })
+
+    document.addEventListener('astro:after-swap', () => {
+      cleanup()
+      init()
+    })
+
+    // Fallback for when Astro transitions are disabled
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!state.container || !state.hasContent) {
+        init()
+      }
+    })
+
+    window.addEventListener('resize', handleResize)
+  })()
+</script>
+
+<style is:inline>
+  /* Mobile first: hidden by default */
+  .gallery-filter-container {
+    display: none;
+    width: 12rem;
+    position: relative;
+    left: -0.175em;
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+  }
+
+  .gallery-filter-container.fixed-position {
+    opacity: 1;
+    position: fixed;
+    top: 12rem;
+    margin-top: 0;
+    padding-left: 1rem;
+    z-index: 10;
+    left: auto;
+  }
+
+  .gallery-filter-nav {
+    font-family: var(--sans);
+  }
+
+  .gallery-filter-list,
+  .gallery-filter-list li,
+  .gallery-filter-item {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .prose .gallery-filter-container .gallery-filter-list {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  .prose .gallery-filter-container .gallery-filter-list li {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .gallery-filter-item::before,
+  .gallery-filter-item::marker {
+    display: none;
+  }
+
+  .gallery-filter-link {
+    display: block;
+    background: none;
+    border: none;
+    color: transparent;
+    text-decoration: none;
+    position: relative;
+    padding-left: 0;
+    height: 1.125rem;
+    width: 100%;
+    min-height: 1rem;
+    font-size: 0;
+    line-height: 1.125rem;
+    text-indent: 2rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition:
+      color 0.2s ease-out,
+      font-size 0.2s ease-out,
+      text-indent 0.2s ease-out;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .gallery-filter-link::after {
+    content: attr(data-text);
+    position: absolute;
+    left: -0.5rem;
+    top: 0;
+    font-family: var(--sans);
+    font-size: var(--font-size-s);
+    letter-spacing: var(--spacing-m);
+    line-height: 1.125rem;
+    color: var(--text-primary);
+    opacity: 0;
+    transition:
+      opacity 0.2s ease-out,
+      left 0.2s ease-out;
+    pointer-events: none;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .gallery-filter-link:hover::after {
+    opacity: 1;
+    left: -0.75rem;
+  }
+
+  .gallery-filter-link:hover::before {
+    width: 0.75rem;
+    transition: width 0.1s ease-out;
+  }
+
+  .gallery-filter-link.active {
+    color: var(--text-primary);
+  }
+
+  /* Horizontal line indicators */
+  .gallery-filter-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 2.5rem;
+    height: 1px;
+    background-color: var(--text-tertiary);
+    transform: translateY(-50%);
+    opacity: 0.4;
+    transition: all 0.1s ease-out;
+  }
+
+  .gallery-filter-link:hover::before,
+  .gallery-filter-link.active::before {
+    opacity: 0.8;
+    background-color: var(--text-primary);
+  }
+
+  .gallery-filter-link:focus-visible {
+    outline: 2px solid var(--text-tertiary);
+    outline-offset: 2px;
+  }
+</style>

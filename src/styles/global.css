@@ -156,6 +156,36 @@ html.dark {
   --astro-code-token-link: rgba(255, 255, 255, 0.55);
 }
 
+/* Colorful Mode */
+html.colorful {
+  --bg: green;
+  --text-primary: rgba(255, 255, 255, 0.95);
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --text-tertiary: rgba(255, 255, 255, 0.35);
+  --border: rgba(255, 255, 255, 0.2);
+  --selection: rgba(255, 255, 255, 0.25);
+  --code-bg: rgba(0, 0, 0, 0.15);
+  --mark: #ffd700;
+
+  /* Syntax Theme with vibrant colors */
+  --astro-code-foreground: #ffffff;
+  --astro-code-background: rgba(0, 0, 0, 0.15);
+  --astro-code-token-constant: #ff6b9d;
+  --astro-code-token-string: #a8ff60;
+  --astro-code-token-comment: rgba(255, 255, 255, 0.5);
+  --astro-code-token-keyword: #ffd700;
+  --astro-code-token-parameter: #82aaff;
+  --astro-code-token-function: #ffb86c;
+  --astro-code-token-string-expression: #c3e88d;
+  --astro-code-token-punctuation: rgba(255, 255, 255, 0.7);
+  --astro-code-token-link: #89ddff;
+}
+
+html.colorful body {
+  background: green;
+  background-attachment: fixed;
+}
+
 html {
   background-color: var(--bg);
   scroll-behavior: smooth;

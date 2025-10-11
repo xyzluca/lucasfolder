@@ -3,6 +3,7 @@ import '@/styles/global.css'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import BackButton from '@/components/ui/BackButton.astro'
 import GradientMask from '@/components/ui/GradientMask.astro'
+import GalleryFilter from '@/components/ui/GalleryFilter.astro'
 import Footer from '@/components/layout/Footer.astro'
 import BaseHead from '@/components/layout/BaseHead.astro'
 import ImageOptimizer from '@/components/ui/ImageOptimizer.astro'
@@ -18,7 +19,7 @@ import MasonryGallery from '@/components/ui/MasonryGallery.astro'
 import { photos } from '@/data/photos'
 import { themeConfig } from '@/config'
 
-const categories = Array.from(new Set(photos.map((p) => p.category).filter(Boolean)))
+const categories = Array.from(new Set(photos.map((p) => p.category).filter(Boolean))) as string[]
 const galleryImages = photos.map((p) => ({
   id: p.id,
   src: p.src,
@@ -46,15 +47,16 @@ const ogImage = '/open-graph/gallery.png'
       <div class="prose">
         <GradientMask />
         <BackButton />
+        <GalleryFilter categories={categories} specialFilters={specialFilters} />
         <div class="title">
           <h1>Gallery</h1>
         </div>
 
         <p>A collection of moments captured through my lens.</p>
 
-        <!-- Gallery Controls -->
+        <!-- Gallery Controls - Mobile Inline Filters + Layout Switcher -->
         <div class="gallery-controls">
-          <div class="gallery-filters">
+          <div class="gallery-filters-mobile">
             <button class="filter-btn active" data-filter="all">All</button>
             <button class="filter-btn" data-filter="photos">Photos</button>
             {
@@ -72,13 +74,15 @@ const ogImage = '/open-graph/gallery.png'
         </div>
       </div>
 
-      <!-- Gallery Content - Full Width Outside .prose -->
-      <div class="gallery-wrapper">
-        <div id="gallery-justified" class="gallery-pane" hidden>
-          <JustifiedGallery images={galleryImages} />
-        </div>
-        <div id="gallery-masonry" class="gallery-pane">
-          <MasonryGallery images={galleryImages} />
+      <!-- Gallery Content - Constrained Width Like Other Pages -->
+      <div class="prose">
+        <div class="gallery-wrapper">
+          <div id="gallery-justified" class="gallery-pane" hidden>
+            <JustifiedGallery images={galleryImages} />
+          </div>
+          <div id="gallery-masonry" class="gallery-pane">
+            <MasonryGallery images={galleryImages} />
+          </div>
         </div>
       </div>
     </main>
@@ -101,6 +105,8 @@ const ogImage = '/open-graph/gallery.png'
     const layoutButtons = document.querySelectorAll('.layout-btn')
     const justifiedRoot = document.getElementById('gallery-justified')
     const masonryRoot = document.getElementById('gallery-masonry')
+    
+    let currentFilter = 'all' // Track current filter state
 
     function setActive(buttons: NodeListOf<Element>, target: Element) {
       buttons.forEach((btn) => {
@@ -109,6 +115,7 @@ const ogImage = '/open-graph/gallery.png'
     }
 
     function filterCategory(cat: string) {
+      currentFilter = cat // Update current filter
       const apply = (root: HTMLElement | null, selector: string) => {
         if (!root) return
         root.querySelectorAll(selector).forEach((el) => {
@@ -116,13 +123,10 @@ const ogImage = '/open-graph/gallery.png'
           let shouldShow = false
 
           if (cat === 'all') {
-            // Show all images
             shouldShow = true
           } else if (cat === 'photos') {
-            // Show everything except "Projects"
             shouldShow = original.toLowerCase() !== 'projects'
           } else {
-            // Show only matching category
             shouldShow = original === cat
           }
 
@@ -137,6 +141,7 @@ const ogImage = '/open-graph/gallery.png'
       apply(masonryRoot, 'figure[id]')
     }
 
+    // Mobile filter buttons
     filterButtons.forEach((btn) =>
       btn.addEventListener('click', () => {
         setActive(filterButtons, btn)
@@ -144,6 +149,16 @@ const ogImage = '/open-graph/gallery.png'
         const url = new URL(window.location.href)
         url.searchParams.set('f', (btn as HTMLElement).dataset.filter || 'all')
         history.replaceState({}, '', url.toString())
+
+        // Sync with sidebar filter
+        const sidebarButtons = document.querySelectorAll('.gallery-filter-link')
+        sidebarButtons.forEach((sidebarBtn) => {
+          const sidebarFilter = (sidebarBtn as HTMLElement).dataset.filter
+          sidebarBtn.classList.toggle(
+            'active',
+            sidebarFilter === ((btn as HTMLElement).dataset.filter || 'all')
+          )
+        })
       })
     )
 
@@ -159,6 +174,10 @@ const ogImage = '/open-graph/gallery.png'
           masonryRoot.setAttribute('hidden', '')
           justifiedRoot.removeAttribute('hidden')
         }
+        
+        // Re-apply current filter to the newly visible layout
+        filterCategory(currentFilter)
+        
         const url = new URL(window.location.href)
         url.searchParams.set('l', layout || 'justified')
         history.replaceState({}, '', url.toString())
@@ -205,7 +224,7 @@ const ogImage = '/open-graph/gallery.png'
     font-size: var(--font-size-s);
   }
 
-  .gallery-filters,
+  .gallery-filters-mobile,
   .gallery-layouts {
     display: flex;
     flex-wrap: wrap;
@@ -248,8 +267,8 @@ const ogImage = '/open-graph/gallery.png'
     outline-offset: 2px;
   }
 
-  /* Separator dots between filters */
-  .gallery-filters > button:not(:last-child)::after,
+  /* Separator dots between buttons */
+  .gallery-filters-mobile > button:not(:last-child)::after,
   .gallery-layouts > button:not(:last-child)::after {
     content: '•';
     margin-left: 0.75em;
@@ -258,41 +277,7 @@ const ogImage = '/open-graph/gallery.png'
     pointer-events: none;
   }
 
-  /* Gallery Wrapper - Full Width */
-  .gallery-wrapper {
-    margin: -1em 0 0 0;
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    padding-top: 0;
-  }
-
-  /* Remove padding from gallery components */
-  .gallery-wrapper :global(.justified-gallery) {
-    padding: 0 !important;
-  }
-
-  .gallery-wrapper :global(.masonry-wrapper) {
-    padding-top: 0 !important;
-  }
-
-  .gallery-pane[hidden] {
-    display: none;
-  }
-
-  /* Remove rounded corners from gallery images */
-  .gallery-wrapper :global(.justified-gallery a) {
-    border-radius: 0 !important;
-  }
-
-  .gallery-wrapper :global(.masonry__item a) {
-    border-radius: 0 !important;
-  }
-
-  /* Tablet and up */
+  /* Tablet and up - reorganize layout */
   @media (min-width: 768px) {
     .gallery-controls {
       flex-direction: row;
@@ -300,9 +285,23 @@ const ogImage = '/open-graph/gallery.png'
       justify-content: space-between;
     }
 
+    /* Hide mobile filters on desktop (sidebar shows instead) */
+    .gallery-filters-mobile {
+      display: none;
+    }
+
     .gallery-layouts {
       margin-left: auto;
     }
+  }
+
+  /* Gallery Wrapper - Normal Width Like Other Content */
+  .gallery-wrapper {
+    margin: 1.75em 0;
+  }
+
+  .gallery-pane[hidden] {
+    display: none;
   }
 
   /* Ensure images are responsive */

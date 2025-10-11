@@ -11,12 +11,20 @@
     --bg: #1c1c1c;
   }
 
+  html.colorful {
+    --bg: orangered;
+  }
+
   html {
     background-color: var(--bg);
     color-scheme: light;
   }
 
   html.dark {
+    color-scheme: dark;
+  }
+
+  html.colorful {
     color-scheme: dark;
   }
 </style>
@@ -67,7 +75,7 @@
       },
 
       applyTheme(theme) {
-        document.documentElement.classList.remove('light', 'dark')
+        document.documentElement.classList.remove('light', 'dark', 'colorful')
         document.documentElement.classList.add(theme)
 
         // Dispatch event for other components
@@ -84,8 +92,15 @@
 
       toggle() {
         const currentTheme = this.getEffectiveTheme()
-        // Simply toggle between light and dark
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
+        // Cycle through light → dark → colorful
+        let newTheme
+        if (currentTheme === 'light') {
+          newTheme = 'dark'
+        } else if (currentTheme === 'dark') {
+          newTheme = 'colorful'
+        } else {
+          newTheme = 'light'
+        }
 
         this.setStoredTheme(newTheme)
         this.applyTheme(newTheme)
