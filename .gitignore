@@ -21,6 +21,7 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+._*
 
 # IDE settings
 .idea/
@@ -28,5 +29,4 @@ pnpm-debug.log*
 
 # Vercel build output
 .vercel/
-
 

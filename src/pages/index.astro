@@ -16,9 +16,6 @@ const projects = allProjects.filter((project) => !project.id.startsWith('_'))
 // Sort posts and projects separately, then combine with posts first
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
 const sortedProjects = projects.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
-const allContent = [...sortedPosts, ...sortedProjects]
-
-// GallerySymbols handles selecting random subset
 ---
 
 <IndexLayout title={themeConfig.site.title} description={themeConfig.site.description}>

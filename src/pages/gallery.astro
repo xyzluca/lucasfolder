@@ -99,14 +99,11 @@ const ogImage = '/open-graph/gallery.png'
 </BaseLayout>
 
 <script>
-  // Gallery functionality
   document.addEventListener('DOMContentLoaded', () => {
     const filterButtons = document.querySelectorAll('.filter-btn')
     const layoutButtons = document.querySelectorAll('.layout-btn')
     const justifiedRoot = document.getElementById('gallery-justified')
     const masonryRoot = document.getElementById('gallery-masonry')
-    
-    let currentFilter = 'all' // Track current filter state
 
     function setActive(buttons: NodeListOf<Element>, target: Element) {
       buttons.forEach((btn) => {
@@ -114,53 +111,30 @@ const ogImage = '/open-graph/gallery.png'
       })
     }
 
-    function filterCategory(cat: string) {
-      currentFilter = cat // Update current filter
-      const apply = (root: HTMLElement | null, selector: string) => {
-        if (!root) return
-        root.querySelectorAll(selector).forEach((el) => {
-          const original = (el as HTMLElement).dataset.category || ''
-          let shouldShow = false
-
-          if (cat === 'all') {
-            shouldShow = true
-          } else if (cat === 'photos') {
-            shouldShow = original.toLowerCase() !== 'projects'
-          } else {
-            shouldShow = original === cat
-          }
-
-          if (shouldShow) {
-            el.removeAttribute('hidden')
-          } else {
-            el.setAttribute('hidden', '')
-          }
-        })
-      }
-      apply(justifiedRoot, 'a[id]')
-      apply(masonryRoot, 'figure[id]')
+    function syncMobileFilters(filter: string) {
+      filterButtons.forEach((btn) => {
+        const element = btn as HTMLElement
+        const mobileFilter = element.dataset.filter || 'all'
+        element.classList.toggle('active', mobileFilter === filter)
+      })
     }
 
-    // Mobile filter buttons
     filterButtons.forEach((btn) =>
       btn.addEventListener('click', () => {
-        setActive(filterButtons, btn)
-        filterCategory((btn as HTMLElement).dataset.filter || 'all')
-        const url = new URL(window.location.href)
-        url.searchParams.set('f', (btn as HTMLElement).dataset.filter || 'all')
-        history.replaceState({}, '', url.toString())
-
-        // Sync with sidebar filter
-        const sidebarButtons = document.querySelectorAll('.gallery-filter-link')
-        sidebarButtons.forEach((sidebarBtn) => {
-          const sidebarFilter = (sidebarBtn as HTMLElement).dataset.filter
-          sidebarBtn.classList.toggle(
-            'active',
-            sidebarFilter === ((btn as HTMLElement).dataset.filter || 'all')
-          )
-        })
+        const filter = (btn as HTMLElement).dataset.filter || 'all'
+        document.dispatchEvent(new CustomEvent('gallery:set-filter', { detail: { filter } }))
       })
     )
+
+    document.addEventListener('gallery:filter-change', (event) => {
+      const detail =
+        event && typeof event === 'object' && 'detail' in event ? (event as CustomEvent).detail : null
+      const filter =
+        detail && typeof detail === 'object' && typeof detail.filter === 'string'
+          ? detail.filter
+          : 'all'
+      syncMobileFilters(filter)
+    })
 
     layoutButtons.forEach((btn) =>
       btn.addEventListener('click', () => {
@@ -174,30 +148,35 @@ const ogImage = '/open-graph/gallery.png'
           masonryRoot.setAttribute('hidden', '')
           justifiedRoot.removeAttribute('hidden')
         }
-        
-        // Re-apply current filter to the newly visible layout
-        filterCategory(currentFilter)
-        
+
+        document.dispatchEvent(new CustomEvent('gallery:layout-changed'))
+
         const url = new URL(window.location.href)
         url.searchParams.set('l', layout || 'justified')
         history.replaceState({}, '', url.toString())
       })
     )
 
+    document.addEventListener('gallery:ready', (event) => {
+      const detail =
+        event && typeof event === 'object' && 'detail' in event ? (event as CustomEvent).detail : null
+      const filter =
+        detail && typeof detail === 'object' && typeof detail.filter === 'string'
+          ? detail.filter
+          : 'all'
+      syncMobileFilters(filter)
+    })
+
     // Apply initial state from URL
     const url = new URL(window.location.href)
-    const filter = url.searchParams.get('f') || 'all'
     const layout = url.searchParams.get('l') || 'masonry'
-    const filterBtn = Array.from(filterButtons).find(
-      (b) => ((b as HTMLElement).dataset.filter || 'all') === filter
-    )
-    if (filterBtn) (filterBtn as HTMLElement).click()
     const layoutBtn = Array.from(layoutButtons).find(
       (b) => ((b as HTMLElement).dataset.layout || 'masonry') === layout
     )
     if (layoutBtn) (layoutBtn as HTMLElement).click()
   })
 </script>
+
 
 <style>
   .post-container {

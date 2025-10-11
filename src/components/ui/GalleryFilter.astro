@@ -53,6 +53,11 @@ const { categories, specialFilters = ['all', 'photos'] } = Astro.props
   }}
 >
   ;(function () {
+    const FILTER_SET_EVENT = 'gallery:set-filter'
+    const FILTER_CHANGE_EVENT = 'gallery:filter-change'
+    const GALLERY_READY_EVENT = 'gallery:ready'
+    const LAYOUT_CHANGED_EVENT = 'gallery:layout-changed'
+
     // Core state
     const state = {
       container: null,
@@ -105,33 +110,25 @@ const { categories, specialFilters = ['all', 'photos'] } = Astro.props
       }
     }
 
-    // Handle filter click
-    function handleFilterClick(e) {
-      const button = e.target.closest('.gallery-filter-link')
-      if (!button) return
-
-      const filter = button.dataset.filter || 'all'
-
-      // Update active state
-      state.filterButtons.forEach((btn) => btn.classList.remove('active'))
-      button.classList.add('active')
-
-      // Apply filter
-      filterCategory(filter)
-
-      // Update URL
-      const url = new URL(window.location.href)
-      url.searchParams.set('f', filter)
-      history.replaceState({}, '', url.toString())
-
-      state.currentFilter = filter
-
-      // Sync with mobile inline filters
-      const mobileButtons = document.querySelectorAll('.filter-btn')
-      mobileButtons.forEach((mobileBtn) => {
-        const mobileFilter = mobileBtn.dataset.filter
-        mobileBtn.classList.toggle('active', mobileFilter === filter)
+    function updateActiveButtons(filter) {
+      if (!state.filterButtons) return
+      state.filterButtons.forEach((btn) => {
+        btn.classList.toggle('active', (btn.dataset.filter || 'all') === filter)
       })
+    }
+
+    function updateUrl(filter) {
+      const url = new URL(window.location.href)
+      if (filter === 'all') {
+        url.searchParams.delete('f')
+      } else {
+        url.searchParams.set('f', filter)
+      }
+      history.replaceState({}, '', url.toString())
+    }
+
+    function dispatchFilterChange(filter) {
+      document.dispatchEvent(new CustomEvent(FILTER_CHANGE_EVENT, { detail: { filter } }))
     }
 
     // Filter category logic
@@ -162,6 +159,25 @@ const { categories, specialFilters = ['all', 'photos'] } = Astro.props
       apply('#gallery-masonry figure[id]')
     }
 
+    function applyFilter(filter) {
+      const targetFilter = filter || 'all'
+      state.currentFilter = targetFilter
+      updateActiveButtons(targetFilter)
+      filterCategory(targetFilter)
+      updateUrl(targetFilter)
+      dispatchFilterChange(targetFilter)
+    }
+
+    // Handle filter click
+    function handleFilterClick(e) {
+      const button = e.target.closest('.gallery-filter-link')
+      if (!button) return
+
+      const filter = button.dataset.filter || 'all'
+
+      applyFilter(filter)
+    }
+
     // Listen for layout changes and re-apply current filter
     function handleLayoutChange() {
       if (state.currentFilter) {
@@ -169,24 +185,34 @@ const { categories, specialFilters = ['all', 'photos'] } = Astro.props
       }
     }
 
-    // Add event listener for layout changes
-    document.addEventListener('gallery:layout-changed', handleLayoutChange)
+    function handleExternalFilter(event) {
+      const detail = event && typeof event === 'object' ? event.detail : null
+      const filter =
+        detail && typeof detail === 'object' && typeof detail.filter === 'string'
+          ? detail.filter
+          : 'all'
+      applyFilter(filter)
+    }
+
+    document.removeEventListener(FILTER_SET_EVENT, handleExternalFilter)
+    document.addEventListener(FILTER_SET_EVENT, handleExternalFilter)
+
+    document.removeEventListener(LAYOUT_CHANGED_EVENT, handleLayoutChange)
+    document.addEventListener(LAYOUT_CHANGED_EVENT, handleLayoutChange)
 
     // Initialize from URL
     function initializeFromURL() {
       const url = new URL(window.location.href)
       const filter = url.searchParams.get('f') || 'all'
 
-      const button = Array.from(state.filterButtons || []).find(
-        (btn) => btn.dataset.filter === filter
+      const hasMatch = Array.from(state.filterButtons || []).some(
+        (btn) => (btn.dataset.filter || 'all') === filter
       )
 
-      if (button) {
-        state.filterButtons.forEach((btn) => btn.classList.remove('active'))
-        button.classList.add('active')
-        filterCategory(filter)
-        state.currentFilter = filter
-      }
+      applyFilter(hasMatch ? filter : 'all')
+      document.dispatchEvent(
+        new CustomEvent(GALLERY_READY_EVENT, { detail: { filter: state.currentFilter } })
+      )
     }
 
     // Initialize
@@ -247,6 +273,7 @@ const { categories, specialFilters = ['all', 'photos'] } = Astro.props
     window.addEventListener('resize', handleResize)
   })()
 </script>
+
 
 <style is:inline>
   /* Mobile first: hidden by default */
