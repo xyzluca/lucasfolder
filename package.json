@@ -37,7 +37,6 @@
     "node-html-parser": "^7.0.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-simple-maps": "^3.0.0",
     "reading-time": "^1.5.0",
     "rehype-katex": "^7.0.1",
     "remark-directive": "^4.0.0",
