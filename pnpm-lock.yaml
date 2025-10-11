@@ -10,25 +10,25 @@ importers:
     dependencies:
       '@astrojs/mdx':
         specifier: ^4.3.6
-        version: 4.3.6(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1))
+        version: 4.3.6(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))
       '@astrojs/sitemap':
         specifier: ^3.6.0
         version: 3.6.0
       '@astrojs/vercel':
         specifier: ^8.2.8
-        version: 8.2.8(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1))(react@19.2.0)(rollup@4.52.3)
+        version: 8.2.8(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))(react@19.2.0)(rollup@4.52.3)
       '@fancyapps/ui':
         specifier: ^6.0.21
         version: 6.0.34
       '@playform/inline':
         specifier: ^0.1.2
-        version: 0.1.2(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)
+        version: 0.1.2(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
       astro:
         specifier: ^5.14.1
-        version: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)
+        version: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
       astro-og-canvas:
         specifier: ^0.7.0
-        version: 0.7.0(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1))
+        version: 0.7.0(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))
       canvaskit-wasm:
         specifier: ^0.40.0
         version: 0.40.0
@@ -40,7 +40,7 @@ importers:
         version: 0.16.22
       lucide-astro:
         specifier: ^0.545.0
-        version: 0.545.0(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1))
+        version: 0.545.0(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -83,10 +83,10 @@ importers:
         version: 2.16.0
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.44.1
-        version: 8.44.1(@typescript-eslint/parser@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2))(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
+        version: 8.44.1(@typescript-eslint/parser@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3))(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)
       '@typescript-eslint/parser':
         specifier: ^8.44.1
-        version: 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
+        version: 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)
       eslint:
         specifier: ^9.36.0
         version: 9.36.0(jiti@2.6.0)
@@ -109,11 +109,11 @@ importers:
         specifier: ^4.20.6
         version: 4.20.6
       typescript:
-        specifier: ^5.9.2
-        version: 5.9.2
+        specifier: ^5.9.3
+        version: 5.9.3
       typescript-eslint:
         specifier: ^8.44.1
-        version: 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
+        version: 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)
 
 packages:
 
@@ -903,16 +903,16 @@ packages:
     resolution: {integrity: sha512-eR8SYtf9Nem1Tnl0IWrY33qJ5wCtIWlt3Fs3c6V4aAaTFLtkEQErXu3SSZg/XCHrj9hXSJ8/8t+CdMk5Qec/ZA==}
     engines: {node: '>=18.0.0'}
 
-  '@whatwg-node/node-fetch@0.8.0':
-    resolution: {integrity: sha512-+z00GpWxKV/q8eMETwbdi80TcOoVEVZ4xSRkxYOZpn3kbV3nej5iViNzXVke/j3v4y1YpO5zMS/CVDIASvJnZQ==}
+  '@whatwg-node/node-fetch@0.8.1':
+    resolution: {integrity: sha512-cQmQEo7IsI0EPX9VrwygXVzrVlX43Jb7/DBZSmpnC7xH4xkyOnn/HykHpTaQk7TUs7zh59A5uTGqx3p2Ouzffw==}
     engines: {node: '>=18.0.0'}
 
   '@whatwg-node/promise-helpers@1.3.2':
     resolution: {integrity: sha512-Nst5JdK47VIl9UcGwtv2Rcgyn5lWtZ0/mhRQ4G8NN2isxpq2TO30iqHzmwoJycjWuyUfg3GFXqP/gFHXeV57IA==}
     engines: {node: '>=16.0.0'}
 
-  '@whatwg-node/server@0.10.12':
-    resolution: {integrity: sha512-MQIvvQyPvKGna586MzXhgwnEbGtbm7QtOgJ/KPd/tC70M/jbhd1xHdIQQbh3okBw+MrDF/EvaC2vB5oRC7QdlQ==}
+  '@whatwg-node/server@0.10.13':
+    resolution: {integrity: sha512-Otmxo+0mp8az3B48pLI1I4msNOXPIoP7TLm6h5wOEQmynqHt8oP9nR6NJUeJk6iI5OtFpQtkbJFwfGkmplvc3Q==}
     engines: {node: '>=18.0.0'}
 
   abbrev@3.0.1:
@@ -2282,6 +2282,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.7.3:
+    resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   sharp@0.34.4:
     resolution: {integrity: sha512-FUH39xp3SBPnxWvd5iib1X8XY7J0K0X7d93sie9CJg2PO8/7gmg89Nve6OjItK53/MlAushNNxteBYfM6DEuoA==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
@@ -2444,8 +2449,8 @@ packages:
       eslint: ^8.57.0 || ^9.0.0
       typescript: '>=4.8.4 <6.0.0'
 
-  typescript@5.9.2:
-    resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
+  typescript@5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -2768,12 +2773,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@4.3.6(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1))':
+  '@astrojs/mdx@4.3.6(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))':
     dependencies:
       '@astrojs/markdown-remark': 6.3.7
       '@mdx-js/mdx': 3.1.1
       acorn: 8.15.0
-      astro: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)
+      astro: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
       es-module-lexer: 1.7.0
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.5
@@ -2809,14 +2814,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/vercel@8.2.8(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1))(react@19.2.0)(rollup@4.52.3)':
+  '@astrojs/vercel@8.2.8(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))(react@19.2.0)(rollup@4.52.3)':
     dependencies:
       '@astrojs/internal-helpers': 0.7.3
       '@vercel/analytics': 1.5.0(react@19.2.0)
       '@vercel/functions': 2.2.13
       '@vercel/nft': 0.30.2(rollup@4.52.3)
       '@vercel/routing-utils': 5.1.1
-      astro: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)
+      astro: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
       esbuild: 0.25.10
       tinyglobby: 0.2.15
     transitivePeerDependencies:
@@ -3156,7 +3161,7 @@ snapshots:
 
   '@netlify/dev-utils@4.2.0':
     dependencies:
-      '@whatwg-node/server': 0.10.12
+      '@whatwg-node/server': 0.10.13
       ansis: 4.2.0
       chokidar: 4.0.3
       decache: 4.6.2
@@ -3167,7 +3172,7 @@ snapshots:
       image-size: 2.0.2
       js-image-generator: 1.0.4
       parse-gitignore: 2.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       tmp-promise: 3.0.3
       uuid: 11.1.0
       write-file-atomic: 5.0.1
@@ -3195,10 +3200,10 @@ snapshots:
 
   '@pkgr/core@0.2.9': {}
 
-  '@playform/inline@0.1.2(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)':
+  '@playform/inline@0.1.2(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)':
     dependencies:
       '@playform/pipe': 0.1.3
-      astro: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)
+      astro: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
       beasties: 0.2.0
       deepmerge-ts: 7.1.5
     transitivePeerDependencies:
@@ -3419,41 +3424,41 @@ snapshots:
 
   '@types/unist@3.0.3': {}
 
-  '@typescript-eslint/eslint-plugin@8.44.1(@typescript-eslint/parser@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2))(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)':
+  '@typescript-eslint/eslint-plugin@8.44.1(@typescript-eslint/parser@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3))(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
-      '@typescript-eslint/parser': 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
+      '@typescript-eslint/parser': 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)
       '@typescript-eslint/scope-manager': 8.44.1
-      '@typescript-eslint/type-utils': 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
-      '@typescript-eslint/utils': 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
+      '@typescript-eslint/type-utils': 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)
       '@typescript-eslint/visitor-keys': 8.44.1
       eslint: 9.36.0(jiti@2.6.0)
       graphemer: 1.4.0
       ignore: 7.0.5
       natural-compare: 1.4.0
-      ts-api-utils: 2.1.0(typescript@5.9.2)
-      typescript: 5.9.2
+      ts-api-utils: 2.1.0(typescript@5.9.3)
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)':
+  '@typescript-eslint/parser@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/scope-manager': 8.44.1
       '@typescript-eslint/types': 8.44.1
-      '@typescript-eslint/typescript-estree': 8.44.1(typescript@5.9.2)
+      '@typescript-eslint/typescript-estree': 8.44.1(typescript@5.9.3)
       '@typescript-eslint/visitor-keys': 8.44.1
       debug: 4.4.3
       eslint: 9.36.0(jiti@2.6.0)
-      typescript: 5.9.2
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/project-service@8.44.1(typescript@5.9.2)':
+  '@typescript-eslint/project-service@8.44.1(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.44.1(typescript@5.9.2)
+      '@typescript-eslint/tsconfig-utils': 8.44.1(typescript@5.9.3)
       '@typescript-eslint/types': 8.44.1
       debug: 4.4.3
-      typescript: 5.9.2
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
@@ -3462,28 +3467,28 @@ snapshots:
       '@typescript-eslint/types': 8.44.1
       '@typescript-eslint/visitor-keys': 8.44.1
 
-  '@typescript-eslint/tsconfig-utils@8.44.1(typescript@5.9.2)':
+  '@typescript-eslint/tsconfig-utils@8.44.1(typescript@5.9.3)':
     dependencies:
-      typescript: 5.9.2
+      typescript: 5.9.3
 
-  '@typescript-eslint/type-utils@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)':
+  '@typescript-eslint/type-utils@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/types': 8.44.1
-      '@typescript-eslint/typescript-estree': 8.44.1(typescript@5.9.2)
-      '@typescript-eslint/utils': 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
+      '@typescript-eslint/typescript-estree': 8.44.1(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)
       debug: 4.4.3
       eslint: 9.36.0(jiti@2.6.0)
-      ts-api-utils: 2.1.0(typescript@5.9.2)
-      typescript: 5.9.2
+      ts-api-utils: 2.1.0(typescript@5.9.3)
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
   '@typescript-eslint/types@8.44.1': {}
 
-  '@typescript-eslint/typescript-estree@8.44.1(typescript@5.9.2)':
+  '@typescript-eslint/typescript-estree@8.44.1(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/project-service': 8.44.1(typescript@5.9.2)
-      '@typescript-eslint/tsconfig-utils': 8.44.1(typescript@5.9.2)
+      '@typescript-eslint/project-service': 8.44.1(typescript@5.9.3)
+      '@typescript-eslint/tsconfig-utils': 8.44.1(typescript@5.9.3)
       '@typescript-eslint/types': 8.44.1
       '@typescript-eslint/visitor-keys': 8.44.1
       debug: 4.4.3
@@ -3491,19 +3496,19 @@ snapshots:
       is-glob: 4.0.3
       minimatch: 9.0.5
       semver: 7.7.2
-      ts-api-utils: 2.1.0(typescript@5.9.2)
-      typescript: 5.9.2
+      ts-api-utils: 2.1.0(typescript@5.9.3)
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)':
+  '@typescript-eslint/utils@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.36.0(jiti@2.6.0))
       '@typescript-eslint/scope-manager': 8.44.1
       '@typescript-eslint/types': 8.44.1
-      '@typescript-eslint/typescript-estree': 8.44.1(typescript@5.9.2)
+      '@typescript-eslint/typescript-estree': 8.44.1(typescript@5.9.3)
       eslint: 9.36.0(jiti@2.6.0)
-      typescript: 5.9.2
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
@@ -3563,11 +3568,11 @@ snapshots:
 
   '@whatwg-node/fetch@0.10.11':
     dependencies:
-      '@whatwg-node/node-fetch': 0.8.0
+      '@whatwg-node/node-fetch': 0.8.1
       urlpattern-polyfill: 10.1.0
     optional: true
 
-  '@whatwg-node/node-fetch@0.8.0':
+  '@whatwg-node/node-fetch@0.8.1':
     dependencies:
       '@fastify/busboy': 3.2.0
       '@whatwg-node/disposablestack': 0.0.6
@@ -3580,7 +3585,7 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@whatwg-node/server@0.10.12':
+  '@whatwg-node/server@0.10.13':
     dependencies:
       '@envelop/instrumentation': 1.0.0
       '@whatwg-node/disposablestack': 0.0.6
@@ -3659,14 +3664,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  astro-og-canvas@0.7.0(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)):
+  astro-og-canvas@0.7.0(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)):
     dependencies:
-      astro: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)
+      astro: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
       canvaskit-wasm: 0.39.1
       deterministic-object-hash: 2.0.2
       entities: 4.5.0
 
-  astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1):
+  astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1):
     dependencies:
       '@astrojs/compiler': 2.13.0
       '@astrojs/internal-helpers': 0.7.3
@@ -3716,7 +3721,7 @@ snapshots:
       smol-toml: 1.4.2
       tinyexec: 0.3.2
       tinyglobby: 0.2.15
-      tsconfck: 3.1.6(typescript@5.9.2)
+      tsconfck: 3.1.6(typescript@5.9.3)
       ultrahtml: 1.6.0
       unifont: 0.5.2
       unist-util-visit: 5.0.0
@@ -3729,7 +3734,7 @@ snapshots:
       yocto-spinner: 0.2.3
       zod: 3.25.76
       zod-to-json-schema: 3.24.6(zod@3.25.76)
-      zod-to-ts: 1.2.0(typescript@5.9.2)(zod@3.25.76)
+      zod-to-ts: 1.2.0(typescript@5.9.3)(zod@3.25.76)
     optionalDependencies:
       sharp: 0.34.4
     transitivePeerDependencies:
@@ -4611,9 +4616,9 @@ snapshots:
 
   lru-cache@10.4.3: {}
 
-  lucide-astro@0.545.0(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)):
+  lucide-astro@0.545.0(astro@5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)):
     dependencies:
-      astro: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.2)(yaml@2.8.1)
+      astro: 5.14.1(@netlify/blobs@10.0.11)(@types/node@24.5.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.3)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
 
   magic-string@0.30.19:
     dependencies:
@@ -5565,6 +5570,9 @@ snapshots:
 
   semver@7.7.2: {}
 
+  semver@7.7.3:
+    optional: true
+
   sharp@0.34.4:
     dependencies:
       '@img/colour': 1.0.0
@@ -5720,13 +5728,13 @@ snapshots:
 
   trough@2.2.0: {}
 
-  ts-api-utils@2.1.0(typescript@5.9.2):
+  ts-api-utils@2.1.0(typescript@5.9.3):
     dependencies:
-      typescript: 5.9.2
+      typescript: 5.9.3
 
-  tsconfck@3.1.6(typescript@5.9.2):
+  tsconfck@3.1.6(typescript@5.9.3):
     optionalDependencies:
-      typescript: 5.9.2
+      typescript: 5.9.3
 
   tslib@2.8.1: {}
 
@@ -5743,18 +5751,18 @@ snapshots:
 
   type-fest@4.41.0: {}
 
-  typescript-eslint@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2):
+  typescript-eslint@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.44.1(@typescript-eslint/parser@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2))(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
-      '@typescript-eslint/parser': 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
-      '@typescript-eslint/typescript-estree': 8.44.1(typescript@5.9.2)
-      '@typescript-eslint/utils': 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.2)
+      '@typescript-eslint/eslint-plugin': 8.44.1(@typescript-eslint/parser@8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3))(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)
+      '@typescript-eslint/parser': 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)
+      '@typescript-eslint/typescript-estree': 8.44.1(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.44.1(eslint@9.36.0(jiti@2.6.0))(typescript@5.9.3)
       eslint: 9.36.0(jiti@2.6.0)
-      typescript: 5.9.2
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
-  typescript@5.9.2: {}
+  typescript@5.9.3: {}
 
   uc.micro@2.1.0: {}
 
@@ -5972,9 +5980,9 @@ snapshots:
     dependencies:
       zod: 3.25.76
 
-  zod-to-ts@1.2.0(typescript@5.9.2)(zod@3.25.76):
+  zod-to-ts@1.2.0(typescript@5.9.3)(zod@3.25.76):
     dependencies:
-      typescript: 5.9.2
+      typescript: 5.9.3
       zod: 3.25.76
 
   zod@3.25.76: {}
