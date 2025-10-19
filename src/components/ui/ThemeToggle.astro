@@ -5,11 +5,21 @@ import { themeConfig } from '@/config'
 {
   themeConfig.general.themeToggle && (
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-      <span class="theme-toggle__option" data-theme="light">Light</span>
-      <span aria-hidden="true" class="theme-toggle__separator">·</span>
-      <span class="theme-toggle__option" data-theme="dark">Dark</span>
-      <span aria-hidden="true" class="theme-toggle__separator">·</span>
-      <span class="theme-toggle__option" data-theme="colorful">Colorful</span>
+      <span class="theme-toggle__option" data-theme="light">
+        Light
+      </span>
+      <span aria-hidden="true" class="theme-toggle__separator">
+        ·
+      </span>
+      <span class="theme-toggle__option" data-theme="dark">
+        Dark
+      </span>
+      <span aria-hidden="true" class="theme-toggle__separator">
+        ·
+      </span>
+      <span class="theme-toggle__option" data-theme="colorful">
+        Colorful
+      </span>
     </button>
   )
 }
@@ -73,7 +83,9 @@ import { themeConfig } from '@/config'
     color: inherit;
     opacity: 0.55;
     font-weight: var(--font-weight-light);
-    transition: opacity 0.2s ease, color 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      color 0.2s ease;
   }
 
   .theme-toggle__option::after {
@@ -87,7 +99,9 @@ import { themeConfig } from '@/config'
     opacity: 0;
     transform: scaleX(0.4);
     transform-origin: center;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
   }
 
   .theme-toggle:hover .theme-toggle__option {

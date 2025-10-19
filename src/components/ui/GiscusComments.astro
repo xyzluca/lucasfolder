@@ -145,9 +145,25 @@ const { comments } = themeConfig
 
 <script>
   // Custom giscus theme integration for your site
+  const GISCUS_ORIGIN = 'https://giscus.app'
+
+  function getGiscusIframe() {
+    return document.querySelector<HTMLIFrameElement>('iframe.giscus-frame')
+  }
+
   function updateGiscusTheme() {
-    const iframe = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame')
+    const iframe = getGiscusIframe()
     if (!iframe) return
+
+    let iframeOrigin: string | null = null
+    try {
+      iframeOrigin = new URL(iframe.src).origin
+    } catch (_) {
+      // Ignore invalid URLs (iframe not ready yet)
+      return
+    }
+
+    if (iframeOrigin !== GISCUS_ORIGIN) return
 
     // Detect current theme by checking if 'dark' class is on html element
     const isDark =
@@ -167,7 +183,7 @@ const { comments } = themeConfig
           }
         }
       },
-      'https://giscus.app'
+      iframeOrigin
     )
   }
 
@@ -196,6 +212,13 @@ const { comments } = themeConfig
 
   // Listen for system theme changes
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateGiscusTheme)
+
+  // Trigger theme sync once giscus injects the iframe
+  const commentsContainer = document.getElementById('giscus-comments')
+  if (commentsContainer) {
+    const iframeObserver = new MutationObserver(() => updateGiscusTheme())
+    iframeObserver.observe(commentsContainer, { childList: true, subtree: true })
+  }
 
   // Initial theme setup
   setTimeout(updateGiscusTheme, 500)

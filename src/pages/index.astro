@@ -2,7 +2,6 @@
 import IndexLayout from '@/layouts/IndexLayout.astro'
 import About from '@/components/widgets/About.astro'
 import PostList from '@/components/widgets/PostList.astro'
-import WorkExperience from '@/components/widgets/WorkExperience.astro'
 import { themeConfig } from '@/config'
 import { getSortedFilteredPosts } from '@/utils/draft'
 import { getCollection } from 'astro:content'
@@ -26,9 +25,11 @@ const sortedProjects = projects.sort((a, b) => b.data.pubDate.getTime() - a.data
     <PostList posts={sortedPosts} />
   </main>
 
-  <section class="work-section">
-    <h2>Work</h2>
-    <WorkExperience />
+  <section id="work" class="work-section">
+    <h2>Current</h2>
+    <p>General IT operations, e-commerce platform management, and e-learning system development for a intralogistics company.</p>
+    <h2>Education</h2>
+    <p>B. Sc. in Computer Science at Rheinische Hochschule Köln with a focus in AI Solution Development</p>
   </section>
 
   <section id="projects" class="projects-section">

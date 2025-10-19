@@ -552,6 +552,14 @@
   margin: 0.25em 0 0 0;
 }
 
+.prose iframe[data-youtube-orientation='vertical'] {
+  aspect-ratio: 9/16;
+  /* Auf großen Screens schmaler anzeigen und zentrieren */
+  width: min(100%, 360px);
+  display: block;
+  margin: 0.25em auto 0;
+}
+
 /* Spotify */
 .prose iframe[src*='spotify.com'] {
   aspect-ratio: auto;

@@ -27,7 +27,7 @@ I'm following a structured development process with clear phases:
 
 - **Phase 1**: Foundation setup with Next.js and mapping functionality
 - **Phase 2**: OpenStreetMap integration via Overpass API
-![Card-The-City](../_assets/card-the-city.png)
+  ![Card-The-City](../_assets/card-the-city.webp)
 
 - **Phase 3**: Persona generation algorithm and card UI
 - **Phase 4**: Interactive features and sharing capabilities

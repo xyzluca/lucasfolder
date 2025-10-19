@@ -42,23 +42,20 @@ const embedHandlers = {
     }
     let embedUrl = url.replace('open.spotify.com/', 'open.spotify.com/embed/')
     if (!embedUrl.includes('utm_source=')) {
-      embedUrl += (embedUrl.includes('?') ? '&' : '?') + 'utm_source=generator'
+      embedUrl += (embedUrl.includes('?') ? '&' : '?') + 'utm_source=generator&theme=0'
     }
 
     let height = '152'
     if (
       url.includes('/album/') ||
-      url.includes('/playlist/') ||
       url.includes('/artist/') ||
-      url.includes('/show/')
-    ) {
+      url.includes('/show/')    ) {
       height = '352'
     }
 
     return `
     <figure>
       <iframe
-        style="border-radius:12px"
         src="${embedUrl}"
         width="100%"
         height="${height}"
@@ -104,13 +101,13 @@ const embedHandlers = {
       return false
     }
 
-    const embedUrl = isShort
-      ? `https://www.youtube.com/embed/shorts/${videoId}?playsinline=1`
-      : `https://www.youtube.com/embed/${videoId}`
+    // Verwende den Standard-Embed auch für Shorts, da /embed/shorts teilweise Playback-Fehler verursacht
+    const embedUrl = `https://www.youtube.com/embed/${videoId}${isShort ? '?playsinline=1' : ''}`
 
     return `
     <figure>
       <iframe
+        data-embed="youtube"
         style="border-radius:6px"
         src="${embedUrl}"
         title="YouTube video player"
@@ -118,7 +115,6 @@ const embedHandlers = {
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen
-        data-embed="youtube"
         data-youtube-orientation="${isShort ? 'vertical' : 'horizontal'}"
       ></iframe>
     </figure>
@@ -141,7 +137,8 @@ const embedHandlers = {
     return `
     <figure>
       <iframe
-        style="border-radius:6px"
+        data-embed="bilibili"
+        style="border-radius:0px"
         src="//player.bilibili.com/player.html?isOutside=true&bvid=${bvid}&p=1&autoplay=0&muted=0"
         title="Bilibili video player"
         loading="lazy"

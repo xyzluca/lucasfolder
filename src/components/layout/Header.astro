@@ -1,15 +1,11 @@
 ---
 import { themeConfig } from '@/config'
-import ThemeToggle from '@/components/ui/ThemeToggle.astro'
-import WeatherLocation from '@/components/ui/WeatherLocation.astro'
 ---
 
 <header>
   <nav>
     <a href="/">{themeConfig.site.title}</a>
-    <ThemeToggle />
   </nav>
-  {themeConfig.general.weatherLocation && <WeatherLocation />}
 </header>
 <style>
   header {

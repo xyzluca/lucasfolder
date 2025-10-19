@@ -126,7 +126,9 @@ const ogImage = '/open-graph/gallery.png'
 
     document.addEventListener('gallery:filter-change', (event) => {
       const detail =
-        event && typeof event === 'object' && 'detail' in event ? (event as CustomEvent).detail : null
+        event && typeof event === 'object' && 'detail' in event
+          ? (event as CustomEvent).detail
+          : null
       const filter =
         detail && typeof detail === 'object' && typeof detail.filter === 'string'
           ? detail.filter
@@ -157,7 +159,9 @@ const ogImage = '/open-graph/gallery.png'
 
     document.addEventListener('gallery:ready', (event) => {
       const detail =
-        event && typeof event === 'object' && 'detail' in event ? (event as CustomEvent).detail : null
+        event && typeof event === 'object' && 'detail' in event
+          ? (event as CustomEvent).detail
+          : null
       const filter =
         detail && typeof detail === 'object' && typeof detail.filter === 'string'
           ? detail.filter
@@ -174,7 +178,6 @@ const ogImage = '/open-graph/gallery.png'
     if (layoutBtn) (layoutBtn as HTMLElement).click()
   })
 </script>
-
 
 <style>
   .post-container {

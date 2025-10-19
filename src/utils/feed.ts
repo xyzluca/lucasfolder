@@ -15,8 +15,18 @@ const markdownParser = new MarkdownIt({
 })
 
 const imagesGlob = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/content/posts/_assets/**/*.{jpeg,jpg,png,gif,webp}'
+  [
+    '/src/content/posts/**/*.{jpeg,jpg,png,gif,webp}',
+    '/src/content/_assets/**/*.{jpeg,jpg,png,gif,webp}'
+  ],
+  { eager: false }
 )
+
+const toSitePath = (absolutePath: string) =>
+  absolutePath
+    .replace('/src/content/posts/', '/')
+    .replace('/src/content/', '/')
+    .replace(/\/{2,}/g, '/')
 
 /**
  * Fix relative image paths in HTML content and convert them to absolute URLs
@@ -62,8 +72,8 @@ async function fixRelativeImagePaths(
           // In development environment, don't process images, use original paths to ensure cross-platform compatibility
           if (import.meta.env.DEV) {
             // Development environment: use relative paths
-            const relativePath = resolvedPath.replace('/src/content/posts/', '/')
-            const imageUrl = new URL(relativePath, baseUrl).toString()
+            const sitePath = toSitePath(resolvedPath)
+            const imageUrl = new URL(sitePath, baseUrl).toString()
             img.setAttribute('src', imageUrl)
           } else {
             // Production environment: use getImage optimization
@@ -79,8 +89,8 @@ async function fixRelativeImagePaths(
         } catch (error) {
           console.error(`[Feed] Image processing failed: ${src} -> ${resolvedPath}`, error)
           // Use original path as fallback when error occurs
-          const relativePath = resolvedPath.replace('/src/content/posts/', '/')
-          const imageUrl = new URL(relativePath, baseUrl).toString()
+          const sitePath = toSitePath(resolvedPath)
+          const imageUrl = new URL(sitePath, baseUrl).toString()
           img.setAttribute('src', imageUrl)
         }
       } else {

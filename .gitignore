@@ -30,3 +30,7 @@ pnpm-debug.log*
 # Vercel build output
 .vercel/
 
+# content assets
+
+/content/_assets/
+

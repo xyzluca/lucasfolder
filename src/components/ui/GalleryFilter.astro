@@ -31,11 +31,7 @@ const { categories, specialFilters = ['all', 'photos'] } = Astro.props
       {
         categories.map((category) => (
           <li class="gallery-filter-item">
-            <button
-              class="gallery-filter-link"
-              data-filter={category}
-              data-text={category}
-            >
+            <button class="gallery-filter-link" data-filter={category} data-text={category}>
               {category}
             </button>
           </li>
@@ -273,7 +269,6 @@ const { categories, specialFilters = ['all', 'photos'] } = Astro.props
     window.addEventListener('resize', handleResize)
   })()
 </script>
-
 
 <style is:inline>
   /* Mobile first: hidden by default */
