@@ -71,34 +71,60 @@ const embedHandlers = {
     `
   },
 
-  // Youtube
+  // YouTube
   youtube: (node) => {
     let videoId = node.attributes?.id ?? ''
     const url = node.attributes?.url ?? ''
 
+    const shortAttr = node.attributes?.short ?? node.attributes?.shorts
+    const normalizeBoolean = (value) => {
+      if (typeof value === 'boolean') return value
+      if (typeof value === 'string') {
+        return ['true', '1', 'short', 'vertical'].includes(value.toLowerCase())
+      }
+      return false
+    }
+
+    let isShort = normalizeBoolean(shortAttr)
+
     if (!videoId && url) {
-      const match = url.match(/(?:v=|\/embed\/|youtu\.be\/)([\w-]{11})/)
-      if (match) videoId = match[1]
+      const shortMatch = url.match(/(?:youtube\.com\/shorts\/|youtu\.be\/shorts\/)([\w-]{11})/)
+      if (shortMatch) {
+        videoId = shortMatch[1]
+        isShort = true
+      } else {
+        const match = url.match(/(?:v=|\/embed\/|youtu\.be\/)([\w-]{11})/)
+        if (match) {
+          videoId = match[1]
+        }
+      }
     }
 
     if (!videoId) {
       return false
     }
 
+    const embedUrl = isShort
+      ? `https://www.youtube.com/embed/shorts/${videoId}?playsinline=1`
+      : `https://www.youtube.com/embed/${videoId}`
+
     return `
     <figure>
       <iframe
         style="border-radius:6px"
-        src="https://www.youtube.com/embed/${videoId}"
+        src="${embedUrl}"
         title="YouTube video player"
         loading="lazy"
         frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen
+        data-embed="youtube"
+        data-youtube-orientation="${isShort ? 'vertical' : 'horizontal'}"
       ></iframe>
     </figure>
     `
   },
+
 
   // Bilibili
   bilibili: (node) => {
