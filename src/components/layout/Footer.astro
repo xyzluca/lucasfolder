@@ -5,23 +5,24 @@ const today = new Date()
 
 <footer>
   <div class="footer-content">
-    <div class="copyright">
-      <span class="date">
-        &copy;
-        {today.getFullYear()}
-      </span>
-      {themeConfig.site.author}
-    </div>
     <div class="social-links">
-      <a href="https://github.com/xyzluca">GitHub</a> •{' '}
-      <a href="https://www.linkedin.com/in/lucakursawe/">LinkedIn</a> •{' '}
-      <a href="https://unsplash.com/@lucasfolder">Unsplash</a>
-      <a href="https://lucasfolder.substack.com/"> • Substack</a>
-      <a href="https://www.instagram.com/lucasfolder/"> • Instagram</a>
-      <a href="https://www.youtube.com/@lucasfolder"> • YouTube</a>
-      <a href="https://tiktok.com/@lucasfoldertt"> • TikTok</a>
-      <a href="https://www.lucakursawe.xyz/rss.xml"> • RSS</a>
+      <div class="social-row">
+        <a href="https://github.com/xyzluca">GitHub</a> •{' '}
+        <a href="https://www.lucakursawe.xyz/rss.xml">RSS</a> •{' '}
+        <a href="https://lucasfolder.substack.com/">Substack</a> •{' '}
+        <a href="https://www.linkedin.com/in/lucakursawe/">LinkedIn</a> •{' '}
+        <a href="https://bsky.app/profile/lucasfolder.bsky.social">Bluesky</a> •{' '}
+        <a rel="me" href="https://mastodon.social/@lucasfolder">Mastodon</a>
+      </div>
+      <div class="social-row">
+        <a href="https://threads.com/lucasfolder">Twitter</a> •{' '}
+        <a href="https://unsplash.com/@lucasfolder">Unsplash</a> •{' '}
+        <a href="https://www.instagram.com/lucasfolder/">Instagram</a> •{' '}
+        <a href="https://www.youtube.com/@lucasfolder">YouTube</a> •{' '}
+        <a href="https://tiktok.com/@lucasfoldertt">TikTok</a>
+      </div>
     </div>
+  </div>
   </div>
 </footer>
 <style>
@@ -43,26 +44,16 @@ const today = new Date()
     width: 100%;
   }
 
-  .social-links,
+  .social-row {
+    text-align: center;
+  }
+
   .copyright,
   .powered-by {
     white-space: nowrap;
   }
 
-  .social-links {
-    order: 1;
-  }
 
-  @media (min-width: 768px) {
-    .footer-content {
-      flex-direction: row;
-      gap: 0;
-    }
-
-    .social-links {
-      order: 0;
-    }
-  }
 
   .copyright .date {
     opacity: 1;
