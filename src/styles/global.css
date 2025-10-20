@@ -22,7 +22,7 @@
 }
 .gallery-bar button {
   background: none;
-  border: 1px solid var(--color-border, #333);
+  border: 1px solid var(--color-border, #D7F5D3);
   padding: 0.4rem 0.75rem;
   border-radius: 999px;
   font-size: 0.7rem;
@@ -33,11 +33,11 @@
   line-height: 1;
 }
 .gallery-bar button.is-active {
-  background: var(--color-accent, #444);
+  background: var(--color-accent, #D7F5D3);
   color: var(--color-bg, #fff);
 }
 .gallery-bar button:focus-visible {
-  outline: 2px solid var(--color-accent, #666);
+  outline: 2px solid var(--color-accent, #D7F5D3);
   outline-offset: 2px;
 }
 
@@ -90,7 +90,7 @@
   --border: rgba(0, 0, 0, 0.1);
   --selection: rgba(0, 0, 0, 0.08);
   --code-bg: rgba(0, 0, 0, 0.04);
-  --mark: #f3ffc4;
+  --mark: #D7F5D3;
 
   /* Syntax Theme */
   --astro-code-foreground: rgba(0, 0, 0, 0.85);
