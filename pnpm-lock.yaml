@@ -48,8 +48,8 @@ importers:
         specifier: ^0.16.24
         version: 0.16.24
       lucide-astro:
-        specifier: ^0.545.0
-        version: 0.545.0(astro@5.14.6(@netlify/blobs@10.1.0)(@types/node@24.7.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.4)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))
+        specifier: ^0.548.0
+        version: 0.548.0(astro@5.14.6(@netlify/blobs@10.1.0)(@types/node@24.7.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.4)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -2526,8 +2526,8 @@ packages:
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
 
-  lucide-astro@0.545.0:
-    resolution: {integrity: sha512-KBSQTlW4e+tT6DvWEWcqxWa2WubWdqhLG7/WQgnAawQ29ZAEUfTqo2At9IW9xlrG1k8qrVwzeGQfeumiMsgI6Q==}
+  lucide-astro@0.548.0:
+    resolution: {integrity: sha512-ZfYkQgGZS+MkguatE7BpqeF1v1HamiANuGNCWLaN8a2H1z+RQkSdTxzbxpRJJ+eRtotpre823gH3az6GFjp1fg==}
     peerDependencies:
       astro: '>=2.7.1'
 
@@ -3349,6 +3349,7 @@ packages:
   sitemap@8.0.0:
     resolution: {integrity: sha512-+AbdxhM9kJsHtruUF39bwS/B0Fytw6Fr1o4ZAIAEqA6cke2xcoO2GleBw9Zw7nRzILVEgz7zBM5GiTJjie1G9A==}
     engines: {node: '>=14.0.0', npm: '>=6.0.0'}
+    deprecated: 'SECURITY: Multiple vulnerabilities fixed in 8.0.1 (XML injection, path traversal, command injection, protocol injection). Upgrade immediately: npm install sitemap@8.0.1'
     hasBin: true
 
   slashes@3.0.12:
@@ -6851,7 +6852,7 @@ snapshots:
 
   lru-cache@10.4.3: {}
 
-  lucide-astro@0.545.0(astro@5.14.6(@netlify/blobs@10.1.0)(@types/node@24.7.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.4)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)):
+  lucide-astro@0.548.0(astro@5.14.6(@netlify/blobs@10.1.0)(@types/node@24.7.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.4)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)):
     dependencies:
       astro: 5.14.6(@netlify/blobs@10.1.0)(@types/node@24.7.2)(@vercel/functions@2.2.13)(jiti@2.6.0)(rollup@4.52.4)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
 
