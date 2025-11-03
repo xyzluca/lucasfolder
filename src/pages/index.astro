@@ -25,13 +25,6 @@ const sortedProjects = projects.sort((a, b) => b.data.pubDate.getTime() - a.data
     <PostList posts={sortedPosts} />
   </main>
 
-  <section id="work" class="work-section">
-    <h2>Current</h2>
-    <p>General IT operations, e-commerce platform management, and e-learning system development for a intralogistics company.</p>
-    <h2>Education</h2>
-    <p>B. Sc. in Computer Science at Rheinische Hochschule Köln with a focus in AI Solution Development</p>
-  </section>
-
   <section id="projects" class="projects-section">
     <h2>Projects</h2>
     <PostList posts={sortedProjects} />
@@ -40,7 +33,7 @@ const sortedProjects = projects.sort((a, b) => b.data.pubDate.getTime() - a.data
 
 <style>
   .work-section,
-  .projects-section,
+  .project1s-section,
   .gallery-preview {
     margin: 3rem 0;
   }
