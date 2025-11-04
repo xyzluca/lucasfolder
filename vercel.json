@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/areyouhere(/.*)?",
+      "source": "/areyouhere/:path*",
       "destination": "https://areyouhere.vercel.app/:path*"
     }
   ]
