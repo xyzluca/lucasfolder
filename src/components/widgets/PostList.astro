@@ -5,7 +5,6 @@ import { themeConfig } from '@/config'
 
 const { posts } = Astro.props as PostListProps
 
-// Helper function to determine if item is a project
 function isProject(item: any): boolean {
   return item.collection === 'projects'
 }
@@ -13,41 +12,69 @@ function isProject(item: any): boolean {
 
 <ul>
   {
-    posts.map((post) => (
-      <li>
-        <a href={`/${post.id}/`}>
-          <div
-            class={`post-item ${!themeConfig.date.dateOnRight ? 'date-left' : ''} ${isProject(post) ? 'project-item' : ''}`}
+    posts.map((post) => {
+      // ✅ Type-safe check
+      const data: any = post.data
+      const hasUrl = 'url' in data && typeof data.url === 'string'
+      const href = hasUrl ? data.url as string : `/${post.id}/`
+      const isExternal = hasUrl && (data.url as string).startsWith('http')
+
+      return (
+        <li>
+          <a
+            href={href}
+            target={isExternal ? '_blank' : '_self'}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
           >
-            {!themeConfig.date.dateOnRight && (
-              <p class="date font-features">
-                <FormattedDate date={post.data.pubDate} context="list" />
-              </p>
-            )}
-            <div class="title-container">
-              <div class="content-info">
-                <p class="title">{post.data.title}</p>
-                {isProject(post) && 'description' in post.data && post.data.description && (
-                  <p class="description">{post.data.description}</p>
-                )}
+            <div
+              class={`post-item ${!themeConfig.date.dateOnRight ? 'date-left' : ''} ${
+                isProject(post) ? 'project-item' : ''
+              }`}
+            >
+              {!themeConfig.date.dateOnRight && (
+                <p class="date font-features">
+                  <FormattedDate date={post.data.pubDate} context="list" />
+                </p>
+              )}
+
+              <div class="title-container">
+                <div class="content-info">
+                  <p class="title">
+                    {post.data.title}
+                    {isExternal && (
+                      <span class="material-symbols-outlined text-xs align-middle opacity-50 ms-1">
+                    ↗
+                      </span>
+                    )}
+                  </p>
+                  {isProject(post) && 'description' in post.data && post.data.description && (
+                    <p class="description">{post.data.description}</p>
+                  )}
+                </div>
               </div>
+
+              {themeConfig.date.dateOnRight && (
+                <div
+                  class={
+                    themeConfig.general.postListDottedDivider
+                      ? 'dotted-divider'
+                      : 'divider'
+                  }
+                />
+              )}
+              {themeConfig.date.dateOnRight && (
+                <p class="date font-features">
+                  <FormattedDate date={post.data.pubDate} context="list" />
+                </p>
+              )}
             </div>
-            {themeConfig.date.dateOnRight && (
-              <div
-                class={themeConfig.general.postListDottedDivider ? 'dotted-divider' : 'divider'}
-              />
-            )}
-            {themeConfig.date.dateOnRight && (
-              <p class="date font-features">
-                <FormattedDate date={post.data.pubDate} context="list" />
-              </p>
-            )}
-          </div>
-        </a>
-      </li>
-    ))
+          </a>
+        </li>
+      )
+    })
   }
 </ul>
+
 <div class="placeholder"></div>
 
 <style>
