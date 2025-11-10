@@ -1,0 +1,126 @@
+/* ============================================
+   Blocks Page Styles
+   Are.na-inspired content collection
+   ============================================ */
+
+/* Block Grid Hidden Items */
+.block-grid-item[hidden] {
+  display: none !important;
+}
+
+/* Block Type Variants */
+.block-text {
+  min-height: 120px;
+}
+
+.block-image-link {
+  position: relative;
+}
+
+.block-link {
+  min-height: 100px;
+}
+
+/* Responsive Image Handling */
+@media (max-width: 640px) {
+  .block-image {
+    max-height: 60vh;
+    object-fit: cover;
+  }
+}
+
+/* Block Hover Effects */
+.block:hover .block-tags {
+  opacity: 1;
+}
+
+.block-tags {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+/* Smooth Filter Transitions */
+.block-grid-item {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.block-grid-item[hidden] {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+}
+
+/* Loading States */
+.block-image {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.block-image[src] {
+  animation: none;
+  background: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Fancybox Custom Styling */
+.fancybox__container {
+  --fancybox-accent-color: var(--text-primary);
+  --fancybox-bg: rgba(255, 255, 255, 0.97);
+}
+
+/* Dark mode support (if added later) */
+@media (prefers-color-scheme: dark) {
+  .fancybox__container {
+    --fancybox-bg: rgba(0, 0, 0, 0.95);
+  }
+}
+
+/* Block Link Domain Favicon */
+.block-link-domain::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 0.325rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}
+
+/* Accessible Focus States */
+.block:focus-within {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
+}
+
+/* Block Grid Masonry Adjustments */
+@supports (grid-template-rows: masonry) {
+  .block-grid {
+    grid-template-rows: masonry;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .block-filter-container {
+    display: none;
+  }
+
+  .block {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .block-image-overlay {
+    opacity: 1;
+  }
+}

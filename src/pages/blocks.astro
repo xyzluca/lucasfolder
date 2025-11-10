@@ -1,0 +1,152 @@
+---
+import '@/styles/global.css'
+import '@/styles/blocks.css'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import BaseHead from '@/components/layout/BaseHead.astro'
+import BackButton from '@/components/ui/BackButton.astro'
+import BlockGrid from '@/components/ui/BlockGrid.astro'
+import BlockFilter from '@/components/ui/BlockFilter.astro'
+import Footer from '@/components/layout/Footer.astro'
+import ImageOptimizer from '@/components/ui/ImageOptimizer.astro'
+import FootnoteScroll from '@/components/widgets/FootnoteScroll.astro'
+import CopyCode from '@/components/ui/CopyCode.astro'
+import { getCollection } from 'astro:content'
+import { themeConfig } from '@/config'
+
+// Fetch all blocks and sort by date (newest first)
+const allBlocks = await getCollection('blocks')
+const blocks = allBlocks.sort((a, b) => {
+  const dateA = new Date(a.data.createdAt).getTime()
+  const dateB = new Date(b.data.createdAt).getTime()
+  return dateB - dateA
+})
+
+// Extract unique tags and types for filtering
+const allTags = new Set<string>()
+const allTypes = new Set<string>()
+
+blocks.forEach((block) => {
+  allTypes.add(block.data.type)
+  block.data.tags?.forEach((tag) => allTags.add(tag))
+})
+
+const uniqueTags = Array.from(allTags).sort()
+const uniqueTypes = Array.from(allTypes).sort()
+
+const title = 'Blocks'
+const description = 'An Are.na-inspired collection of thoughts, links, images, and ideas.'
+const ogImage = '/open-graph/blocks.png'
+---
+
+<BaseLayout type="page" title={`${title} · ${themeConfig.site.title}`} description={description} fullWidth={true} hideHeader={true}>
+  <BaseHead
+    title={`${title} · ${themeConfig.site.title}`}
+    description={description}
+    ogImage={ogImage}
+    slot="head"
+  />
+  <div class="blocks-fullscreen">
+    <!-- Custom Navigation Bar -->
+    <nav class="blocks-nav">
+      <a href="/" class="blocks-nav-home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span>Home</span>
+      </a>
+      <span class="blocks-nav-title">Blocks</span>
+    </nav>
+
+    <!-- Block Grid -->
+    <BlockGrid blocks={blocks} />
+
+    <!-- Footer is positioned absolutely at the bottom of the grid -->
+    <div class="blocks-footer-wrapper">
+      <Footer />
+    </div>
+  </div>
+</BaseLayout>
+
+<!-- Load Fancybox for image lightbox -->
+<script is:inline>
+  (async () => {
+    const Fancybox = await (await import('/src/utils/fancybox-loader.ts')).loadFancybox()
+    if (!document.querySelector('link[data-fancybox-css]')) {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = 'https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.css'
+      link.setAttribute('data-fancybox-css', 'true')
+      document.head.appendChild(link)
+    }
+    Fancybox.bind('[data-fancybox="blocks"]', {
+      theme: 'auto',
+      Carousel: { transition: 'slide' }
+    })
+  })()
+</script>
+
+<style>
+  .blocks-fullscreen {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+  }
+
+  /* Custom Navigation Bar */
+  .blocks-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem clamp(1.5rem, 4vw, 3rem);
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+
+  .blocks-nav-home {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #111;
+    font-weight: var(--font-weight-semibold, 600);
+    transition: opacity 0.2s ease;
+    font-size: var(--font-size-m, 1rem);
+  }
+
+  .blocks-nav-home:hover {
+    opacity: 0.7;
+  }
+
+  .blocks-nav-home svg {
+    flex-shrink: 0;
+  }
+
+  .blocks-nav-title {
+    font-size: var(--font-size-m, 1rem);
+    font-weight: var(--font-weight-semibold, 600);
+    color: #666;
+  }
+
+  .blocks-footer-wrapper {
+    padding: 3rem clamp(1.5rem, 4vw, 4rem);
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 640px) {
+    .blocks-nav {
+      padding: 1rem;
+    }
+
+    .blocks-nav-home span {
+      display: none;
+    }
+  }
+</style>

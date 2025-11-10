@@ -1,0 +1,314 @@
+---
+interface Props {
+  tags: string[]
+  types?: string[]
+}
+
+const { tags = [], types = [] } = Astro.props
+---
+
+<div class="block-filter-container" id="block-filter">
+  <!-- Filter Controls -->
+  <div class="block-filter-controls">
+    {types.length > 0 && (
+      <div class="block-filter-group">
+        <label class="block-filter-label">Type</label>
+        <div class="block-filter-buttons">
+          <button class="block-filter-btn active" data-type-filter="all">
+            All
+          </button>
+          {types.map((type) => (
+            <button class="block-filter-btn" data-type-filter={type}>
+              {type.charAt(0).toUpperCase() + type.slice(1)}
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {tags.length > 0 && (
+      <div class="block-filter-group">
+        <label class="block-filter-label">Tags</label>
+        <div class="block-filter-buttons">
+          <button class="block-filter-btn active" data-tag-filter="all">
+            All
+          </button>
+          {tags.map((tag) => (
+            <button class="block-filter-btn" data-tag-filter={tag}>
+              #{tag}
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+
+  <!-- Results Count -->
+  <div class="block-filter-results" id="block-filter-results">
+    <span class="results-count"></span>
+  </div>
+</div>
+
+<script>
+  const FILTER_CHANGE_EVENT = 'blocks:filter-change'
+
+  interface FilterState {
+    typeFilter: string
+    tagFilter: string
+  }
+
+  class BlockFilter {
+    private state: FilterState = {
+      typeFilter: 'all',
+      tagFilter: 'all'
+    }
+
+    private typeButtons: NodeListOf<HTMLButtonElement> | null = null
+    private tagButtons: NodeListOf<HTMLButtonElement> | null = null
+    private resultsElement: HTMLElement | null = null
+
+    init() {
+      this.typeButtons = document.querySelectorAll('[data-type-filter]')
+      this.tagButtons = document.querySelectorAll('[data-tag-filter]')
+      this.resultsElement = document.getElementById('block-filter-results')
+
+      this.attachEventListeners()
+      this.loadFromURL()
+      this.applyFilters()
+    }
+
+    private attachEventListeners() {
+      // Type filter buttons
+      this.typeButtons?.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const type = btn.dataset.typeFilter || 'all'
+          this.setTypeFilter(type)
+        })
+      })
+
+      // Tag filter buttons
+      this.tagButtons?.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const tag = btn.dataset.tagFilter || 'all'
+          this.setTagFilter(tag)
+        })
+      })
+    }
+
+    private setTypeFilter(type: string) {
+      this.state.typeFilter = type
+      this.updateActiveButtons(this.typeButtons, type, 'typeFilter')
+      this.updateURL()
+      this.applyFilters()
+    }
+
+    private setTagFilter(tag: string) {
+      this.state.tagFilter = tag
+      this.updateActiveButtons(this.tagButtons, tag, 'tagFilter')
+      this.updateURL()
+      this.applyFilters()
+    }
+
+    private updateActiveButtons(
+      buttons: NodeListOf<HTMLButtonElement> | null,
+      value: string,
+      filterType: 'typeFilter' | 'tagFilter'
+    ) {
+      buttons?.forEach((btn) => {
+        const dataAttr = filterType === 'typeFilter' ? 'typeFilter' : 'tagFilter'
+        const btnValue = btn.dataset[dataAttr] || 'all'
+        btn.classList.toggle('active', btnValue === value)
+      })
+    }
+
+    private applyFilters() {
+      const blocks = document.querySelectorAll('.block-grid-item')
+      let visibleCount = 0
+
+      blocks.forEach((block) => {
+        const blockElement = block as HTMLElement
+        const blockType = blockElement.dataset.blockType || ''
+        const blockTags = blockElement.querySelector('[data-tags]')?.getAttribute('data-tags') || ''
+        const blockTagsArray = blockTags ? blockTags.split(',') : []
+
+        const typeMatch =
+          this.state.typeFilter === 'all' || blockType === this.state.typeFilter
+
+        const tagMatch =
+          this.state.tagFilter === 'all' || blockTagsArray.includes(this.state.tagFilter)
+
+        const shouldShow = typeMatch && tagMatch
+
+        if (shouldShow) {
+          blockElement.removeAttribute('hidden')
+          visibleCount++
+        } else {
+          blockElement.setAttribute('hidden', '')
+        }
+      })
+
+      this.updateResultsCount(visibleCount)
+      this.dispatchFilterChange()
+    }
+
+    private updateResultsCount(count: number) {
+      const countElement = this.resultsElement?.querySelector('.results-count')
+      if (countElement) {
+        countElement.textContent = `${count} block${count !== 1 ? 's' : ''}`
+      }
+    }
+
+    private updateURL() {
+      const url = new URL(window.location.href)
+      
+      if (this.state.typeFilter === 'all') {
+        url.searchParams.delete('type')
+      } else {
+        url.searchParams.set('type', this.state.typeFilter)
+      }
+
+      if (this.state.tagFilter === 'all') {
+        url.searchParams.delete('tag')
+      } else {
+        url.searchParams.set('tag', this.state.tagFilter)
+      }
+
+      history.replaceState({}, '', url.toString())
+    }
+
+    private loadFromURL() {
+      const url = new URL(window.location.href)
+      const typeParam = url.searchParams.get('type')
+      const tagParam = url.searchParams.get('tag')
+
+      if (typeParam) {
+        this.state.typeFilter = typeParam
+        this.updateActiveButtons(this.typeButtons, typeParam, 'typeFilter')
+      }
+
+      if (tagParam) {
+        this.state.tagFilter = tagParam
+        this.updateActiveButtons(this.tagButtons, tagParam, 'tagFilter')
+      }
+    }
+
+    private dispatchFilterChange() {
+      document.dispatchEvent(
+        new CustomEvent(FILTER_CHANGE_EVENT, {
+          detail: {
+            typeFilter: this.state.typeFilter,
+            tagFilter: this.state.tagFilter
+          }
+        })
+      )
+    }
+  }
+
+  // Initialize
+  function setupBlockFilter() {
+    const filter = new BlockFilter()
+    filter.init()
+  }
+
+  setupBlockFilter()
+  document.addEventListener('astro:page-load', setupBlockFilter)
+</script>
+
+<style>
+  .block-filter-container {
+    width: 100%;
+    padding: 2rem clamp(1.5rem, 4vw, 4rem);
+    max-width: 1400px;
+    margin: 0 auto;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--bg);
+  }
+
+  .block-filter-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .block-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .block-filter-label {
+    font-size: var(--font-size-s);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .block-filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .block-filter-btn {
+    padding: 0.5rem 1rem;
+    font-size: var(--font-size-s);
+    font-family: var(--sans);
+    background: transparent;
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .block-filter-btn:hover {
+    background: color-mix(in srgb, var(--selection, #e0e7ff) 50%, transparent);
+    border-color: var(--text-primary);
+  }
+
+  .block-filter-btn.active {
+    background: var(--text-primary);
+    color: var(--bg);
+    border-color: var(--text-primary);
+  }
+
+  .block-filter-results {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+  }
+
+  .results-count {
+    font-size: var(--font-size-s);
+    color: var(--text-secondary);
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 640px) {
+    .block-filter-container {
+      padding: 1.5rem 1rem 1rem;
+    }
+
+    .block-filter-btn {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  /* Desktop layout */
+  @media (min-width: 1024px) {
+    .block-filter-container {
+      padding: 2rem clamp(2rem, 5vw, 5rem);
+    }
+
+    .block-filter-controls {
+      flex-direction: row;
+      gap: 3rem;
+    }
+
+    .block-filter-group {
+      flex: 1;
+    }
+  }
+</style>

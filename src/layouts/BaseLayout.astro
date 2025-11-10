@@ -5,9 +5,9 @@ import TransitionWrapper from '@/components/layout/TransitionWrapper.astro'
 import Header from '@/components/layout/Header.astro'
 import type { LayoutProps } from '@/types'
 
-type Props = LayoutProps & { fullWidth?: boolean }
+type Props = LayoutProps & { fullWidth?: boolean; hideHeader?: boolean }
 
-const { type = 'page', fullWidth = false } = Astro.props as Props
+const { type = 'page', fullWidth = false, hideHeader = false } = Astro.props as Props
 const language = themeConfig.site.language || 'en-US'
 const contentWidth = themeConfig.general.contentWidth
 const fadeAnimation = themeConfig.general.fadeAnimation
@@ -20,6 +20,7 @@ const finalWidth = shouldUseCustomWidth ? `${widthValue}rem` : '25rem'
   <head>
     {fadeAnimation && <ClientRouter />}
     <slot name="head" />
+    <script async src="//www.instagram.com/embed.js"></script>
   </head>
   <body
     data-centered={themeConfig.general.centeredLayout}
@@ -31,7 +32,7 @@ const finalWidth = shouldUseCustomWidth ? `${widthValue}rem` : '25rem'
     `
       : ''}
   >
-    <Header />
+    {!hideHeader && <Header />}
 
     {
       fadeAnimation ? (

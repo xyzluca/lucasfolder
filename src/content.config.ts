@@ -53,4 +53,31 @@ const projects = defineCollection({
     })
 })
 
-export const collections = { posts, about, work, projects }
+const blocks = defineCollection({
+  // Load JSON files for Are.na-style content blocks
+  loader: glob({ base: './src/content/blocks', pattern: '**/*.json' }),
+  schema: () =>
+    z.object({
+      type: z.enum(['image', 'video', 'link', 'text', 'audio', 'document']),
+      title: z.string().optional(),
+      description: z.string().optional(),
+      content: z.string().optional(),
+      url: z.string().optional(),
+      thumbnail: z.string().optional(),
+      color: z.enum(['default', 'blue', 'green', 'pink', 'orange', 'yellow', 'purple']).optional(),
+      metadata: z
+        .object({
+          siteName: z.string().optional(),
+          favicon: z.string().optional(),
+          author: z.string().optional(),
+          date: z.string().optional()
+        })
+        .optional(),
+      tags: z.array(z.string()).optional(),
+      createdAt: z.coerce.date(),
+      width: z.number().optional(),
+      height: z.number().optional()
+    })
+})
+
+export const collections = { posts, about, work, projects, blocks }

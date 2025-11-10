@@ -1,0 +1,168 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import Block from './Block.astro'
+
+interface Props {
+  blocks: CollectionEntry<'blocks'>[]
+  minColWidth?: number
+  gutter?: number
+}
+
+const {
+  blocks = [],
+  minColWidth = 320,
+  gutter = 16
+} = Astro.props as Props
+---
+
+<div class="block-grid-wrapper">
+  <div 
+    class="block-grid" 
+    style={`--gutter: ${gutter}px; --min-col-width: ${minColWidth}px;`}
+  >
+    {blocks.map((block, index) => (
+      <div 
+        class="block-grid-item" 
+        data-index={index}
+        data-block-type={block.data.type}
+      >
+        <Block block={block} />
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  // Intersection Observer for reveal animation
+  function setupBlockGrid() {
+    const blockItems = document.querySelectorAll('.block-grid-item')
+    
+    if (blockItems.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      {
+        rootMargin: '50px',
+        threshold: 0.1
+      }
+    )
+
+    blockItems.forEach((item) => observer.observe(item))
+  }
+
+  // Run on initial load and after navigation
+  setupBlockGrid()
+  document.addEventListener('astro:page-load', setupBlockGrid)
+</script>
+
+<style>
+  .block-grid-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .block-grid {
+    --gutter: 20px;
+    --min-col-width: 280px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--min-col-width), 1fr));
+    grid-auto-rows: 240px;
+    gap: var(--gutter);
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 3rem clamp(1.5rem, 4vw, 3rem) 5rem;
+  }
+
+  .block-grid-item {
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .block-grid-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger animation */
+  .block-grid-item:nth-child(1) { transition-delay: 0s; }
+  .block-grid-item:nth-child(2) { transition-delay: 0.05s; }
+  .block-grid-item:nth-child(3) { transition-delay: 0.1s; }
+  .block-grid-item:nth-child(4) { transition-delay: 0.15s; }
+  .block-grid-item:nth-child(n+5) { transition-delay: 0.2s; }
+
+  /* Dynamic spanning based on content type */
+  .block-grid-item[data-block-type="image"] {
+    grid-row: span 2;
+  }
+  
+  .block-grid-item[data-block-type="text"] {
+    grid-row: span 2;
+  }
+  
+  .block-grid-item[data-block-type="link"] {
+    grid-row: span 2;
+  }
+
+  .block-grid-item[data-block-type="video"] {
+    grid-row: span 2;
+  }
+
+  /* Responsive columns */
+  @media (max-width: 640px) {
+    .block-grid {
+      --min-col-width: 100%;
+      padding: 1.5rem 1rem 3rem;
+      gap: 1rem;
+      grid-auto-rows: auto;
+    }
+    
+    .block-grid-item[data-block-type="image"],
+    .block-grid-item[data-block-type="text"],
+    .block-grid-item[data-block-type="link"],
+    .block-grid-item[data-block-type="video"] {
+      grid-row: span 1;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .block-grid {
+      --min-col-width: 260px;
+      grid-auto-rows: 220px;
+      gap: 16px;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .block-grid {
+      --min-col-width: 300px;
+      gap: 24px;
+    }
+    
+    /* Create visual variety on larger screens */
+    .block-grid-item[data-block-type="text"]:nth-of-type(5n) {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+    
+    .block-grid-item[data-block-type="image"]:nth-of-type(3n) {
+      grid-row: span 3;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .block-grid {
+      --min-col-width: 320px;
+    }
+  }
+</style>
