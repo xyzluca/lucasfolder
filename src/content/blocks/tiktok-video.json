@@ -1,14 +1,17 @@
 {
-  "type": "link",
-  "title": "TikTok Video",
-  "description": "Video content from TikTok",
-  "url": "https://www.tiktok.com/@lucasfoldertt/video/7570831399238913302",
-  "color": "purple",
-  "ratio": "1x2",
-  "metadata": {
-    "siteName": "TikTok",
-    "author": "@lucasfoldertt"
-  },
-  "tags": ["video", "content"],
-  "createdAt": "2025-11-10T00:00:00Z"
+    "type": "link",
+    "title": "TikTok Video",
+    "description": "Video content from TikTok",
+    "url": "https://www.tiktok.com/@lucasfoldertt/video/7570831399238913302",
+    "color": "purple",
+    "ratio": "1x2",
+    "metadata": {
+        "siteName": "TikTok",
+        "author": "@lucasfoldertt"
+    },
+    "tags": [
+        "video",
+        "content"
+    ],
+    "createdAt": "2025-11-10T00:00:00Z"
 }
