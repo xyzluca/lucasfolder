@@ -1,17 +1,19 @@
 {
-    "type": "link",
-    "title": "TikTok Video",
-    "description": "Video content from TikTok",
-    "url": "https://www.tiktok.com/@lucasfoldertt/video/7570831399238913302",
+    "type": "video",
+    "title": "Late Night TikTok Loop",
+    "description": "Moody TikTok clip of headlights reflecting on a rainy Brooklyn street, looping on beat.",
+    "url": "https://www.tiktok.com/@lucakursawe/video/7333333333333333333",
+    "content": "https://www.tiktok.com/@lucakursawe/video/7333333333333333333",
     "color": "purple",
     "ratio": "1x2",
     "metadata": {
         "siteName": "TikTok",
-        "author": "@lucasfoldertt"
+        "author": "lucakursawe"
     },
     "tags": [
-        "video",
-        "content"
+        "tiktok",
+        "loop",
+        "night"
     ],
-    "createdAt": "2025-11-10T00:00:00Z"
+    "createdAt": "2024-11-10T00:00:00Z"
 }

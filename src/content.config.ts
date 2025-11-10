@@ -59,6 +59,7 @@ const blocks = defineCollection({
   schema: () =>
     z.object({
       type: z.enum(['image', 'video', 'link', 'text', 'audio', 'document']),
+      source: z.enum(['collected', 'personal']).default('collected'),
       title: z.string().optional(),
       description: z.string().optional(),
       content: z.string().optional(),

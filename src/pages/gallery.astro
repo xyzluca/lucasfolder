@@ -1,107 +1,119 @@
 ---
 import '@/styles/global.css'
+import '@/styles/blocks.css'
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import BackButton from '@/components/ui/BackButton.astro'
-import GalleryFilter from '@/components/ui/GalleryFilter.astro'
+import BlockGrid from '@/components/ui/BlockGrid.astro'
 import Footer from '@/components/layout/Footer.astro'
 import BaseHead from '@/components/layout/BaseHead.astro'
-import ImageOptimizer from '@/components/ui/ImageOptimizer.astro'
-import ImageViewer from '@/components/ui/ImageViewer.astro'
-import FootnoteScroll from '@/components/widgets/FootnoteScroll.astro'
-import CopyCode from '@/components/ui/CopyCode.astro'
-import GitHubCard from '@/components/ui/GitHubCard.astro'
-import LinkCard from '@/components/ui/LinkCard.astro'
-import NeoDBCard from '@/components/ui/NeoDBCard.astro'
-import XPOST from '@/components/ui/XPOST.astro'
-import JustifiedGallery from '@/components/ui/JustifiedGallery.astro'
-import MasonryGallery from '@/components/ui/MasonryGallery.astro'
-import { photos } from '@/data/photos'
+import { getCollection } from 'astro:content'
 import { themeConfig } from '@/config'
 
-const categories = Array.from(new Set(photos.map((p) => p.category).filter(Boolean))) as string[]
-const galleryImages = photos.map((p) => ({
-  id: p.id,
-  src: p.src,
-  alt: p.alt || p.title || p.id,
-  category: p.category
-}))
+// Fetch all blocks
+const allBlocks = await getCollection('blocks')
 
-// Special filter options
-const specialFilters = ['all', 'photos'] // 'photos' = all except Projects
+// Separate by source
+const personalBlocks = allBlocks
+  .filter((b) => b.data.source === 'personal')
+  .sort((a, b) => new Date(b.data.createdAt).getTime() - new Date(a.data.createdAt).getTime())
+
+const collectedBlocks = allBlocks
+  .filter((b) => b.data.source === 'collected')
+  .sort((a, b) => new Date(b.data.createdAt).getTime() - new Date(a.data.createdAt).getTime())
+
+const allBlocksSorted = [...personalBlocks, ...collectedBlocks]
 
 const title = 'Gallery'
-const description = 'Photography'
+const description = 'A collection of my work and curated content'
 const ogImage = '/open-graph/gallery.png'
 ---
 
-<BaseLayout type="post" title={`${title} · ${themeConfig.site.title}`} description={description}>
+<BaseLayout
+  type="page"
+  title={`${title} · ${themeConfig.site.title}`}
+  description={description}
+  fullWidth={true}
+  hideHeader={true}
+>
   <BaseHead
     title={`${title} · ${themeConfig.site.title}`}
     description={description}
     ogImage={ogImage}
     slot="head"
   />
-  <div class="post-container">
-    <main>
-      <div class="prose">
-        <BackButton />
-        <GalleryFilter categories={categories} specialFilters={specialFilters} />
-        <div class="title">
-          <h1>Gallery</h1>
-        </div>
-
-        <p>A collection of moments captured through my lens.</p>
-
-        <!-- Gallery Controls - Mobile Inline Filters + Layout Switcher -->
-        <div class="gallery-controls">
-          <div class="gallery-filters-mobile">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="photos">Photos</button>
-            {
-              categories.map((c) => (
-                <button class="filter-btn" data-filter={c}>
-                  {c}
-                </button>
-              ))
-            }
-          </div>
-          <div class="gallery-layouts">
-            <button class="layout-btn" data-layout="justified">Justified</button>
-            <button class="layout-btn active" data-layout="masonry">Masonry</button>
-          </div>
-        </div>
+  <div class="gallery-fullscreen">
+    <!-- Custom Navigation Bar -->
+    <nav class="gallery-nav">
+      <a href="/" class="gallery-nav-home">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span>Home</span>
+      </a>
+      <!-- Content Type Tabs in Nav -->
+      <div class="content-tabs">
+        <button class="tab-btn active" data-content="photos">My Content</button>
+        <button class="tab-btn" data-content="collected">Collected</button>
+        <button class="tab-btn" data-content="all">All</button>
       </div>
+    </nav>
 
-      <!-- Gallery Content - Constrained Width Like Other Pages -->
-      <div class="prose">
-        <div class="gallery-wrapper">
-          <div id="gallery-justified" class="gallery-pane" hidden>
-            <JustifiedGallery images={galleryImages} />
-          </div>
-          <div id="gallery-masonry" class="gallery-pane">
-            <MasonryGallery images={galleryImages} />
-          </div>
-        </div>
-      </div>
-    </main>
-    <ImageOptimizer />
-    <FootnoteScroll />
-    <CopyCode />
-    <GitHubCard />
-    <XPOST />
-    <NeoDBCard />
-    {themeConfig.post.imageViewer && <ImageViewer />}
-    {themeConfig.post.linkCard && <LinkCard />}
-    {themeConfig.general.footer && <Footer />}
+    <!-- My Content Section -->
+    <div id="personal-section">
+      <BlockGrid blocks={personalBlocks} />
+    </div>
+
+    <!-- Collected Section -->
+    <div id="collected-section" hidden>
+      <BlockGrid blocks={collectedBlocks} />
+    </div>
+
+    <!-- All Section -->
+    <div id="all-section" hidden>
+      <BlockGrid blocks={allBlocksSorted} />
+    </div>
+
+    <!-- Footer -->
+    <div class="gallery-footer-wrapper">
+      <Footer />
+    </div>
   </div>
 </BaseLayout>
 
+<!-- Load Fancybox for blocks image lightbox -->
+<script is:inline>
+  ;(async () => {
+    const Fancybox = await (await import('/src/utils/fancybox-loader.ts')).loadFancybox()
+    if (!document.querySelector('link[data-fancybox-css]')) {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = 'https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.css'
+      link.setAttribute('data-fancybox-css', 'true')
+      document.head.appendChild(link)
+    }
+    Fancybox.bind('[data-fancybox="blocks"]', {
+      theme: 'auto',
+      Carousel: { transition: 'slide' }
+    })
+  })()
+</script>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const filterButtons = document.querySelectorAll('.filter-btn')
-    const layoutButtons = document.querySelectorAll('.layout-btn')
-    const justifiedRoot = document.getElementById('gallery-justified')
-    const masonryRoot = document.getElementById('gallery-masonry')
+    const tabButtons = document.querySelectorAll('.tab-btn')
+    const personalSection = document.getElementById('personal-section')
+    const collectedSection = document.getElementById('collected-section')
+    const allSection = document.getElementById('all-section')
 
     function setActive(buttons: NodeListOf<Element>, target: Element) {
       buttons.forEach((btn) => {
@@ -109,185 +121,151 @@ const ogImage = '/open-graph/gallery.png'
       })
     }
 
-    function syncMobileFilters(filter: string) {
-      filterButtons.forEach((btn) => {
-        const element = btn as HTMLElement
-        const mobileFilter = element.dataset.filter || 'all'
-        element.classList.toggle('active', mobileFilter === filter)
-      })
-    }
-
-    filterButtons.forEach((btn) =>
+    // Tab switching
+    tabButtons.forEach((btn) =>
       btn.addEventListener('click', () => {
-        const filter = (btn as HTMLElement).dataset.filter || 'all'
-        document.dispatchEvent(new CustomEvent('gallery:set-filter', { detail: { filter } }))
-      })
-    )
+        setActive(tabButtons, btn)
+        const currentContent = (btn as HTMLElement).dataset.content || 'photos'
 
-    document.addEventListener('gallery:filter-change', (event) => {
-      const detail =
-        event && typeof event === 'object' && 'detail' in event
-          ? (event as CustomEvent).detail
-          : null
-      const filter =
-        detail && typeof detail === 'object' && typeof detail.filter === 'string'
-          ? detail.filter
-          : 'all'
-      syncMobileFilters(filter)
-    })
-
-    layoutButtons.forEach((btn) =>
-      btn.addEventListener('click', () => {
-        setActive(layoutButtons, btn)
-        if (!justifiedRoot || !masonryRoot) return
-        const layout = (btn as HTMLElement).dataset.layout
-        if (layout === 'masonry') {
-          justifiedRoot.setAttribute('hidden', '')
-          masonryRoot.removeAttribute('hidden')
-        } else {
-          masonryRoot.setAttribute('hidden', '')
-          justifiedRoot.removeAttribute('hidden')
+        if (currentContent === 'photos') {
+          personalSection?.removeAttribute('hidden')
+          collectedSection?.setAttribute('hidden', '')
+          allSection?.setAttribute('hidden', '')
+        } else if (currentContent === 'collected') {
+          personalSection?.setAttribute('hidden', '')
+          collectedSection?.removeAttribute('hidden')
+          allSection?.setAttribute('hidden', '')
+        } else if (currentContent === 'all') {
+          personalSection?.setAttribute('hidden', '')
+          collectedSection?.setAttribute('hidden', '')
+          allSection?.removeAttribute('hidden')
         }
-
-        document.dispatchEvent(new CustomEvent('gallery:layout-changed'))
-
-        const url = new URL(window.location.href)
-        url.searchParams.set('l', layout || 'justified')
-        history.replaceState({}, '', url.toString())
       })
     )
-
-    document.addEventListener('gallery:ready', (event) => {
-      const detail =
-        event && typeof event === 'object' && 'detail' in event
-          ? (event as CustomEvent).detail
-          : null
-      const filter =
-        detail && typeof detail === 'object' && typeof detail.filter === 'string'
-          ? detail.filter
-          : 'all'
-      syncMobileFilters(filter)
-    })
-
-    // Apply initial state from URL
-    const url = new URL(window.location.href)
-    const layout = url.searchParams.get('l') || 'masonry'
-    const layoutBtn = Array.from(layoutButtons).find(
-      (b) => ((b as HTMLElement).dataset.layout || 'masonry') === layout
-    )
-    if (layoutBtn) (layoutBtn as HTMLElement).click()
   })
 </script>
 
 <style>
-  .post-container {
+  .gallery-fullscreen {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+  }
+
+  /* Custom Navigation Bar */
+  .gallery-nav {
     display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  .post-container main {
-    flex: 1;
-  }
-
-  /* Remove bottom margin from prose on gallery page */
-  .prose {
-    margin-bottom: 0 !important;
-  }
-
-  /* Gallery Controls - Mobile First */
-  .gallery-controls {
-    margin: 0 0 1.75em 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    font-size: var(--font-size-s);
-  }
-
-  .gallery-filters-mobile,
-  .gallery-layouts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75em;
+    justify-content: space-between;
     align-items: center;
+    gap: 2rem;
+    padding: 1.5rem clamp(1.5rem, 4vw, 3rem);
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.95);
   }
 
-  .filter-btn,
-  .layout-btn {
+  .gallery-nav-home {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #111;
+    font-weight: var(--font-weight-semibold, 600);
+    transition: opacity 0.2s ease;
+    font-size: var(--font-size-m, 1rem);
+  }
+
+  .gallery-nav-home:hover {
+    opacity: 0.7;
+  }
+
+  .gallery-nav-home svg {
+    flex-shrink: 0;
+  }
+
+  .gallery-nav-title {
+    font-size: var(--font-size-m, 1rem);
+    font-weight: var(--font-weight-semibold, 600);
+    color: #666;
+  }
+
+  /* Content Type Tabs in Nav */
+  .content-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+
+  .tab-btn {
     background: none;
     border: none;
-    padding: 0;
+    padding: 0.5rem 1rem;
     font-size: var(--font-size-s);
     font-family: var(--sans);
-    font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-regular);
     color: var(--text-secondary);
     cursor: pointer;
-    transition: color 0.2s ease-out;
-    text-transform: lowercase;
-    letter-spacing: 0;
-    opacity: 0.75;
+    transition: all 0.2s ease;
+    border-radius: 6px;
   }
 
-  .filter-btn:hover,
-  .layout-btn:hover {
+  .tab-btn:hover {
     color: var(--text-primary);
-    opacity: 1;
+    background: rgba(0, 0, 0, 0.03);
   }
 
-  .filter-btn.active,
-  .layout-btn.active {
+  .tab-btn.active {
     color: var(--text-primary);
-    opacity: 1;
-    font-weight: var(--font-weight-regular);
+    font-weight: var(--font-weight-semibold);
+    background: rgba(0, 0, 0, 0.05);
   }
 
-  .filter-btn:focus-visible,
-  .layout-btn:focus-visible {
+  .tab-btn:focus-visible {
     outline: 2px solid var(--text-tertiary);
     outline-offset: 2px;
   }
 
-  /* Separator dots between buttons */
-  .gallery-filters-mobile > button:not(:last-child)::after,
-  .gallery-layouts > button:not(:last-child)::after {
-    content: '•';
-    margin-left: 0.75em;
-    color: var(--text-tertiary);
-    opacity: 0.5;
-    pointer-events: none;
+  .gallery-footer-wrapper {
+    padding: 3rem clamp(1.5rem, 4vw, 4rem);
   }
 
-  /* Tablet and up - reorganize layout */
-  @media (min-width: 768px) {
-    .gallery-controls {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    /* Hide mobile filters on desktop (sidebar shows instead) */
-    .gallery-filters-mobile {
-      display: none;
-    }
-
-    .gallery-layouts {
-      margin-left: auto;
-    }
-  }
-
-  /* Gallery Wrapper - Normal Width Like Other Content */
-  .gallery-wrapper {
-    margin: 1.75em 0;
+  #personal-section[hidden],
+  #collected-section[hidden],
+  #all-section[hidden] {
+    display: none;
   }
 
   .gallery-pane[hidden] {
     display: none;
   }
 
-  /* Ensure images are responsive */
-  .gallery-wrapper :global(img) {
-    max-width: 100%;
-    height: auto;
-    display: block;
+  /* Mobile adjustments */
+  @media (max-width: 640px) {
+    .gallery-nav {
+      padding: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .gallery-nav-home span {
+      display: none;
+    }
+
+    .content-tabs {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 0.5rem;
+      justify-content: center;
+    }
+
+    .tab-btn {
+      font-size: 0.875rem;
+      padding: 0.375rem 0.75rem;
+    }
   }
 </style>

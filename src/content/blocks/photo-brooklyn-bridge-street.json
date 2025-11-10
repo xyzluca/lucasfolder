@@ -1,0 +1,14 @@
+{
+  "type": "image",
+  "source": "personal",
+  "title": "BROOKLYN BRIDGE VIEW",
+  "description": "View from Brooklyn Bridge onto traffic and buildings",
+  "url": "https://images.unsplash.com/photo-1723108345830-8e696eca4f72?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "content": "https://images.unsplash.com/photo-1723108345830-8e696eca4f72?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "color": "default",
+  "ratio": "1x2",
+  "tags": [
+    "street"
+  ],
+  "createdAt": "2022-08-01T00:00:00Z"
+}
