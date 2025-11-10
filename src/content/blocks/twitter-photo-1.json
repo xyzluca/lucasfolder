@@ -1,0 +1,20 @@
+{
+    "type": "image",
+    "title": "Urban Still",
+    "description": "Photograph shared on Twitter — architectural composition with soft contrast and cinematic tone.",
+    "content": "https://pbs.twimg.com/media/F-kzJ6ma4AAwvM-?format=jpg&name=4096x4096",
+    "url": "https://pbs.twimg.com/media/F-kzJ6ma4AAwvM-?format=jpg&name=4096x4096",
+    "thumbnail": "https://pbs.twimg.com/media/F-kzJ6ma4AAwvM-?format=jpg&name=medium",
+    "color": "blue",
+    "ratio": "1x2",
+    "metadata": {
+        "siteName": "Twitter",
+        "author": "Unknown"
+    },
+    "tags": [
+        "photography",
+        "urban",
+        "composition"
+    ],
+    "createdAt": "2025-11-10T00:00:00Z"
+}

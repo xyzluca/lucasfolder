@@ -1,0 +1,358 @@
+---
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  block: CollectionEntry<'blocks'>
+}
+
+const { block } = Astro.props
+const {
+  type,
+  title,
+  description,
+  content,
+  url,
+  thumbnail,
+  metadata,
+  tags,
+  color,
+  ratio,
+  imageFit
+} = block.data
+
+// Generate unique ID for this block
+const blockId = `block-${block.id.replace(/\//g, '-').replace(/\.(json|md)$/, '')}`
+
+// For images, use thumbnail or url
+const imageUrl = thumbnail || url
+
+// For links, use the URL
+const linkUrl = type === 'link' ? url : undefined
+---
+
+<article
+  class={`block block-${type} color-${color || 'default'} ratio-${ratio || '1x2'}`}
+  data-block-id={blockId}
+  data-block-type={type}
+  data-block-ratio={ratio || '1x2'}
+  data-tags={tags?.join(',') || ''}
+>
+  {
+    type === 'text' && (
+      <div class="block-inner">
+        <div class="block-text">
+          <div class="block-content">
+            <p>{content}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    type === 'image' && imageUrl && (
+      <a
+        href={imageUrl}
+        class="block-image-link"
+        data-fancybox="blocks"
+        data-caption={title || description}
+      >
+        <div class="block-image-container" data-image-fit={imageFit || 'cover'}>
+          <img
+            src={imageUrl}
+            alt={title || description || 'Image block'}
+            loading="lazy"
+            class="block-image"
+          />
+        </div>
+      </a>
+    )
+  }
+
+  {
+    type === 'link' && linkUrl && (
+      <a href={linkUrl} class="block-link" target="_blank" rel="noopener noreferrer">
+        <div class="block-inner">
+          <div class="block-link-content">
+            <div class="block-link-header">
+              <span class="block-link-domain">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 16 16"
+                  width="14"
+                  height="14"
+                  fill="currentColor"
+                >
+                  <path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z" />
+                </svg>
+                {metadata?.siteName || new URL(linkUrl).hostname.replace('www.', '')}
+              </span>
+            </div>
+            {title && <h3 class="block-title">{title}</h3>}
+            {description && <p class="block-description">{description}</p>}
+          </div>
+        </div>
+      </a>
+    )
+  }
+
+  {
+    type === 'video' && url && (
+      <div class="block-video-wrapper">
+        <video class="block-video" src={url} autoplay muted loop playsinline preload="auto" />
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .block {
+    background: #f7f7f7;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .block:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Inner wrapper for proper spacing */
+  .block-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 1.5rem;
+  }
+
+  /* Color Variants - subtle by default, prominent on hover */
+  .block {
+    background-color: #ffffff;
+    color: #111;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+
+  .color-blue:hover {
+    background-color: #e3f2fd;
+    color: #1a237e;
+  }
+  .color-green:hover {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+  }
+  .color-pink:hover {
+    background-color: #fce4ec;
+    color: #880e4f;
+  }
+  .color-orange:hover {
+    background-color: #fff3e0;
+    color: #e65100;
+  }
+  .color-yellow:hover {
+    background-color: #fffde7;
+    color: #f57f17;
+  }
+  .color-purple:hover {
+    background-color: #f3e5f5;
+    color: #4a148c;
+  }
+
+  /* Text Blocks */
+  .block-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .block-title {
+    margin: 0;
+    font-size: clamp(1.125rem, 2vw, 1.25rem);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.3;
+  }
+
+  .block-content {
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .block-content p {
+    margin: 0;
+    font-size: var(--font-size-m);
+  }
+
+  /* Image Blocks */
+  .block-image-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .block-image-container {
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: inherit;
+  }
+
+  .block-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .block-image-container[data-image-fit='contain'] .block-image {
+    object-fit: contain;
+  }
+
+  .block-image-link:hover .block-image {
+    transform: scale(1.02);
+  }
+
+  .block-image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .block-image-link:hover .block-image-overlay {
+    opacity: 1;
+  }
+
+  .block-image-title {
+    color: white;
+    font-size: var(--font-size-m);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  /* Image block tags */
+  .block-tags-image {
+    padding: 1rem 1.5rem;
+    background: inherit;
+  }
+
+  /* Link Blocks */
+  .block-link {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s ease;
+  }
+
+  .block-link:hover {
+    opacity: 0.9;
+  }
+
+  .block-link-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+
+  .block-link-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .block-link-domain {
+    display: flex;
+    align-items: center;
+    gap: 0.325rem;
+    font-size: var(--font-size-s);
+    opacity: 0.6;
+  }
+
+  .block-link-domain svg {
+    flex-shrink: 0;
+  }
+
+  .block-description {
+    margin: 0;
+    font-size: var(--font-size-m);
+    opacity: 0.75;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Video Blocks */
+  .block-video-wrapper {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .block-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: #fff;
+  }
+
+  .block-tags-video {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+    z-index: 1;
+  }
+
+  .block-tags-video .block-tag {
+    color: white;
+    opacity: 0.8;
+  }
+
+  .block:hover .block-tags-video .block-tag {
+    opacity: 1;
+  }
+
+  /* Tags */
+  .block-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+  }
+
+  .block-tag {
+    font-size: 0.75rem;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+  }
+
+  .block:hover .block-tag {
+    opacity: 0.7;
+  }
+</style>

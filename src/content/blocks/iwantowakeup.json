@@ -1,0 +1,20 @@
+{
+    "type": "image",
+    "title": "City That Never Sleeps",
+    "description": "Quote from Pinterest",
+    "content": "https://i.pinimg.com/736x/3e/69/68/3e6968d00c5c94c6fb0bae0a0ea675ae.jpg",
+    "url": "https://i.pinimg.com/736x/3e/69/68/3e6968d00c5c94c6fb0bae0a0ea675ae.jpg",
+    "thumbnail": "https://i.pinimg.com/736x/3e/69/68/3e6968d00c5c94c6fb0bae0a0ea675ae.jpg",
+    "color": "blue",
+    "ratio": "1x3",
+    "metadata": {
+        "siteName": "Pinterest",
+        "author": "Unknown"
+    },
+    "tags": [
+        "quote",
+        "poster",
+        "city"
+    ],
+    "createdAt": "2025-11-10T00:00:00Z"
+}

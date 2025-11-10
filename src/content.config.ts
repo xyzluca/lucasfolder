@@ -65,6 +65,8 @@ const blocks = defineCollection({
       url: z.string().optional(),
       thumbnail: z.string().optional(),
       color: z.enum(['default', 'blue', 'green', 'pink', 'orange', 'yellow', 'purple']).optional(),
+      ratio: z.enum(['1x1', '1x2', '2x1', '2x2', '1x3', '3x1']).optional(),
+      imageFit: z.enum(['cover', 'contain']).optional(),
       metadata: z
         .object({
           siteName: z.string().optional(),

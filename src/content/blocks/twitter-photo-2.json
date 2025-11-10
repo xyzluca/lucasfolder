@@ -1,0 +1,19 @@
+{
+    "type": "image",
+    "title": "Evening Reflection",
+    "description": "Another photo from Twitter — quiet mood, muted colors, reflective tone.",
+    "content": "https://pbs.twimg.com/media/Gcd7iVgXEAAn0db?format=jpg&name=medium",
+    "url": "https://pbs.twimg.com/media/Gcd7iVgXEAAn0db?format=jpg&name=medium",
+    "color": "purple",
+    "ratio": "2x1",
+    "metadata": {
+        "siteName": "Twitter",
+        "author": "Unknown"
+    },
+    "tags": [
+        "city",
+        "night",
+        "aesthetic"
+    ],
+    "createdAt": "2025-11-10T00:00:00Z"
+}

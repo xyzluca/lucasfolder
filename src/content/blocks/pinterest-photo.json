@@ -1,0 +1,15 @@
+{
+  "type": "image",
+  "title": "Pinterest Find",
+  "description": "Aesthetic image from Pinterest",
+  "url": "https://i.pinimg.com/736x/2d/8f/ad/2d8fad2c670307448368f364952e56d7.jpg",
+  "content": "https://i.pinimg.com/736x/2d/8f/ad/2d8fad2c670307448368f364952e56d7.jpg",
+  "color": "green",
+  "ratio": "1x2",
+  "metadata": {
+    "siteName": "Pinterest",
+    "author": "Unknown"
+  },
+  "tags": ["aesthetic", "mood"],
+  "createdAt": "2025-11-10T00:00:00Z"
+}

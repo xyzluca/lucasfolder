@@ -1,0 +1,14 @@
+{
+  "type": "video",
+  "title": "NYC Reel by Leonard Morton",
+  "description": "Short Instagram reel capturing street life and mood — cinematic slice of daily motion.",
+  "url": "https://cdn.cosmos.so/11fad89a-8f6c-4e39-8f0c-a2620434a85d.mp4",
+  "color": "pink",
+  "ratio": "1x3",
+  "metadata": {
+    "siteName": "Instagram",
+    "author": "Leonard Morton"
+  },
+  "tags": ["nyc", "cinematic", "street"],
+  "createdAt": "2025-11-10T00:00:00Z"
+}
