@@ -29,7 +29,7 @@
     "canvaskit-wasm": "^0.40.0",
     "feed": "^5.1.0",
     "flag-icons": "^7.5.0",
-    "katex": "^0.16.24",
+    "katex": "^0.16.25",
     "lucide-astro": "^0.545.0",
     "markdown-it": "^14.1.0",
     "mdast-util-to-string": "^4.0.0",
