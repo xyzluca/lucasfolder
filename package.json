@@ -24,7 +24,7 @@
     "@astrojs/vercel": "^8.2.8",
     "@fancyapps/ui": "^6.0.21",
     "@playform/inline": "^0.1.2",
-    "astro": "^5.14.4",
+    "astro": "^5.15.1",
     "astro-og-canvas": "^0.7.2",
     "canvaskit-wasm": "^0.40.0",
     "feed": "^5.1.0",
